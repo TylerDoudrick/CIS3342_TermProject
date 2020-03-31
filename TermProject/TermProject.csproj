@@ -72,8 +72,12 @@
     <Content Include="Default.aspx" />
     <Content Include="images\logo.png" />
     <Content Include="images\query.png" />
+    <Content Include="owlcarousel\owl.carousel.min.css" />
+    <Content Include="owlcarousel\owl.carousel.min.js" />
     <Content Include="LogIn.aspx" />
     <Content Include="LogOut.aspx" />
+    <Content Include="Messages.aspx" />
+    <Content Include="owlcarousel\owl.theme.default.css" />
     <Content Include="Profile.aspx" />
     <Content Include="Registration.aspx" />
     <Content Include="Search.aspx" />
@@ -123,6 +127,13 @@
     </Compile>
     <Compile Include="Main.Master.designer.cs">
       <DependentUpon>Main.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Messages.aspx.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Messages.aspx.designer.cs">
+      <DependentUpon>Messages.aspx</DependentUpon>
     </Compile>
     <Compile Include="Profile.aspx.cs">
       <DependentUpon>Profile.aspx</DependentUpon>
