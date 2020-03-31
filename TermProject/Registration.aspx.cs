@@ -12,6 +12,18 @@ namespace TermProject
         protected void Page_Load(object sender, EventArgs e)
         {
 
-        }
-    }
-}
+        } // end page load
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        {
+            Boolean check = false;
+
+            if (!check)
+            { // if everything was entered correctly, transfer to participant profile
+                Server.Transfer("/Dashboard.aspx");
+            } // end if
+
+        } // end save event handler
+
+    } // end class
+} // end namespace
