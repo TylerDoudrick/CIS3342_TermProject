@@ -10,14 +10,14 @@
 
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
-
+    <link href="owlcarousel/owl.carousel.min.css" rel="stylesheet" />
+    <link href="owlcarousel/owl.theme.default.css" rel="stylesheet" />
     <title>Query</title>
     <style>
         html {
-            position: relative;
+            position:relative;
             min-height: 100%;
         }
 
@@ -89,13 +89,16 @@
                     <a class="nav-link" href="Dates.aspx"><i class="fas fa-heart"></i>Dates </a>
                 </li>
                 <li class="nav-item" id="navlinkMessages">
-                    <a class="nav-link" href="Messages.aspx"><i class="fas fa-envelope"></i>Dates </a>
+                    <a class="nav-link" href="Messages.aspx"><i class="fas fa-envelope"></i>Messages </a>
                 </li>
                 <li class="nav-item" id="navlinkSearch">
                     <a class="nav-link" href="Search.aspx"><i class="fas fa-search"></i>Search </a>
                 </li>
             </ul>
             <ul class="navbar-nav ml-auto mt-auto">
+                <li class="nav-item">
+                    <a class="nav-link pl-2" href="Settings.aspx"><i class="fas fa-cog"></i>Settings</a>
+                </li>              
                 <li class="nav-item">
                     <a class="nav-link pl-2" href="LogOut.aspx"><i class="fas fa-lock-open"></i>Log Out</a>
                     <span style="color: rgba(0,0,0,.5); position: absolute; bottom: 0; right: 1.5em; font-size: 0.9em;">Signed in as Matty Cohen</span>
@@ -116,7 +119,7 @@
         </div>
     </nav>
     <form id="form1" runat="server">
-        <div class="container-fluid">
+        <div class="container-fluid mb-5">
             <asp:ContentPlaceHolder ID="BodyPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
         </div>
@@ -133,9 +136,10 @@
     </footer>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <script src="owlcarousel/owl.carousel.min.js"></script>
     <script>
         $('.nav-link').hover(
             function () {
