@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TermProject
 {
-    public partial class Profile : System.Web.UI.Page
+    public partial class Messages : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
