@@ -119,7 +119,7 @@
         </div>
     </nav>
     <form id="form1" runat="server">
-        <div class="container-fluid mb-5">
+        <div class="container-fluid pb-5">
             <asp:ContentPlaceHolder ID="BodyPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
         </div>
