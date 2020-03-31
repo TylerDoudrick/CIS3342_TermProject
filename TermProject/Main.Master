@@ -1,0 +1,123 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Main.master.cs" Inherits="TermProject.Main" %>
+
+
+<!doctype html>
+<html lang="en">
+<head runat="server">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+
+    <title>Hello, world!</title>
+    <style>
+        html {
+            position: relative;
+            min-height: 100%;
+        }
+
+        body {
+            margin-bottom: 60px; /* Margin bottom by footer height */
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 60px; /* Set the fixed height of the footer here */
+            line-height: 60px; /* Vertically center the text there */
+            background-color: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .nav-link {
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+
+            .nav-link i {
+                font-size: 0.9em;
+                padding: 0 0.3em;
+            }
+
+            .active .nav-link i{
+                color: #BC3440;
+            }
+
+            .nav-link-hover{
+                color: #BC3440;
+            }
+    </style>
+    <script src="https://kit.fontawesome.com/3bdb92a208.js"></script>
+    <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server">
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="Default.aspx">
+            <img src="images/logo.png" height="40" class="mr-1" />
+            <img src="images/query.png" height="30" /></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active" id="navlinkDashboard">
+                    <a class="nav-link" href="Dashboard.aspx"><i class="fas fa-home"></i>Dashboard <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item" id="navlinkProfile">
+                    <a class="nav-link" href="Profile.aspx"><i class="fas fa-user"></i>Profile </a>
+                </li>
+                <li class="nav-item" id="navlinkDates">
+                    <a class="nav-link" href="Dates.aspx"><i class="fas fa-heart"></i>Dates </a>
+                </li>
+                <li class="nav-item" id="navlinkSearch">
+                    <a class="nav-link" href="Search.aspx"><i class="fas fa-search"></i>Search </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-auto">
+                <li class="nav-item">
+                    <a class="nav-link pl-2" href="LogOut.aspx"><i class="fas fa-lock-open"></i>Log Out</a>
+                    <span style="color: rgba(0,0,0,.5); position: absolute; bottom: 0; right: 1.5em; font-size: 0.9em;">Signed in as Matty Cohen</span>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <form id="form1" runat="server">
+        <div class="container container-fluid">
+            <asp:ContentPlaceHolder ID="BodyPlaceHolder" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+    </form>
+
+
+
+
+    <footer class="footer">
+        <div class="container d-flex justify-content-center">
+            <span>
+                <img src="images/logo.png" height="40" /></span>
+        </div>
+    </footer>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+        <script>
+        $('.nav-link').hover(
+            function () {
+                $(this).children('i').toggleClass("nav-link-hover");
+            });
+    </script>
+    <asp:ContentPlaceHolder ID="EndBodyPlaceHolder" runat="server"></asp:ContentPlaceHolder>
+</body>
+</html>
