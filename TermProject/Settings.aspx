@@ -9,22 +9,28 @@
         .required {
             color: red;
         }
-
         .card-img-top {
             height: auto;
             width: 100%;
+        }
+        .card{
+            border: 1px solid black;
+        }
+        .list-group-item{
+            border: 1px solid gray;
         }
     </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
-    <div class="row">
-        <div class="col-4">
-            <asp:LinkButton runat="server" ID="lbChangeUsername" OnClick="lbChangeUsername_Click"> Change Username</asp:LinkButton><br />
-            <asp:LinkButton runat="server" ID="lbChangePassword" OnClick="lbChangePassword_Click"> Change Password</asp:LinkButton>
+    <br /><br /><br />
+    <div class="row h-100" >
+        <div class="col-4 list-group list-group-flush w-50" >
+            <asp:LinkButton runat="server" ID="lbChangeUsername" OnClick="lbChangeUsername_Click" CssClass="list-group-item list-group-item-action bg-light w-50"> Change Username</asp:LinkButton><br />
+            <asp:LinkButton runat="server" ID="lbChangePassword" OnClick="lbChangePassword_Click" CssClass="list-group-item list-group-item-action bg-light w-50"> Change Password</asp:LinkButton>
             <br />
-            <asp:LinkButton runat="server" ID="lbOptOut" OnClick="lbOptOut_Click"> Hide Profile</asp:LinkButton><br />
-            <asp:LinkButton runat="server" ID="lbBlockedUsers" OnClick="lbBlockedUsers_Click"> Blocked Users</asp:LinkButton><br />
+            <asp:LinkButton runat="server" ID="lbOptOut" OnClick="lbOptOut_Click" CssClass="list-group-item list-group-item-action bg-light w-50"> Hide Profile</asp:LinkButton><br />
+            <asp:LinkButton runat="server" ID="lbBlockedUsers" OnClick="lbBlockedUsers_Click" CssClass="list-group-item list-group-item-action bg-light w-50"> Blocked Users</asp:LinkButton><br />
         </div>
 
         <div>
@@ -92,7 +98,7 @@
 
             <div runat="server" id="divBlockedUsers" class="divHidden">
                 <div class="col ">
-                    <asp:LinkButton runat="server" class="row">
+                    <div runat="server" class="row">
                         <div class="card w-50">
                             <asp:Image runat="server" CssClass="card-img-top img-thumbnail" ImageURL="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg"/>
                             <div class="card-body ">
@@ -100,7 +106,7 @@
                                 <p class="card-text"> This is the tagline</p>
                             </div>
                         </div>
-                    </asp:LinkButton>
+                    </div>
                 </div>
             </div>
 
