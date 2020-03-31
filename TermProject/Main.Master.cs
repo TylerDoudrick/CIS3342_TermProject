@@ -11,7 +11,16 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if(Session["LoggedIn"] == null)
+            {
+                navLoggedIn.Visible = false;
+                navLoggedOut.Visible = true;
+            }
+            else
+            {
+                navLoggedIn.Visible = true;
+                navLoggedOut.Visible = false;
+            }
         }
     }
 }
