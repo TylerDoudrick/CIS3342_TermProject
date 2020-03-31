@@ -8,12 +8,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
 
-    <title>Hello, world!</title>
+    <title>Query</title>
     <style>
         html {
             position: relative;
@@ -47,13 +48,21 @@
                 padding: 0 0.3em;
             }
 
-            .active .nav-link i{
-                color: #BC3440;
-            }
+        .active .nav-link i {
+            color: #BC3440;
+        }
 
-            .nav-link-hover{
-                color: #BC3440;
-            }
+        .nav-link-hover {
+            color: #BC3440;
+        }
+        .noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Opera and Firefox */
+}
     </style>
     <script src="https://kit.fontawesome.com/3bdb92a208.js"></script>
     <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server">
@@ -64,11 +73,11 @@
         <a class="navbar-brand" href="Default.aspx">
             <img src="images/logo.png" height="40" class="mr-1" />
             <img src="images/query.png" height="30" /></a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#NavBar" aria-controls="NavBar" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navLoggedIn" runat="server" visible="false">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active" id="navlinkDashboard">
                     <a class="nav-link" href="Dashboard.aspx"><i class="fas fa-home"></i>Dashboard <span class="sr-only">(current)</span></a>
@@ -78,6 +87,9 @@
                 </li>
                 <li class="nav-item" id="navlinkDates">
                     <a class="nav-link" href="Dates.aspx"><i class="fas fa-heart"></i>Dates </a>
+                </li>
+                <li class="nav-item" id="navlinkMessages">
+                    <a class="nav-link" href="Messages.aspx"><i class="fas fa-envelope"></i>Dates </a>
                 </li>
                 <li class="nav-item" id="navlinkSearch">
                     <a class="nav-link" href="Search.aspx"><i class="fas fa-search"></i>Search </a>
@@ -90,9 +102,21 @@
                 </li>
             </ul>
         </div>
+                <div class="collapse navbar-collapse" id="navLoggedOut" runat="server" visible="true">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" id="navlinkLOSearch">
+                    <a class="nav-link" href="Search.aspx"><i class="fas fa-search"></i>Search </a>
+                </li>
+            </ul>
+            <ul class="navbar-nav ml-auto mt-auto">
+                <li class="nav-item">
+                    <a class="nav-link pl-2" href="LogIn.aspx"><i class="fas fa-lock"></i>Log In</a>
+                </li>
+            </ul>
+        </div>
     </nav>
     <form id="form1" runat="server">
-        <div class="container container-fluid">
+        <div class="container-fluid">
             <asp:ContentPlaceHolder ID="BodyPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
         </div>
@@ -112,7 +136,7 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-        <script>
+    <script>
         $('.nav-link').hover(
             function () {
                 $(this).children('i').toggleClass("nav-link-hover");
