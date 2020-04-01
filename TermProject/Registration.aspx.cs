@@ -15,14 +15,31 @@ namespace TermProject
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
-            // the following gets the list of interests from the database and uses it to populate the ddl
-            SqlCommand objInterests = new SqlCommand();
-            objInterests.CommandType = System.Data.CommandType.StoredProcedure;
-            objInterests.CommandText = "TP_GetInterests";
-            DataSet ds = obj.GetDataSetUsingCmdObj(objInterests);
-            lbInterests.DataSource = ds;
+            // the following gets the appropriate tables from the dataset and uses it to populate the ddl
+            SqlCommand objSearchCriteria = new SqlCommand();
+            objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
+            objSearchCriteria.CommandText = "TP_GetSearchCriteria";
+            DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
+
+            ddlReligion.DataSource = ds.Tables[0];
+            ddlReligion.DataTextField = "ReligionType"; ddlReligion.DataValueField = "ReligionID";
+            ddlReligion.DataBind();
+
+            ddlCommittment.DataSource = ds.Tables[1];
+            ddlCommittment.DataTextField = "CommitmentType"; ddlCommittment.DataValueField = "CommitmentID";
+            ddlCommittment.DataBind();
+
+            lbInterests.DataSource = ds.Tables[2];
             lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
             lbInterests.DataBind();
+
+            lbLikes.DataSource = ds.Tables[3];
+            lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
+            lbLikes.DataBind();
+
+            lbDislikes.DataSource = ds.Tables[4];
+            lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
+            lbDislikes.DataBind();
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -37,7 +54,7 @@ namespace TermProject
 
             if (!check)
             { // if everything was entered correctly, transfer to participant profile
-                Server.Transfer("/profile.aspx");
+                Server.Transfer("/Profile.aspx");
             } // end if
             else
             { // else display an error messafe
@@ -60,6 +77,14 @@ namespace TermProject
             {
                 check = true; lblDislikes.Attributes.Add("style", "color:red");
             }
+            if (ddlCommittment.SelectedValue == "-1")
+            {
+                check = true; lblDislikes.Attributes.Add("style", "color:red");
+            }
+            if (ddlReligion.SelectedValue == "-1")
+            {
+                check = true; lblDislikes.Attributes.Add("style", "color:red");
+            }
             if (txtTagline.Text=="")
             {
                 check = true; lblTagline.Attributes.Add("style", "color:red");
@@ -75,14 +100,6 @@ namespace TermProject
             if (txtBirthday.Text=="")
             {
                 check = true; lblBirthday.Attributes.Add("style", "color:red");
-            }
-            if (ddlReligion.SelectedValue=="-1")
-            {
-                check = true; lblReligion.Attributes.Add("style", "color:red");
-            }
-            if (ddlCommittment.SelectedValue=="-1")
-            {
-                check = true; lblCommitment.Attributes.Add("style", "color:red");
             }
             if (!(chkSeekingFemale.Checked)  && !(chkSeekingMale.Checked))
             {

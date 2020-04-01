@@ -21,23 +21,7 @@
     </div>
     <br />
     <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
-    <h5>Bio</h5>
-    <div class="row">
-        <div class="col-md-10">
-            <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
-            <span class="required">*</span>
-            <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" MaxLength="200"></asp:TextBox>
-        </div>
-    </div>
-    <div class="row my-5">
-        <div class="col-md-10">
-            <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
-            <span class="required">*</span>
-            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
-        </div>
-    </div>
 
-    <br />
     <h5>Basic Info</h5>
     <div class="row">
         <div class="col-3">
@@ -106,29 +90,16 @@
         <div class="col-3 form-group">
             <asp:Label runat="server" ID="lblReligion"> Religion</asp:Label>
             <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlReligion" CssClass="form-control">
-                <asp:ListItem Value="-1"> Select Religion ...</asp:ListItem>
-                <asp:ListItem Value="Buddhism">Buddhism</asp:ListItem>
-                <asp:ListItem Value="Jainsim">Jainsim</asp:ListItem>
-                <asp:ListItem Value="Sikhism">Sikhism</asp:ListItem>
-                <asp:ListItem Value="Hinduism">Hinduism</asp:ListItem>
-                <asp:ListItem Value="Islam">Islam</asp:ListItem>
-                <asp:ListItem Value="Judaism">Judaism</asp:ListItem>
-                <asp:ListItem Value="Christianity">Christianity</asp:ListItem>
-                <asp:ListItem Value="Bahai">Bahai</asp:ListItem>
-                <asp:ListItem Value="Shinto">Shinto</asp:ListItem>
-                <asp:ListItem Value="Zoroastrianism">Zoroastrianism</asp:ListItem>
-                <asp:ListItem Value="Confucianism">Confucianism</asp:ListItem>
-                <asp:ListItem Value="Taoism">Taoism</asp:ListItem>
-            </asp:DropDownList>
+            <asp:DropdownList runat="server" ID="ddlReligion" CssClass="form-control" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1"> Select Religion...</asp:ListItem>
+            </asp:DropdownList>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblCommitment">Commitment Type</asp:Label>
             <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlCommittment" CssClass="form-control">
-                <asp:ListItem Value="Casual">Casual</asp:ListItem>
-                <asp:ListItem Value="Long-Term"> Long-Term</asp:ListItem>
-            </asp:DropDownList>
+            <asp:DropdownList runat="server" ID="ddlCommittment" CssClass="form-control" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1"> Select Commitment Type...</asp:ListItem>
+            </asp:DropdownList>
         </div>
     </div>
     <div class="row justify-content-center my-5">
@@ -270,7 +241,9 @@
         <div class="col-3">
             <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
             <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
+            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple" AppendDataBoundItems="true">
+                <asp:ListItem Value="-1"> Select atleast one interest...</asp:ListItem>
+            </asp:ListBox>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblLikes"> Likes</asp:Label>
@@ -284,6 +257,21 @@
         </div>
     </div>
 
+    <h5>Bio</h5>
+    <div class="row">
+        <div class="col-md-10">
+            <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
+            <span class="required">*</span>
+            <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" MaxLength="200"></asp:TextBox>
+        </div>
+    </div>
+    <div class="row my-5">
+        <div class="col-md-10">
+            <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
+            <span class="required">*</span>
+            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
     <br />
     <div class="row d-flex justify-content-center">
         <asp:Button runat="server" ID="btnSave" Text="Save" CssClass="btn btn-success" OnClick="btnSave_Click" />
