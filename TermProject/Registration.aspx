@@ -241,8 +241,7 @@
         <div class="col-3">
             <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
             <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple" AppendDataBoundItems="true">
-                <asp:ListItem Value="-1"> Select atleast one interest...</asp:ListItem>
+            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple">
             </asp:ListBox>
         </div>
         <div class="col-3">

@@ -205,8 +205,25 @@
             </div>
         </div>
     </div>
-    </div>
     <h5>Favorite Things</h5>
+    <div class="row justify-content-center my-5">
+        <div class="col-3">
+            <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
+            <span class="required">*</span>
+            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple">
+            </asp:ListBox>
+        </div>
+        <div class="col-3">
+            <asp:Label runat="server" ID="lblLikes"> Likes</asp:Label>
+            <span class="required">*</span>
+            <asp:ListBox runat="server" ID="lbLikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
+        </div>
+        <div class="col-3">
+            <asp:Label runat="server" ID="lblDislikes"> Dislikes</asp:Label>
+            <span class="required">*</span>
+            <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
+        </div>
+    </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
@@ -214,7 +231,26 @@
         $(document).ready(function () {
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkProfile").addClass("active");
+
+              $(function () {
+            $('[id*=lbInterests]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 interest...' // Here you can change with your desired text as per your requirement.
+                });
+            $('[id*=lbLikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 like...' // Here you can change with your desired text as per your requirement.
+                });
+            $('[id*=lbDislikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 dislike...' // Here you can change with your desired text as per your requirement.
+                });
         });
+        });
+
 
     </script>
 </asp:Content>
