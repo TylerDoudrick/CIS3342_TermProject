@@ -7,7 +7,7 @@
         }
 
         h5 {
-            color: orangered;
+            color: darkblue;
             font-weight: bold;
         }
     </style>
@@ -16,13 +16,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
     <br />
     <br />
-    <div>
-    </div>
     <div class=" justify-content-center w-100">
         <h3 runat="server" class="font-weight-bold">Jenny James</h3>
     </div>
     <br />
-
+    <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
     <h5>Bio</h5>
     <div class="row">
         <div class="col-md-10">
@@ -46,15 +44,17 @@
             <asp:Label runat="server" ID="lblPhoneNumber"> Phone Number</asp:Label>
             <span class="required">*</span>
             <div class="input-group">
-                <asp:TextBox runat="server" ID="txtNumber1" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtNumber1" CssClass="form-control" MaxLength="3"></asp:TextBox>
+                &nbsp;
                 <div class="input-group-append">
-                    <span runat="server" class="d-flex align-items-end">- </span>
+                    <span runat="server" class="d-flex align-items-end">- </span>&nbsp;
                 </div>
-                <asp:TextBox runat="server" ID="txtNumber2" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtNumber2" CssClass="form-control" MaxLength="3"></asp:TextBox>
+                &nbsp;
                 <div class="input-group-append">
-                    <span runat="server" class="d-flex align-items-end">- </span>
+                    <span runat="server" class="d-flex align-items-end">- </span>&nbsp;
                 </div>
-                <asp:TextBox runat="server" ID="txtNumber3" CssClass="form-control"></asp:TextBox>
+                <asp:TextBox runat="server" ID="txtNumber3" CssClass="form-control" MaxLength="4"></asp:TextBox>
             </div>
         </div>
         <div class="col-2">
@@ -242,56 +242,48 @@
 
     <h5>Favorite Things </h5>
     <div class="row justify-content-center my-5">
-        <div class="col-6">
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavSongs" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+        </div>
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavSayings">Favorite Sayings</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavSayings" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+        </div>
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavRestaurants">Favorite Restaurants</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavRestaurants" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-4">
             <asp:Label runat="server" ID="lblFavMovies">Favorite Movies</asp:Label>
             <asp:TextBox runat="server" ID="txtFavMovies" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <asp:Label runat="server" ID="lblFavBooks">Favorite Books</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavBooks" CssClass="form-control"  TextMode="MultiLine"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavBooks" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
 
         </div>
     </div>
     <div class="row justify-content-center my-5">
-        <div class="col-6">
-            <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavSongs" CssClass="form-control"  TextMode="MultiLine"></asp:TextBox>
-        </div>
-         <div class="col-6">
-            <asp:Label runat="server" ID="lblFavSayings">Favorite Sayings</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavSayings" CssClass="form-control"  TextMode="MultiLine"></asp:TextBox>
-        </div>
-    </div>
-    <div class="row justify-content-center my-5">
-        
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblFavRestaurants">Favorite Restaurants</asp:Label>
-            <asp:DropDownList runat="server" ID="lbRestaurants" CssClass="form-control" SelectionMode="Multiple">
-                <asp:ListItem Value="-1"> Select one or many restaurants.. </asp:ListItem>
-            </asp:DropDownList>
-        </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
             <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple">                
-                <asp:ListItem Value="-1"> Select at least one interest.. </asp:ListItem>
-            </asp:DropDownList>
+            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblLikes"> Likes</asp:Label>
             <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlLikes" CssClass="form-control" SelectionMode="Multiple">                
-                <asp:ListItem Value="-1"> Select atleast one dislike.. </asp:ListItem>
-            </asp:DropDownList>
+            <asp:ListBox runat="server" ID="lbLikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblDislikes"> Dislikes</asp:Label>
             <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlDislikes" CssClass="form-control" SelectionMode="Multiple">                
-                <asp:ListItem Value="-1"> Select atleast one dislike.. </asp:ListItem>
-            </asp:DropDownList>
+            <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
     </div>
+
     <br />
     <div class="row d-flex justify-content-center">
         <asp:Button runat="server" ID="btnSave" Text="Save" CssClass="btn btn-success" OnClick="btnSave_Click" />
@@ -299,4 +291,24 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+    >
+    <script>
+        $(function () {
+            $('[id*=lbInterests]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 interest...' // Here you can change with your desired text as per your requirement.
+                });
+            $('[id*=lbLikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 like...' // Here you can change with your desired text as per your requirement.
+                });
+            $('[id*=lbDislikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 dislike...' // Here you can change with your desired text as per your requirement.
+                });
+        });
+    </script>
 </asp:Content>

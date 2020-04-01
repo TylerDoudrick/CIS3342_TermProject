@@ -13,6 +13,15 @@ namespace TermProject {
     public partial class Registration {
         
         /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
+        
+        /// <summary>
         /// lblTagline control.
         /// </summary>
         /// <remarks>
@@ -310,42 +319,6 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.RadioButton rNo;
         
         /// <summary>
-        /// lblFavMovies control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFavMovies;
-        
-        /// <summary>
-        /// txtFavMovies control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFavMovies;
-        
-        /// <summary>
-        /// lblFavBooks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFavBooks;
-        
-        /// <summary>
-        /// txtFavBooks control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFavBooks;
-        
-        /// <summary>
         /// lblFavSongs control.
         /// </summary>
         /// <remarks>
@@ -391,13 +364,49 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblFavRestaurants;
         
         /// <summary>
-        /// lbRestaurants control.
+        /// txtFavRestaurants control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList lbRestaurants;
+        protected global::System.Web.UI.WebControls.TextBox txtFavRestaurants;
+        
+        /// <summary>
+        /// lblFavMovies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFavMovies;
+        
+        /// <summary>
+        /// txtFavMovies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFavMovies;
+        
+        /// <summary>
+        /// lblFavBooks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFavBooks;
+        
+        /// <summary>
+        /// txtFavBooks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFavBooks;
         
         /// <summary>
         /// lblInterests control.
@@ -415,7 +424,7 @@ namespace TermProject {
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList lbInterests;
+        protected global::System.Web.UI.WebControls.ListBox lbInterests;
         
         /// <summary>
         /// lblLikes control.
@@ -427,13 +436,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblLikes;
         
         /// <summary>
-        /// ddlLikes control.
+        /// lbLikes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlLikes;
+        protected global::System.Web.UI.WebControls.ListBox lbLikes;
         
         /// <summary>
         /// lblDislikes control.
@@ -445,13 +454,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblDislikes;
         
         /// <summary>
-        /// ddlDislikes control.
+        /// lbDislikes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlDislikes;
+        protected global::System.Web.UI.WebControls.ListBox lbDislikes;
         
         /// <summary>
         /// btnSave control.
