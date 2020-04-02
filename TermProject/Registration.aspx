@@ -23,8 +23,8 @@
     <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
 
     <h5>Basic Info</h5>
-    <div class="row">
-        <div class="col-3">
+    <div class="row justify-content-center my-5"">
+        <div class="col-2">
             <asp:Label runat="server" ID="lblPhoneNumber"> Phone Number</asp:Label>
             <span class="required">*</span>
             <div class="input-group">
@@ -41,7 +41,7 @@
                 <asp:TextBox runat="server" ID="txtNumber3" CssClass="form-control" MaxLength="4"></asp:TextBox>
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-1">
             <asp:Label runat="server" ID="lblGender">Gender</asp:Label>
             <span class="required">*</span>
             <asp:DropDownList runat="server" ID="ddlGender" CssClass="form-control">
@@ -55,14 +55,14 @@
             <span class="required">*</span>
             <asp:TextBox type="date" CssClass="form-control" ID="txtBirthday" placeholder="Date" runat="server"></asp:TextBox>
         </div>
-        <div class="col-5">
+        <div class="col-3">
             <asp:Label runat="server" ID="lblPhotos"> Photos</asp:Label>
             <span class="required">*</span>
             <asp:FileUpload class="d-flex align-items-end" runat="server" ID="photoUpload" />
         </div>
 
     </div>
-    <div class="row my-5">
+    <div class="row justify-content-center my-5">
         <div class="col-3 form-group">
             <asp:Label runat="server" ID="lblHeight"> Height</asp:Label>
             <div class="input-group">
@@ -103,7 +103,7 @@
         </div>
     </div>
     <div class="row justify-content-center my-5">
-        <div class="col-5">
+        <div class="col-3">
             <asp:Label runat="server" ID="lblOccupation"> Occupation</asp:Label>
             <span class="required">*</span>
             <asp:DropDownList runat="server" ID="ddlOccupation" CssClass="form-control">
@@ -257,14 +257,14 @@
     </div>
 
     <h5>Bio</h5>
-    <div class="row">
+    <div class="row justify-content-center my-5"">
         <div class="col-md-10">
             <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
             <span class="required">*</span>
             <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" MaxLength="200"></asp:TextBox>
         </div>
     </div>
-    <div class="row my-5">
+    <div class="row justify-content-center my-5">
         <div class="col-md-10">
             <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
             <span class="required">*</span>

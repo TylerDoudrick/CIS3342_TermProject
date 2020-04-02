@@ -44,6 +44,76 @@ namespace TermProject
             lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
             lbDislikes.DataBind();
 
-        }
-    }
-}
+            // disable lsitboxes, checkboxes, and radio buttons
+            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
+            chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
+            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
+        } // end pageload
+
+        protected void lbEdit_Click(object sender, EventArgs e)
+        { // will enable contents in favorite things + tagline
+            
+            lbDislikes.Attributes.Remove("disabled"); lbLikes.Attributes.Remove("disabled"); lbInterests.Attributes.Remove("disabled");
+            divBtnUpdate3.Attributes.Add("style", "display:flex");
+        } // end link button edit btn click
+
+        protected void lblEditContact_Click(object sender, EventArgs e)
+        { // this will enable the content in contact info
+            txtNumber1.ReadOnly = false; txtNumber2.ReadOnly = false; txtNumber3.ReadOnly = false;
+            txtEmail.ReadOnly = false;
+            divBtnUpdate1.Attributes.Add("style", "display:flex");
+            //btnUpdate1.CssClass.Replace("d-none", "d-block");
+        } // end edit contact
+
+        protected void lbEditBasicInfo_Click(object sender, EventArgs e)
+        { // this will make the contents in basic info editable
+            txtTagline.ReadOnly = false;
+            txtBio.ReadOnly = false;
+            ddlReligion.Enabled = true; ddlCommittment.Enabled = true; ddlOccupation.Enabled = true;
+            chkSeekingFemale.Enabled = true; chkSeekingMale.Enabled = true; rWantKidsNo.Enabled = true; rWantKidsYes.Enabled = true;
+            txtNumKids.ReadOnly = false;
+            divBtnUpdate2.Attributes.Add("style", "display:flex");
+        } // end edit basic info
+
+        protected void btnUpdate1_Click(object sender, EventArgs e)
+        { // updates contact information
+
+        } // end update 1
+
+        protected void btnUpdate2_Click(object sender, EventArgs e)
+        { // updates basic information
+
+        } // end update2 
+
+        protected void btnUpdate3_Click(object sender, EventArgs e)
+        { // updates favorite things
+
+        } // end update 3
+
+        protected void btnCancel3_Click(object sender, EventArgs e)
+        { // cancels editing of favorite things
+            divBtnUpdate3.Attributes.Add("style", "display:none");
+            // disable everything
+            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
+        } // end cancel 3
+
+        protected void btnCancel2_Click(object sender, EventArgs e)
+        { // cancels editing of basic information
+            divBtnUpdate2.Attributes.Add("style", "display:none");
+            // disable everything
+            txtTagline.ReadOnly = true;
+            txtBio.ReadOnly = true;
+            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
+            chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
+            txtNumKids.ReadOnly = true;
+        } // end cancel 2
+
+        protected void btnCancel1_Click(object sender, EventArgs e)
+        { // cancels editing of contact info
+            divBtnUpdate1.Attributes.Add("style", "display:none");
+            // disable everything
+            txtNumber1.ReadOnly = true; txtNumber2.ReadOnly = true; txtNumber3.ReadOnly = true;
+            txtEmail.ReadOnly = true;
+        } // end cancel 1 
+    } // end class
+} // end namespace
