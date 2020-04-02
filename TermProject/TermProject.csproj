@@ -73,6 +73,7 @@
     <Content Include="Default.aspx" />
     <Content Include="images\logo.png" />
     <Content Include="images\query.png" />
+    <Content Include="LikeandPass.aspx" />
     <Content Include="MemberProfile.aspx" />
     <Content Include="owlcarousel\owl.carousel.min.css" />
     <Content Include="owlcarousel\owl.carousel.min.js" />
@@ -116,6 +117,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="LikeandPass.aspx.cs">
+      <DependentUpon>LikeandPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LikeandPass.aspx.designer.cs">
+      <DependentUpon>LikeandPass.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogIn.aspx.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>

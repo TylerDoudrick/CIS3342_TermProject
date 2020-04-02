@@ -271,7 +271,7 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
-    >
+    
     <script>
         $(function () {
             $('[id*=lbInterests]').multiselect

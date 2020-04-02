@@ -15,8 +15,8 @@ namespace TermProject
         {
             if (Session["LoggedIn"] != null)
             { 
-                divPrivateBasic.Attributes.Add("style", "display:flex"); // hide private info in the basic info category
-                divFavThings.Attributes.Add("style", "display:flex"); // hide fav things
+                divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
+                divFavThings.Attributes.Add("style", "display:flex"); // show fav things
                 // enable buttons
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDM.Enabled = true;
             } // end if 
