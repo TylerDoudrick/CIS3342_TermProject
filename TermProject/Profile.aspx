@@ -75,7 +75,7 @@
     </div>
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate1">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " ID="btnUpdate1" OnClick="btnUpdate1_Click" />
-                <asp:Button runat="server" Text="Cancel" CssClass="btn btn-danger h-50" ID="btnCancel1" OnClick="btnCancel1_Click"/>
+                <asp:Button runat="server" Text="Cancel" CssClass="btn btn-secondary h-50" ID="btnCancel1" OnClick="btnCancel1_Click"/>
     </div>
 
     <hr />
@@ -219,7 +219,7 @@
 
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate2">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " ID="btnUpdate2" OnClick="btnUpdate2_Click" />
-                <asp:Button runat="server" Text="Cancel" CssClass="btn btn-danger h-50" ID="btnCancel2" OnClick="btnCancel2_Click"/>
+                <asp:Button runat="server" Text="Cancel" CssClass="btn btn-secondary h-50" ID="btnCancel2" OnClick="btnCancel2_Click"/>
     </div>
     <hr />
     <asp:LinkButton runat="server" ID="lbEdit" OnClick="lbEdit_Click">
@@ -248,7 +248,7 @@
 
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate3">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50  " ID="btnUpdate3" OnClick="btnUpdate3_Click" />
-        <asp:Button runat="server" Text="Cancel" CssClass="btn btn-danger h-50" ID="btnCancel3" OnClick="btnCancel3_Click" />
+        <asp:Button runat="server" Text="Cancel" CssClass="btn btn-secondary h-50" ID="btnCancel3" OnClick="btnCancel3_Click" />
     </div>
 </asp:Content>
 
