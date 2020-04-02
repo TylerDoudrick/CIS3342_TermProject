@@ -1,11 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="MemberProfile.aspx.cs" Inherits="TermProject.MemberProfile" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
@@ -20,6 +15,23 @@
                 <asp:Label runat="server" ID="lblLocation"> Philadelphia, PA</asp:Label>
                 <br />
                 <asp:Label runat="server" ID="lblTagline"> This is John's Tagline</asp:Label>
+            </div>
+            <div class="col-2">
+                <div class="row">
+                    <asp:Button runat="server" ID="btnLike" CssClass="btn btn-primary w-75" Text="Like" OnClick="btnLike_Click" />
+                </div>
+                <br />
+                <div class="row">
+                    <asp:Button runat="server" ID="btnPass" CssClass="btn btn-primary w-75" Text="Pass" OnClick="btnPass_Click" />
+                </div>
+                <br />
+                <div class="row">
+                    <asp:Button runat="server" ID="btnBlock" CssClass="btn btn-primary w-75" Text="Block" OnClick="btnBlock_Click" />
+                </div>
+                <br />
+                <div class="row">
+                    <asp:Button runat="server" ID="btnDM" CssClass="btn btn-primary w-75" Text="Direct Message" OnClick="btnDM_Click" />
+                </div>
             </div>
         </div>
     </div>
@@ -90,7 +102,7 @@ Wisi scripserit qui et, te zril consul forensibus duo, ne sed facilisi legendos 
                 &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblNumKids"> 0  </asp:Label>
             </div>
-            <div class="col-">
+            <div class="col-2">
                 <asp:Label runat="server" for="<%= lblWantKids.ClientID %>" CssClass="font-weight-bold"> Do you want kids? </asp:Label>
                 &nbsp; &nbsp;
              <asp:Label runat="server" ID="lblWantKids"> No  </asp:Label>
@@ -100,19 +112,22 @@ Wisi scripserit qui et, te zril consul forensibus duo, ne sed facilisi legendos 
 
     <hr />
 
-    <div>
+    <div runat="server" id="divFavThings" class="hidden">
         <h5 class="text-info font-weight-bold ">Favorite Things</h5>
         <div class="row justify-content-center my-5">
-                        <asp:Label runat="server" for="<%= lblInterests.ClientID %>" CssClass="font-weight-bold"> Interests </asp:Label> &nbsp; &nbsp;
+            <asp:Label runat="server" for="<%= lblInterests.ClientID %>" CssClass="font-weight-bold"> Interests </asp:Label>
+            &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblInterests"> Photography ,Swimming, Sports</asp:Label>
 
         </div>
-         <div class="row justify-content-center my-5">
-                        <asp:Label runat="server" for="<%= lblLikes.ClientID %>" CssClass="font-weight-bold"> Likes </asp:Label> &nbsp; &nbsp;
+        <div class="row justify-content-center my-5">
+            <asp:Label runat="server" for="<%= lblLikes.ClientID %>" CssClass="font-weight-bold"> Likes </asp:Label>
+            &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblLikes"> Photography , Travelling, Video Games , Fantasy Football </asp:Label>
         </div>
-         <div class="row justify-content-center my-5">
-                        <asp:Label runat="server" for="<%= lblDislikes.ClientID %>" CssClass="font-weight-bold"> Dislikes </asp:Label> &nbsp; &nbsp;
+        <div class="row justify-content-center my-5">
+            <asp:Label runat="server" for="<%= lblDislikes.ClientID %>" CssClass="font-weight-bold"> Dislikes </asp:Label>
+            &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblDislikes"> Meditation, Philosophy</asp:Label>
 
         </div>

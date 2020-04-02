@@ -2,9 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
-        .divHidden {
-            display: none;
-        }
+        
 
         .required {
             color: red;
@@ -17,10 +15,6 @@
 
         .card {
             border: 1px solid black;
-        }
-
-        .list-group-item {
-            border: 1px solid gray;
         }
 
     </style>
