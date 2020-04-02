@@ -73,18 +73,19 @@
             </div>
         </div>
     </div>
+
+
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate1">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " ID="btnUpdate1" OnClick="btnUpdate1_Click" />
                 <asp:Button runat="server" Text="Cancel" CssClass="btn btn-secondary h-50" ID="btnCancel1" OnClick="btnCancel1_Click"/>
     </div>
 
-    <hr />
-    <asp:LinkButton runat="server" ID="lbEditBasicInfo" OnClientClick="showHiddenOne()" OnClick="lbEditBasicInfo_Click">
+    <hr /><hr />
+    <asp:LinkButton runat="server" ID="lbEditBasicInfo"  OnClick="lbEditBasicInfo_Click">
             <span> <i class="fas fa-pen-square fa-2x"></i></span>
     </asp:LinkButton>
 
-    <br />
-    <br />
+    
     <h5 class="text-info font-weight-bold ">Basic Information</h5>
     <div class="row justify-content-center my-5">
         <div class="col-md-9">

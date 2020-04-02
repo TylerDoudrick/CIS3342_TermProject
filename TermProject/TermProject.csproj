@@ -84,6 +84,7 @@
     <Content Include="Registration.aspx" />
     <Content Include="Search.aspx" />
     <Content Include="Settings.aspx" />
+    <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>

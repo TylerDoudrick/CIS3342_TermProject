@@ -14,10 +14,37 @@ namespace TermProject
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["LoggedIn"] != null)
-            { // if user is logged in, show the private info
-                divPrivateBasic.Attributes.Add("style", "display:block");
+            { 
+                divPrivateBasic.Attributes.Add("style", "display:flex"); // hide private info in the basic info category
+                divFavThings.Attributes.Add("style", "display:flex"); // hide fav things
+                // enable buttons
+                btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDM.Enabled = true;
             } // end if 
+            else
+            {
+                btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDM.Enabled = false;
+            }
 
         } // end page load
+
+        protected void btnLike_Click(object sender, EventArgs e)
+        {
+
+        } // end btn like event handler
+
+        protected void btnPass_Click(object sender, EventArgs e)
+        {
+
+        } // end btn pass event handler
+
+        protected void btnBlock_Click(object sender, EventArgs e)
+        {
+
+        } // end btn block event handler
+
+        protected void btnDM_Click(object sender, EventArgs e)
+        {
+
+        } // end btnDM event handler
     } // end class
 } // end namespace

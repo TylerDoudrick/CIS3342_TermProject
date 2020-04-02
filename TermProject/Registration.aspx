@@ -2,14 +2,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
-        .required {
-            color: red;
-        }
-
-        h5 {
-            color: darkblue;
-            font-weight: bold;
-        }
+        
     </style>
 </asp:Content>
 
@@ -22,7 +15,7 @@
     <br />
     <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
 
-    <h5>Basic Info</h5>
+    <h5 class="text-info font-weight-bold">Basic Info</h5>
     <div class="row justify-content-center my-5"">
         <div class="col-2">
             <asp:Label runat="server" ID="lblPhoneNumber"> Phone Number</asp:Label>
@@ -211,7 +204,7 @@
         </div>
     </div>
 
-    <h5>Favorite Things </h5>
+    <h5 class="text-info font-weight-bold">Favorite Things </h5>
     <div class="row justify-content-center my-5">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
@@ -256,7 +249,7 @@
         </div>
     </div>
 
-    <h5>Bio</h5>
+    <h5 class="text-info font-weight-bold">Bio</h5>
     <div class="row justify-content-center my-5"">
         <div class="col-md-10">
             <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
