@@ -36,7 +36,7 @@
         </div>
 
         <div>
-            <div runat="server" id="divChangeUsername" class="divHidden">
+            <div runat="server" id="divChangeUsername" class="hidden">
                 <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lblCurrentUsername" for="<%= txtCurrentUsername.ClientID %>"> Current Username </asp:Label>
@@ -64,7 +64,7 @@
             </div>
 
 
-            <div runat="server" id="divChangePassword" class="divHidden">
+            <div runat="server" id="divChangePassword" class="hidden">
                 <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lblCurrentPassword" for="<%= txtCurrentPassword.ClientID %>"> Current Password </asp:Label>
@@ -87,7 +87,7 @@
                 </div>
 
             </div>
-            <div runat="server" id="divOPTOut" class="divHidden">
+            <div runat="server" id="divOPTOut" class="hidden">
                 <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lOptOut"> Hide my profile from other users</asp:Label>
@@ -98,7 +98,7 @@
                 </div>
             </div>
 
-            <div runat="server" id="divBlockedUsers" class="divHidden">
+            <div runat="server" id="divBlockedUsers" class="hidden">
                 <div class="col ">
                     <div runat="server" class="row">
                         <div class="card w-50">
@@ -111,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            <div runat="server" id="divAddress" class="divHidden">
+            <div runat="server" id="divAddress" class="hidden">
                 <div class="col">
                     <div runat="server" class="row">
                         <div class="col-9">
@@ -190,7 +190,7 @@
                     <div class="row">
                         <asp:Button runat="server" Text="Edit Address" ID="btnEditAddress" OnClick="btnEditAddress_Click" CssClass="btn btn-info" />
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                         <asp:Button runat="server" Text="Save" ID="btnSave" class="btn btn-success divHidden" OnClick="btnSave_Click" />
+                         <asp:Button runat="server" Text="Save" ID="btnSave" class="btn btn-success hidden" OnClick="btnSave_Click" />
                     </div>
                 </div>
             </div>

@@ -272,17 +272,20 @@
             $('[id*=lbInterests]').multiselect
                 ({
                     includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 interest...' // Here you can change with your desired text as per your requirement.
+                    nonSelectedText: 'Select atleast 1 interest...',
+                    maxHeight: 200
                 });
             $('[id*=lbLikes]').multiselect
                 ({
                     includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 like...' // Here you can change with your desired text as per your requirement.
+                    nonSelectedText: 'Select atleast 1 like...',
+                    maxHeight: 200
                 });
             $('[id*=lbDislikes]').multiselect
                 ({
                     includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 dislike...' // Here you can change with your desired text as per your requirement.
+                    nonSelectedText: 'Select atleast 1 dislike...',
+                    maxHeight: 200
                 });
         });
     </script>
