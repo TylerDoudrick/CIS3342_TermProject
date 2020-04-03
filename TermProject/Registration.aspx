@@ -1,9 +1,7 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Registration.aspx.cs" Inherits="TermProject.Registration" %>
 
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
-    <style>
-        
-    </style>
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
@@ -14,9 +12,24 @@
     </div>
     <br />
     <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
-
+    <h5 class="text-info font-weight-bold">Bio</h5>
+    <div class="row justify-content-center my-5">
+        <div class="col-md-10">
+            <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
+            <span class="required">*</span>
+            <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" MaxLength="200"></asp:TextBox>
+        </div>
+    </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-md-10">
+            <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
+            <span class="required">*</span>
+            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+        </div>
+    </div>
+    <br />
     <h5 class="text-info font-weight-bold">Basic Info</h5>
-    <div class="row justify-content-center my-5"">
+    <div class="row justify-content-center my-5">
         <div class="col-2">
             <asp:Label runat="server" ID="lblPhoneNumber"> Phone Number</asp:Label>
             <span class="required">*</span>
@@ -83,16 +96,16 @@
         <div class="col-3 form-group">
             <asp:Label runat="server" ID="lblReligion"> Religion</asp:Label>
             <span class="required">*</span>
-            <asp:DropdownList runat="server" ID="ddlReligion" CssClass="form-control" AppendDataBoundItems="true">
+            <asp:DropDownList runat="server" ID="ddlReligion" CssClass="form-control" AppendDataBoundItems="true">
                 <asp:ListItem Value="-1"> Select Religion...</asp:ListItem>
-            </asp:DropdownList>
+            </asp:DropDownList>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblCommitment">Commitment Type</asp:Label>
             <span class="required">*</span>
-            <asp:DropdownList runat="server" ID="ddlCommittment" CssClass="form-control" AppendDataBoundItems="true">
+            <asp:DropDownList runat="server" ID="ddlCommittment" CssClass="form-control" AppendDataBoundItems="true">
                 <asp:ListItem Value="-1"> Select Commitment Type...</asp:ListItem>
-            </asp:DropdownList>
+            </asp:DropDownList>
         </div>
     </div>
     <div class="row justify-content-center my-5">
@@ -198,8 +211,8 @@
         <div class="col-3">
             <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
             <div class="form-group">
-                <asp:RadioButton runat="server" ID="rYes" Text="Yes" />&nbsp;&nbsp; &nbsp;
-                <asp:RadioButton runat="server" ID="rNo" Text="No" />
+                <asp:RadioButton runat="server" ID="rWantKidsYes" Text="Yes" />&nbsp;&nbsp; &nbsp;
+                <asp:RadioButton runat="server" ID="rWantKidsNo" Text="No" />
             </div>
         </div>
     </div>
@@ -234,8 +247,7 @@
         <div class="col-3">
             <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
             <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple">
-            </asp:ListBox>
+            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
         <div class="col-3">
             <asp:Label runat="server" ID="lblLikes"> Likes</asp:Label>
@@ -248,22 +260,6 @@
             <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
     </div>
-
-    <h5 class="text-info font-weight-bold">Bio</h5>
-    <div class="row justify-content-center my-5"">
-        <div class="col-md-10">
-            <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
-            <span class="required">*</span>
-            <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" MaxLength="200"></asp:TextBox>
-        </div>
-    </div>
-    <div class="row justify-content-center my-5">
-        <div class="col-md-10">
-            <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
-            <span class="required">*</span>
-            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
-        </div>
-    </div>
     <br />
     <div class="row d-flex justify-content-center">
         <asp:Button runat="server" ID="btnSave" Text="Save" CssClass="btn btn-success" OnClick="btnSave_Click" />
@@ -271,7 +267,6 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
-    
     <script>
         $(function () {
             $('[id*=lbInterests]').multiselect
@@ -291,4 +286,5 @@
                 });
         });
     </script>
+
 </asp:Content>

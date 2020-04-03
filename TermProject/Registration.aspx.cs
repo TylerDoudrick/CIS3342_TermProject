@@ -39,7 +39,7 @@ namespace TermProject
 
             lbDislikes.DataSource = ds.Tables[4];
             lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
-            lbDislikes.DataBind();
+            lbDislikes.DataBind(); 
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -125,6 +125,6 @@ namespace TermProject
                 check = true; lblOccupation.Attributes.Add("style", "color:red");
             }
             return check;
-        }
+        } 
     } // end class
 } // end namespace
