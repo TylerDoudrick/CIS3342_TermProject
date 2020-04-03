@@ -238,6 +238,7 @@
         <div class="col-3">
             <asp:Label runat="server" ID="lblLikes"> Likes </asp:Label>
             <span class="required hidden">*</span>
+            <span class="required hidden">*</span>
             <asp:ListBox runat="server" ID="lbLikes" CssClass="form-control" SelectionMode="Multiple" ReadOnly="true"></asp:ListBox>
         </div>
         <div class="col-3">
@@ -260,21 +261,24 @@
             $("#navlinkProfile").addClass("active");
 
             $(function () {
-                $('[id*=lbInterests]').multiselect
-                    ({
-                        includeSelectAllOption: false,
-                        nonSelectedText: 'Select atleast 1 interest...' // Here you can change with your desired text as per your requirement.
-                    });
-                $('[id*=lbLikes]').multiselect
-                    ({
-                        includeSelectAllOption: false,
-                        nonSelectedText: 'Select atleast 1 like...' // Here you can change with your desired text as per your requirement.
-                    });
-                $('[id*=lbDislikes]').multiselect
-                    ({
-                        includeSelectAllOption: false,
-                        nonSelectedText: 'Select atleast 1 dislike...' // Here you can change with your desired text as per your requirement.
-                    });
+                 $('[id*=lbInterests]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 interest...',
+                    maxHeight:200
+                });
+            $('[id*=lbLikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 like...',
+         maxHeight: 200     
+                });
+            $('[id*=lbDislikes]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select atleast 1 dislike...', 
+                             maxHeight: 200     
+                });
             });
 
         });

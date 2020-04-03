@@ -22,6 +22,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Button btnReligion;
         
         /// <summary>
+        /// lbReligion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lbReligion;
+        
+        /// <summary>
         /// lbCommitment control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,15 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.LinkButton lbCommitment;
+        
+        /// <summary>
+        /// lbCommittment control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox lbCommittment;
         
         /// <summary>
         /// btnLikes control.
@@ -40,69 +58,6 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Button btnLikes;
         
         /// <summary>
-        /// btnDislikes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDislikes;
-        
-        /// <summary>
-        /// btnInterests control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnInterests;
-        
-        /// <summary>
-        /// divReligion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReligion;
-        
-        /// <summary>
-        /// ddlReligion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlReligion;
-        
-        /// <summary>
-        /// divCommittment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divCommittment;
-        
-        /// <summary>
-        /// ddlCommittment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCommittment;
-        
-        /// <summary>
-        /// divLikes control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLikes;
-        
-        /// <summary>
         /// lbLikes control.
         /// </summary>
         /// <remarks>
@@ -112,13 +67,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.ListBox lbLikes;
         
         /// <summary>
-        /// divDislikes control.
+        /// btnDislikes control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDislikes;
+        protected global::System.Web.UI.WebControls.Button btnDislikes;
         
         /// <summary>
         /// lbDislikes control.
@@ -130,13 +85,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.ListBox lbDislikes;
         
         /// <summary>
-        /// divInterests control.
+        /// btnInterests control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInterests;
+        protected global::System.Web.UI.WebControls.Button btnInterests;
         
         /// <summary>
         /// lbInterests control.
