@@ -75,6 +75,12 @@
     <Content Include="images\person1.jpg" />
     <Content Include="images\person2.jpg" />
     <Content Include="images\person3.jpg" />
+    <Content Include="images\person4.jpg" />
+    <Content Include="images\person5.jpg" />
+    <Content Include="images\person6.jpg" />
+    <Content Include="images\person7.jpg" />
+    <Content Include="images\person8.jpg" />
+    <Content Include="images\person9.jpg" />
     <Content Include="images\query.png" />
     <Content Include="LikeandPass.aspx" />
     <Content Include="MemberProfile.aspx" />
