@@ -14,5 +14,20 @@ namespace TermProject
             if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
 
         }
+
+        protected void showMessage(object sender, EventArgs e)
+        {
+            divMessageList.Visible = false;
+            divMessageListControls.Visible = false;
+            divViewMessageControls.Visible = true;
+            divViewMessage.Visible = true;
+        }
+        protected void ViewMessageList(object sender, EventArgs e)
+        {
+            divMessageList.Visible = true;
+            divMessageListControls.Visible = true;
+            divViewMessageControls.Visible = false;
+            divViewMessage.Visible = false;
+        }
     }
 }
