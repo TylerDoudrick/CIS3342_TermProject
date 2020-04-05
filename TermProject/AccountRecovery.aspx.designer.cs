@@ -10,60 +10,51 @@
 namespace TermProject {
     
     
-    public partial class Messages {
+    public partial class AccountRecovery {
         
         /// <summary>
-        /// ddlRecipient control.
+        /// divSecurityQuestion control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlRecipient;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSecurityQuestion;
         
         /// <summary>
-        /// txtMessage control.
+        /// txtAnswer control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMessage;
+        protected global::System.Web.UI.WebControls.TextBox txtAnswer;
         
         /// <summary>
-        /// divMessageListControls control.
+        /// divChangePassword control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMessageListControls;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divChangePassword;
         
         /// <summary>
-        /// divViewMessageControls control.
+        /// txtNewPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divViewMessageControls;
+        protected global::System.Web.UI.WebControls.TextBox txtNewPass;
         
         /// <summary>
-        /// divMessageList control.
+        /// txtConfirmPass control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMessageList;
-        
-        /// <summary>
-        /// divViewMessage control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divViewMessage;
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmPass;
     }
 }
