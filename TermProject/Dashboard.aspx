@@ -36,42 +36,42 @@
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=Lizzie" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
                 <div class="card" style="width: 13rem;">
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=John" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
                 <div class="card" style="width: 13rem;">
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=Mary" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
                 <div class="card" style="width: 13rem;">
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=Kyle" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
                 <div class="card" style="width: 13rem;">
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=Karen" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
                 <div class="card" style="width: 13rem;">
                     <img class="card-img-top" src="https://dummyimage.com/300x300/ffffff/a84a4a.jpg&text=Molly" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">Card title</h5>
-                        <a href="#" class="btn btn-primary stretched-link">Go somewhere</a>
+                        <a href="MemberProfile.aspx" class="btn btn-primary stretched-link">Go somewhere</a>
                     </div>
                 </div>
             </div>

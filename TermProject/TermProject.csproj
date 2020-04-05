@@ -72,7 +72,12 @@
     <Content Include="Dashboard.aspx" />
     <Content Include="Default.aspx" />
     <Content Include="images\logo.png" />
+    <Content Include="images\person1.jpg" />
+    <Content Include="images\person2.jpg" />
+    <Content Include="images\person3.jpg" />
     <Content Include="images\query.png" />
+    <Content Include="LikeandPass.aspx" />
+    <Content Include="MemberProfile.aspx" />
     <Content Include="owlcarousel\owl.carousel.min.css" />
     <Content Include="owlcarousel\owl.carousel.min.js" />
     <Content Include="LogIn.aspx" />
@@ -82,6 +87,8 @@
     <Content Include="Profile.aspx" />
     <Content Include="Registration.aspx" />
     <Content Include="Search.aspx" />
+    <Content Include="Settings.aspx" />
+    <Content Include="styles\styles.css" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +121,13 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
+    <Compile Include="LikeandPass.aspx.cs">
+      <DependentUpon>LikeandPass.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="LikeandPass.aspx.designer.cs">
+      <DependentUpon>LikeandPass.aspx</DependentUpon>
+    </Compile>
     <Compile Include="LogIn.aspx.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -134,6 +148,13 @@
     </Compile>
     <Compile Include="Main.Master.designer.cs">
       <DependentUpon>Main.Master</DependentUpon>
+    </Compile>
+    <Compile Include="MemberProfile.aspx.cs">
+      <DependentUpon>MemberProfile.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="MemberProfile.aspx.designer.cs">
+      <DependentUpon>MemberProfile.aspx</DependentUpon>
     </Compile>
     <Compile Include="Messages.aspx.cs">
       <DependentUpon>Messages.aspx</DependentUpon>
@@ -163,6 +184,13 @@
     </Compile>
     <Compile Include="Search.aspx.designer.cs">
       <DependentUpon>Search.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Settings.aspx.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Settings.aspx.designer.cs">
+      <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
