@@ -105,6 +105,7 @@
     <Content Include="Search.aspx" />
     <Content Include="Settings.aspx" />
     <Content Include="styles\styles.css" />
+    <Content Include="UserControls\ddl.ascx" />
     <Content Include="Verification.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -215,6 +216,13 @@
     </Compile>
     <Compile Include="Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\ddl.ascx.cs">
+      <DependentUpon>ddl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\ddl.ascx.designer.cs">
+      <DependentUpon>ddl.ascx</DependentUpon>
     </Compile>
     <Compile Include="Verification.aspx.cs">
       <DependentUpon>Verification.aspx</DependentUpon>

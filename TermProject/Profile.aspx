@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="TermProject.Profile" %>
 
+<%@ Register Src="~/UserControls/ddl.ascx" TagPrefix="uc1" TagName="ddl" %>
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
         .required {
@@ -43,7 +46,7 @@
 
             <div class="row">
                 <asp:Label runat="server" ID="lblPhoneNumber" for="<%= txtFullNumber.ClientID %>"> Phone Number</asp:Label>
-                <span class="required ">*</span>
+    
                 <div class="col">
                     <div class="input-group" id="txtFullNumber">
                         <asp:TextBox runat="server" ID="txtNumber1" CssClass="form-control" MaxLength="3" ReadOnly="true"></asp:TextBox>
@@ -66,7 +69,7 @@
             <br />
             <div class="row">
                 <asp:Label runat="server" ID="lblEmail" for="<%= txtEmail.ClientID %>">Email </asp:Label>
-                <span class="required ">*</span>
+    
                 <div class="col">
                     <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" ReadOnly="true"></asp:TextBox>
                 </div>
@@ -90,27 +93,35 @@
     <div class="row justify-content-center my-5">
         <div class="col-md-9">
             <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
-            <span class="required ">*</span>
+
             <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
         </div>
     </div>
 
     <div class="row justify-content-center my-5">
-        <div class="col-2 form-group">
-            <asp:Label runat="server" ID="lblReligion"> Religion</asp:Label>
-            <span class="required ">*</span>
-            <asp:DropDownList runat="server" ID="ddlReligion" CssClass="form-control">
-            </asp:DropDownList>
+        <div class="col-2">
+            <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
+
+            <div class="form-group align-items-end ">
+                <asp:CheckBox runat="server" ID="chkSeekingFemale" Text="Female" />
+                &nbsp;&nbsp;
+                <asp:CheckBox runat="server" ID="chkSeekingMale" Text="Male" />
+            </div>
         </div>
         <div class="col-2">
-            <asp:Label runat="server" ID="lblCommitment">Commitment Type</asp:Label>
-            <span class="required ">*</span>
-            <asp:DropDownList runat="server" ID="ddlCommittment" CssClass="form-control">
-            </asp:DropDownList>
+            <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
+            <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control" ReadOnly="true"> </asp:TextBox>
+        </div>
+        <div class="col-2">
+            <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
+            <div class="form-group">
+                <asp:RadioButton runat="server" ID="rWantKidsYes" Text="Yes" />&nbsp;&nbsp; &nbsp;
+                <asp:RadioButton runat="server" ID="rWantKidsNo" Text="No" />
+            </div>
         </div>
         <div class="col-2">
             <asp:Label runat="server" ID="lblOccupation"> Occupation</asp:Label>
-            <span class="required ">*</span>
+
             <asp:DropDownList runat="server" ID="ddlOccupation" CssClass="form-control">
                 <asp:ListItem Value="-1"> Select your occupation..</asp:ListItem>
                 <asp:ListItem Value="1">  Chiropractor</asp:ListItem>
@@ -193,31 +204,8 @@
                 <asp:ListItem Value="7">  Not Applicable</asp:ListItem>
 
             </asp:DropDownList>
-        </div>
     </div>
-    <div class="row justify-content-center my-5">
-        <div class="col-2">
-            <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
-            <span class="required ">*</span>
-            <div class="form-group align-items-end ">
-                <asp:CheckBox runat="server" ID="chkSeekingFemale" Text="Female" />
-                &nbsp;&nbsp;
-                <asp:CheckBox runat="server" ID="chkSeekingMale" Text="Male" />
-            </div>
-        </div>
-        <div class="col-2">
-            <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
-            <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control" ReadOnly="true"> </asp:TextBox>
-        </div>
-        <div class="col-">
-            <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
-            <div class="form-group">
-                <asp:RadioButton runat="server" ID="rWantKidsYes" Text="Yes" />&nbsp;&nbsp; &nbsp;
-                <asp:RadioButton runat="server" ID="rWantKidsNo" Text="No" />
-            </div>
-        </div>
-    </div>
-
+</div>
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate2">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " ID="btnUpdate2" OnClick="btnUpdate2_Click" />
                 <asp:Button runat="server" Text="Cancel" CssClass="btn btn-secondary h-50" ID="btnCancel2" OnClick="btnCancel2_Click"/>
@@ -229,24 +217,7 @@
     <br />
     <br />
     <h5 class="text-info font-weight-bold ">Favorite Things</h5>
-    <div class="row justify-content-center my-5">
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblInterests"> Interests </asp:Label>
-            <span class="required hidden">*</span>
-            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple" ReadOnly="true"></asp:ListBox>
-        </div>
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblLikes"> Likes </asp:Label>
-            <span class="required hidden">*</span>
-            <span class="required hidden">*</span>
-            <asp:ListBox runat="server" ID="lbLikes" CssClass="form-control" SelectionMode="Multiple" ReadOnly="true"></asp:ListBox>
-        </div>
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblDislikes"> Dislikes </asp:Label>
-            <span class="required hidden">*</span>
-            <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple" ReadOnly="true"></asp:ListBox>
-        </div>
-    </div>
+    <uc1:ddl runat="server" ID="ddl" />
 
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate3">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50  " ID="btnUpdate3" OnClick="btnUpdate3_Click" />
@@ -260,26 +231,36 @@
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkProfile").addClass("active");
 
-            $(function () {
-                 $('[id*=lbInterests]').multiselect
+           $('[id*=lbInterests]').multiselect
                 ({
                     includeSelectAllOption: false,
                     nonSelectedText: 'Select atleast 1 interest...',
-                    maxHeight:200
+                    maxHeight: 200
                 });
             $('[id*=lbLikes]').multiselect
                 ({
                     includeSelectAllOption: false,
                     nonSelectedText: 'Select atleast 1 like...',
-         maxHeight: 200     
+                    maxHeight: 200
                 });
             $('[id*=lbDislikes]').multiselect
                 ({
                     includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 dislike...', 
-                             maxHeight: 200     
+                    nonSelectedText: 'Select atleast 1 dislike...',
+                    maxHeight: 200
                 });
-            });
+            $('[id*=lbCommittment]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select commitment type...',
+                    maxHeight: 200
+                });
+            $('[id*=lbReligion]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select a religion...',
+                    maxHeight: 200
+        });
 
         });
 
