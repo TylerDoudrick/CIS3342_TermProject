@@ -13,13 +13,13 @@ namespace TermProject {
     public partial class LogIn {
         
         /// <summary>
-        /// txtLogInEmail control.
+        /// txtLogInUsername control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtLogInEmail;
+        protected global::System.Web.UI.WebControls.TextBox txtLogInUsername;
         
         /// <summary>
         /// txtLogInPassword control.

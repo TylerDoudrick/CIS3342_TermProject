@@ -30,8 +30,8 @@
                 <h5 class="card-title text-center">Log In</h5>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="<%= txtLogInEmail.ClientID %>">Username</label>
-                        <asp:TextBox type="email" CssClass="form-control" ID="txtLogInEmail" placeholder="johndoe@gmail.com" runat="server" />
+                        <label for="<%= txtLogInUsername.ClientID %>">Username</label>
+                        <asp:TextBox type="text" CssClass="form-control" ID="txtLogInUsername" placeholder="Username" runat="server" />
                     </div>
                     <div class="form-group">
                         <label for="<%= txtLogInPassword.ClientID %>">Password</label>

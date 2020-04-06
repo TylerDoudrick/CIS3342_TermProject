@@ -116,7 +116,8 @@
     <Compile Include="AccountRecovery.aspx.designer.cs">
       <DependentUpon>AccountRecovery.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Connection.cs" />
+    <Compile Include="CryptoUtilities.cs" />
+    <Compile Include="DBConnect.cs" />
     <Compile Include="CreateAccount.aspx.cs">
       <DependentUpon>CreateAccount.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
