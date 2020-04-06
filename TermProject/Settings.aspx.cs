@@ -10,7 +10,8 @@ namespace TermProject
     public partial class Settings : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
-        { 
+        {
+            if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
         } //end pageload
 
         protected void lbChangeUsername_Click(object sender, EventArgs e)
