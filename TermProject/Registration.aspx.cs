@@ -1,11 +1,14 @@
 ﻿using MusicStoreLibrary;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -13,17 +16,20 @@ namespace TermProject
 {
     public partial class Registration : System.Web.UI.Page
     {
+        string webapiURL = "https://localhost:44394/api/profile/";
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
-            WebRequest request = WebRequest.Create("");
-
-
-            // the following gets the appropriate tables from the dataset and uses it to populate the ddl
-            SqlCommand objSearchCriteria = new SqlCommand();
-            objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
-            objSearchCriteria.CommandText = "TP_GetSearchCriteria";
-            DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
+            WebRequest request = WebRequest.Create( webapiURL+"searchcriteria");
+            WebResponse response = request.GetResponse();
+            // Read the data from the Web Response, which requires working with streams.
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close();
+            //JavaScriptSerializer js = new JavaScriptSerializer();
+            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
 
             ddlReligion.DataSource = ds.Tables[0];
             ddlReligion.DataTextField = "ReligionType"; ddlReligion.DataValueField = "ReligionID";
