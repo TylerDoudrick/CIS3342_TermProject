@@ -30,7 +30,7 @@
             <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
-    <br />
+    <hr /><br />
     <h5 class="text-info font-weight-bold">Basic Info</h5>
     <div class="row justify-content-center my-5">
         <div class="col-2">
@@ -208,8 +208,8 @@
             </div>
         </div>
     </div>
-
-    <h5 class="text-info font-weight-bold">Favorite Things </h5>
+    <hr /> <hr /> <br />
+    <h5 class="text-info font-weight-bold"> Miscellenous </h5>
     <div class="row justify-content-center my-5">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>

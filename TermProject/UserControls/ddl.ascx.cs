@@ -16,6 +16,7 @@ namespace TermProject.UserControls
         string webapiURL = "https://localhost:44394/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
+
             WebRequest request = WebRequest.Create(webapiURL + "searchcriteria");
             WebResponse response = request.GetResponse();
             // Read the data from the Web Response, which requires working with streams.
@@ -47,5 +48,25 @@ namespace TermProject.UserControls
             lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
             lbDislikes.DataBind();
         }
+
+        public void DisableControl()
+        { // disables controls for profile page
+            lbCommittment.Attributes.Add("disabled", "");
+            lbReligion.Attributes.Add("disabled","");
+            lbInterests.Attributes.Add("disabled", "");
+            lbLikes.Attributes.Add("disabled", ""); 
+            lbDislikes.Attributes.Add("disabled", "");
+        } // end disable control
+
+        public void EnableControl()
+        { // enables controls when user wants to edit
+            lbCommittment.Attributes.Remove("disabled");
+            lbReligion.Attributes.Remove("disabled");
+            lbInterests.Attributes.Remove("disabled");
+            lbLikes.Attributes.Remove("disabled");
+            lbDislikes.Attributes.Remove("disabled");
+        } // end enable control
+        
+
     }
 }

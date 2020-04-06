@@ -13,6 +13,15 @@ namespace TermProject.UserControls {
     public partial class ddl {
         
         /// <summary>
+        /// pnlHolder control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlHolder;
+        
+        /// <summary>
         /// lblReligion control.
         /// </summary>
         /// <remarks>

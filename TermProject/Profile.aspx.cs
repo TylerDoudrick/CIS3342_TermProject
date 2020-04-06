@@ -19,15 +19,17 @@ namespace TermProject
         string webapiURL = "https://localhost:44394/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
+            ddl.DisableControl();
             // disable lsitboxes, checkboxes, and radio buttons
-            // ddlReligion.Enabled = false; ddlCommittment.Enabled = false; 
             ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
         } // end pageload
 
         protected void lbEdit_Click(object sender, EventArgs e)
         { // will enable contents in favorite things + tagline
-            
+            txtFavBooks.ReadOnly = false; txtFavMovies.ReadOnly = false; txtFavRestaurants.ReadOnly = false;
+            txtFavSayings.ReadOnly = false; txtFavSongs.ReadOnly = false;
+            ddl.EnableControl();
             divBtnUpdate3.Attributes.Add("style", "display:flex");
         } // end link button edit btn click
 
@@ -44,7 +46,7 @@ namespace TermProject
             txtTagline.ReadOnly = false;
             txtBio.ReadOnly = false;
             chkSeekingFemale.Enabled = true; chkSeekingMale.Enabled = true; rWantKidsNo.Enabled = true; rWantKidsYes.Enabled = true;
-            txtNumKids.ReadOnly = false;
+            txtNumKids.ReadOnly = false; ddlOccupation.Enabled = true;
             divBtnUpdate2.Attributes.Add("style", "display:flex");
         } // end edit basic info
 
@@ -65,6 +67,8 @@ namespace TermProject
 
         protected void btnCancel3_Click(object sender, EventArgs e)
         { // cancels editing of favorite things
+            txtFavBooks.ReadOnly = true; txtFavMovies.ReadOnly = true; txtFavRestaurants.ReadOnly = true;
+            txtFavSayings.ReadOnly = true; txtFavSongs.ReadOnly = true;
             divBtnUpdate3.Attributes.Add("style", "display:none");
             // disable everything
         } // end cancel 3

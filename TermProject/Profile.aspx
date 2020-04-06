@@ -87,7 +87,7 @@
     <asp:LinkButton runat="server" ID="lbEditBasicInfo"  OnClick="lbEditBasicInfo_Click">
             <span> <i class="fas fa-pen-square fa-2x"></i></span>
     </asp:LinkButton>
-
+    <br /> <br />
     
     <h5 class="text-info font-weight-bold ">Basic Information</h5>
     <div class="row justify-content-center my-5">
@@ -216,8 +216,34 @@
     </asp:LinkButton>
     <br />
     <br />
-    <h5 class="text-info font-weight-bold ">Favorite Things</h5>
-    <uc1:ddl runat="server" ID="ddl" />
+    <h5 class="text-info font-weight-bold ">Miscellenous</h5>
+    <div class="row justify-content-center my-5">
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavSongs" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+        </div>
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavSayings">Favorite Sayings</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavSayings" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+        </div>
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavRestaurants">Favorite Restaurants</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavRestaurants" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+        </div>
+    </div>
+    <div class="row justify-content-center my-5">
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavMovies">Favorite Movies</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavMovies" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+        </div>
+        <div class="col-4">
+            <asp:Label runat="server" ID="lblFavBooks">Favorite Books</asp:Label>
+            <asp:TextBox runat="server" ID="txtFavBooks" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+
+        </div>
+    </div>
+    <uc1:ddl runat="server" ID="ddl"  />
+    
 
     <div class="row justify-content-center hidden" runat="server" id="divBtnUpdate3">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50  " ID="btnUpdate3" OnClick="btnUpdate3_Click" />

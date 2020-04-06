@@ -11,5 +11,6 @@ namespace TPWebAPI.Controllers
     [ApiController]
     public class InteractionsController : ControllerBase
     {
+
     }
 }

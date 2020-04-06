@@ -18,11 +18,6 @@ namespace TermProject
         string webapiURL = "https://localhost:44394/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-            {
-                
-            }
-
         } // end page load
 
        

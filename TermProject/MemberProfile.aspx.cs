@@ -46,7 +46,7 @@ namespace TermProject
 
         protected void btnDateRequest_Click(object sender, EventArgs e)
         {
-            string email = Session["email"].ToString(); // this needs to be changed to member's email!
+           /* string email = Session["email"].ToString(); // this needs to be changed to member's email!
             string sendAdd = "querydating@gmail.com";
             MailMessage msg = new MailMessage();
             msg.To.Add(new MailAddress(@email));
@@ -59,7 +59,7 @@ namespace TermProject
             SmtpClient smtp = new SmtpClient("smtp.temple.edu");
             smtp.EnableSsl = true;
 
-            smtp.Send(msg);
+            smtp.Send(msg); */
         } // end date request eventhandler
     } // end class
 } // end namespace
