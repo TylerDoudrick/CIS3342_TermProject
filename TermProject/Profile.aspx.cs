@@ -1,9 +1,12 @@
 ﻿using MusicStoreLibrary;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -13,47 +16,20 @@ namespace TermProject
     public partial class Profile : System.Web.UI.Page
     {
         DBConnect obj = new DBConnect();
-
+        string webapiURL = "https://localhost:44394/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
-
-            // the following gets the appropriate tables from the dataset and uses it to populate the ddl
-            SqlCommand objSearchCriteria = new SqlCommand();
-            objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
-            objSearchCriteria.CommandText = "TP_GetSearchCriteria";
-            DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
-
-            ddlReligion.DataSource = ds.Tables[0];
-            ddlReligion.DataTextField = "ReligionType"; ddlReligion.DataValueField = "ReligionID";
-            ddlReligion.DataBind();
-
-            ddlCommittment.DataSource = ds.Tables[1];
-            ddlCommittment.DataTextField = "CommitmentType"; ddlCommittment.DataValueField = "CommitmentID";
-            ddlCommittment.DataBind();
-
-            lbInterests.DataSource = ds.Tables[2];
-            lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
-            lbInterests.DataBind();
-
-            lbLikes.DataSource = ds.Tables[3];
-            lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
-            lbLikes.DataBind();
-
-            lbDislikes.DataSource = ds.Tables[4];
-            lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
-            lbDislikes.DataBind();
-
+            ddl.DisableControl();
             // disable lsitboxes, checkboxes, and radio buttons
-            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
+            ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
-            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
         } // end pageload
 
         protected void lbEdit_Click(object sender, EventArgs e)
         { // will enable contents in favorite things + tagline
-            
-            lbDislikes.Attributes.Remove("disabled"); lbLikes.Attributes.Remove("disabled"); lbInterests.Attributes.Remove("disabled");
+            txtFavBooks.ReadOnly = false; txtFavMovies.ReadOnly = false; txtFavRestaurants.ReadOnly = false;
+            txtFavSayings.ReadOnly = false; txtFavSongs.ReadOnly = false;
+            ddl.EnableControl();
             divBtnUpdate3.Attributes.Add("style", "display:flex");
         } // end link button edit btn click
 
@@ -69,9 +45,8 @@ namespace TermProject
         { // this will make the contents in basic info editable
             txtTagline.ReadOnly = false;
             txtBio.ReadOnly = false;
-            ddlReligion.Enabled = true; ddlCommittment.Enabled = true; ddlOccupation.Enabled = true;
             chkSeekingFemale.Enabled = true; chkSeekingMale.Enabled = true; rWantKidsNo.Enabled = true; rWantKidsYes.Enabled = true;
-            txtNumKids.ReadOnly = false;
+            txtNumKids.ReadOnly = false; ddlOccupation.Enabled = true;
             divBtnUpdate2.Attributes.Add("style", "display:flex");
         } // end edit basic info
 
@@ -92,9 +67,10 @@ namespace TermProject
 
         protected void btnCancel3_Click(object sender, EventArgs e)
         { // cancels editing of favorite things
+            txtFavBooks.ReadOnly = true; txtFavMovies.ReadOnly = true; txtFavRestaurants.ReadOnly = true;
+            txtFavSayings.ReadOnly = true; txtFavSongs.ReadOnly = true;
             divBtnUpdate3.Attributes.Add("style", "display:none");
             // disable everything
-            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
         } // end cancel 3
 
         protected void btnCancel2_Click(object sender, EventArgs e)
@@ -103,7 +79,6 @@ namespace TermProject
             // disable everything
             txtTagline.ReadOnly = true;
             txtBio.ReadOnly = true;
-            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
             txtNumKids.ReadOnly = true;
         } // end cancel 2

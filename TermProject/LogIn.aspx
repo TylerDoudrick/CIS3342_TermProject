@@ -31,7 +31,7 @@
                 <div class="card-body">
                     <div class="form-group">
                         <label for="<%= txtLogInEmail.ClientID %>">Username</label>
-                        <asp:TextBox type="email" CssClass="form-control" ID="txtLogInEmail" placeholder="johndoe@gmail.com" runat="server" />
+                        <asp:TextBox  CssClass="form-control" ID="txtLogInEmail" placeholder="johndoe" runat="server" />
                     </div>
                     <div class="form-group">
                         <label for="<%= txtLogInPassword.ClientID %>">Password</label>

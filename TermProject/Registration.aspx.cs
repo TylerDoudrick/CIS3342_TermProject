@@ -1,10 +1,14 @@
 ﻿using MusicStoreLibrary;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -12,43 +16,21 @@ namespace TermProject
 {
     public partial class Registration : System.Web.UI.Page
     {
+        string webapiURL = "https://localhost:44394/api/profile/";
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
-            // the following gets the appropriate tables from the dataset and uses it to populate the ddl
-            SqlCommand objSearchCriteria = new SqlCommand();
-            objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
-            objSearchCriteria.CommandText = "TP_GetSearchCriteria";
-            DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
 
-            ddlReligion.DataSource = ds.Tables[0];
-            ddlReligion.DataTextField = "ReligionType"; ddlReligion.DataValueField = "ReligionID";
-            ddlReligion.DataBind();
-
-            ddlCommittment.DataSource = ds.Tables[1];
-            ddlCommittment.DataTextField = "CommitmentType"; ddlCommittment.DataValueField = "CommitmentID";
-            ddlCommittment.DataBind();
-
-            lbInterests.DataSource = ds.Tables[2];
-            lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
-            lbInterests.DataBind();
-
-            lbLikes.DataSource = ds.Tables[3];
-            lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
-            lbLikes.DataBind();
-
-            lbDislikes.DataSource = ds.Tables[4];
-            lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
-            lbDislikes.DataBind(); 
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
-            lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color"); lblReligion.Style.Remove("color");
-            lblCommitment.Style.Remove("color"); lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
-            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
+            lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
+            //lblReligion.Style.Remove("color");lblCommitment.Style.Remove("color");
+            lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
+//            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
 
             Boolean check =validateForm(); // call method to validate input
 
@@ -65,7 +47,7 @@ namespace TermProject
         private Boolean validateForm()
         { 
             Boolean check = false;
-            if (lbInterests.SelectedValue=="")
+          /*  if (lbInterests.SelectedValue=="")
             {
                 check = true; lblInterests.Attributes.Add("style", "color:red");
             }
@@ -84,7 +66,7 @@ namespace TermProject
             if (ddlReligion.SelectedValue == "-1")
             {
                 check = true; lblDislikes.Attributes.Add("style", "color:red");
-            }
+            } */
             if (txtTagline.Text=="")
             {
                 check = true; lblTagline.Attributes.Add("style", "color:red");

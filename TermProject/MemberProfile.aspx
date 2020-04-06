@@ -30,7 +30,7 @@
                 </div>
                 <br />
                 <div class="row">
-                    <asp:Button runat="server" ID="btnDM" CssClass="btn btn-primary w-75" Text="Direct Message" OnClick="btnDM_Click" />
+                    <asp:Button runat="server" ID="btnDateRequest" CssClass="btn btn-primary w-75" Text="Date Request" OnClick="btnDateRequest_Click" />
                 </div>
             </div>
         </div>
