@@ -47,6 +47,7 @@ namespace TermProject
                
             }
             Session["LoggedIn"] = "true";
+            Session["email"] = email;
             Response.Redirect("Dashboard.aspx");
         }
     }

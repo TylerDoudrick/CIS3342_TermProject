@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -15,6 +16,9 @@ namespace TermProject
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
+            WebRequest request = WebRequest.Create("");
+
+
             // the following gets the appropriate tables from the dataset and uses it to populate the ddl
             SqlCommand objSearchCriteria = new SqlCommand();
             objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
