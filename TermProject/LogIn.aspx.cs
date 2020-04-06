@@ -43,19 +43,8 @@ namespace TermProject
             }
             else
             {
-                string sendAdd = "querydating@gmail.com";
                 //Do something
-                MailMessage msg = new MailMessage();
-                msg.To.Add(new MailAddress(@email));
-                msg.Subject = "QUERY Verification Email";
-                msg.From = new MailAddress(sendAdd);
-                msg.IsBodyHtml = true;
-                msg.Body = "TEST";
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
-                smtp.EnableSsl = true;
-
-                smtp.Send(msg);
+               
             }
             Session["LoggedIn"] = "true";
             Response.Redirect("Dashboard.aspx");
