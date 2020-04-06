@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicStoreLibrary;
+using System.Data;
 
 namespace TPWebAPI.Controllers
 {
@@ -19,11 +20,28 @@ namespace TPWebAPI.Controllers
         { // returns tables associated with the search criteria
             DBConnect obj = new DBConnect();
             SqlCommand objSearchCriteria = new SqlCommand();
-            objSearchCriteria.CommandType = System.Data.CommandType.StoredProcedure;
+            objSearchCriteria.CommandType = CommandType.StoredProcedure;
             objSearchCriteria.CommandText = "TP_GetSearchCriteria";
             DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
             return ds;
         }
+
+        [HttpGet("checkLogin/{username}/{password}")]
+        public DataSet checkLogin(string username, string password)
+        {
+            DBConnect obj = new DBConnect();
+            SqlCommand objLogin = new SqlCommand();
+            objLogin.CommandType= CommandType.StoredProcedure;
+            objLogin.CommandText = "TP_CheckLogin";
+            objLogin.Parameters.AddWithValue("@username", username);
+            objLogin.Parameters.AddWithValue("@password", password);
+            SqlParameter returnP = new SqlParameter("@count", DbType.Int32);
+            returnP.Direction = ParameterDirection.ReturnValue;
+            objLogin.Parameters.Add(returnP);
+            DataSet myDS = obj.GetDataSetUsingCmdObj(objLogin);
+            return myDS;
+        }
+
     }
 
 }
