@@ -44,6 +44,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp, Version=106.0.0.0, Culture=neutral, PublicKeyToken=598062e77f915f75, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.106.10.1\lib\net452\RestSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.Serializers.Newtonsoft.Json, Version=1.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RestSharp.Newtonsoft.Json.1.5.1\lib\net452\RestSharp.Serializers.Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -76,6 +85,12 @@
     <Content Include="images\person1.jpg" />
     <Content Include="images\person2.jpg" />
     <Content Include="images\person3.jpg" />
+    <Content Include="images\person4.jpg" />
+    <Content Include="images\person5.jpg" />
+    <Content Include="images\person6.jpg" />
+    <Content Include="images\person7.jpg" />
+    <Content Include="images\person8.jpg" />
+    <Content Include="images\person9.jpg" />
     <Content Include="images\query.png" />
     <Content Include="LikeandPass.aspx" />
     <Content Include="MemberProfile.aspx" />
@@ -90,6 +105,7 @@
     <Content Include="Search.aspx" />
     <Content Include="Settings.aspx" />
     <Content Include="styles\styles.css" />
+    <Content Include="Verification.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
@@ -199,6 +215,13 @@
     </Compile>
     <Compile Include="Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Verification.aspx.cs">
+      <DependentUpon>Verification.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Verification.aspx.designer.cs">
+      <DependentUpon>Verification.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -8,18 +8,17 @@ using System.Web.UI.WebControls;
 
 namespace TermProject
 {
-    public partial class CreateAccount : System.Web.UI.Page
+    public partial class Verification : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
 
         }
 
+        protected void lbSendAgain_Click(object sender, EventArgs e)
+        { // sends email again
+            string email = Session["email"].ToString(); string sendAdd = "querydating@gmail.com";
 
-        protected void btnCreateAccount_Click(object sender, EventArgs e)
-        {
-            string email = txtEmail.Text.Trim();
-            string sendAdd = "querydating@gmail.com";
             MailMessage msg = new MailMessage();
             msg.To.Add(new MailAddress(@email));
             msg.Subject = "QUERY Verification Email";
@@ -32,9 +31,7 @@ namespace TermProject
             smtp.EnableSsl = true;
 
             smtp.Send(msg);
-            Session["email"] = email;
 
-            Response.Redirect("Verification.aspx");
         }
     }
 }

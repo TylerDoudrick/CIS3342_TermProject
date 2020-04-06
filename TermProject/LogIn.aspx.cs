@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+
 
 namespace TermProject
 {
@@ -23,12 +26,12 @@ namespace TermProject
 
             txtLogInEmail.CssClass = txtLogInEmail.CssClass.Replace("is-invalid", "").Trim();
             txtLogInPassword.CssClass = txtLogInPassword.CssClass.Replace("is-invalid", "").Trim();
-            if(email.Length <= 0)
+            if (email.Length <= 0)
             {
                 txtLogInEmail.CssClass += " is-invalid";
                 trigger = true;
             }
-            if(password.Length <= 0)
+            if (password.Length <= 0)
             {
                 txtLogInPassword.CssClass += " is-invalid";
                 trigger = true;
@@ -40,8 +43,8 @@ namespace TermProject
             }
             else
             {
- 
                 //Do something
+               
             }
             Session["LoggedIn"] = "true";
             Response.Redirect("Dashboard.aspx");

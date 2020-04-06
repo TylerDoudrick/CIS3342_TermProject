@@ -102,7 +102,7 @@
                             <asp:TextBox type="text" CssClass="form-control" ID="txtZip" placeholder="ZIP Code" runat="server" />
                         </div>
                     </div>
-                    <asp:Button CssClass="btn btn-primary" Text="Create Account" runat="server" />
+                    <asp:Button CssClass="btn btn-primary" Text="Create Account" runat="server" ID="btnCreateAccount" OnClick="btnCreateAccount_Click" />
                     <hr class="py-2" />
                     <div>
                         <h5>Already have an account?</h5>
