@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using MusicStoreLibrary;
 using System.Data;
 
-namespace TPWebAPI.Controllers
+namespace TP_WebAPI.Controllers
 {
     [Route("api/profile/")]
     [ApiController]
