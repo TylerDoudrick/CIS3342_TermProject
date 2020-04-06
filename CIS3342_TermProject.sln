@@ -5,7 +5,7 @@ VisualStudioVersion = 15.0.28307.1000
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TermProject", "TermProject\TermProject.csproj", "{A62F5DF0-0EB1-492C-932F-A8D77C9B0304}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TPWebAPI", "Profiles\TPWebAPI.csproj", "{7D5BCDB4-87B1-4710-8869-FEDB740A49A5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP_WebAPI", "TP_WebAPI\TP_WebAPI.csproj", "{45DA6882-AE77-4214-828C-EE979435388C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,10 +17,10 @@ Global
 		{A62F5DF0-0EB1-492C-932F-A8D77C9B0304}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A62F5DF0-0EB1-492C-932F-A8D77C9B0304}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A62F5DF0-0EB1-492C-932F-A8D77C9B0304}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7D5BCDB4-87B1-4710-8869-FEDB740A49A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7D5BCDB4-87B1-4710-8869-FEDB740A49A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7D5BCDB4-87B1-4710-8869-FEDB740A49A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7D5BCDB4-87B1-4710-8869-FEDB740A49A5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45DA6882-AE77-4214-828C-EE979435388C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45DA6882-AE77-4214-828C-EE979435388C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45DA6882-AE77-4214-828C-EE979435388C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45DA6882-AE77-4214-828C-EE979435388C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
