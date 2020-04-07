@@ -16,7 +16,8 @@ namespace TermProject
     public partial class Profile : System.Web.UI.Page
     {
         DBConnect obj = new DBConnect();
-        string webapiURL = "https://localhost:44394/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
             ddl.DisableControl();

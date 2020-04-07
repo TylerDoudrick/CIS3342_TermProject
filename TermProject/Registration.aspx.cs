@@ -16,35 +16,12 @@ namespace TermProject
 {
     public partial class Registration : System.Web.UI.Page
     {
-        string webapiURL = "https://localhost:44394/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
-            List<int> memberLikes = new List<int>();
-            List<int> memberDislikes = new List<int>();
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            string mLikes = js.Serialize(memberLikes) ;
-            string mDislikes =js.Serialize(memberDislikes);
 
-          /*  WebRequest request = WebRequest.Create(webapiURL + "insertPreferences/");
-            request.Method = "POST";
-            request.ContentLength = mLikes.Length + mDislikes.Length;
-            request.ContentType = "application/json";
-            // Write the JSON data to the Web Request
-
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(mLikes);
-            writer.Write(mDislikes);
-            writer.Flush();
-            writer.Close();
-            // Read the data from the Web Response, which requires working with streams.
-
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            String data = reader.ReadToEnd();
-            reader.Close();
-            response.Close(); */
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -69,26 +46,9 @@ namespace TermProject
         private Boolean validateForm()
         {
             Boolean check = false;
-            if (ddl.LBInterest.SelectedIndex>0)
-            {
-                check = true; ddl.SetInterests();
-            }
-             if (ddl.LBLikes.SelectedIndex > 0)
-            {
-                check = true; ddl.SetLikes();
-            }
-            if (ddl.LBDislikes.SelectedIndex > 0)
-            {
-                check = true; ddl.SetDislikes();
-            }
-            if (ddl.LBCommitment.SelectedIndex > 0)
-            {
-                check = true; ddl.SetCommitment();
-            } 
-            if (ddl.LBReligion.SelectedIndex > 0)
-            {
-                check = true; ddl.SetReligion();
-            } 
+            
+            // validation for ddl uc is left
+
             if (txtTagline.Text=="")
             {
                 check = true; lblTagline.Attributes.Add("style", "color:red");

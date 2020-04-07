@@ -229,6 +229,15 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBlockedUsers;
         
         /// <summary>
+        /// rptBlockedUsers control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptBlockedUsers;
+        
+        /// <summary>
         /// divAddress control.
         /// </summary>
         /// <remarks>

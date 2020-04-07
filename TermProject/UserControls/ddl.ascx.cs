@@ -13,11 +13,13 @@ namespace TermProject.UserControls
 {
     public partial class ddl : System.Web.UI.UserControl
     {
-        string webapiURL = "https://localhost:44394/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            WebRequest request = WebRequest.Create(webapiURL + "searchcriteria");
+            WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
             WebResponse response = request.GetResponse();
             // Read the data from the Web Response, which requires working with streams.
             Stream theDataStream = response.GetResponseStream();
@@ -115,5 +117,6 @@ namespace TermProject.UserControls
         {
             get { return this.lbDislikes; }
         }
+
     }
 }
