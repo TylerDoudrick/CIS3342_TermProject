@@ -42,6 +42,16 @@ namespace TP_WebAPI.Controllers
             return myDS;
         }
 
+        [HttpPost("insertPreferences")]
+        public void insertPreferences(string memberlikes, string memberdislikes)
+        {
+            DBConnect objDB = new DBConnect();
+            SqlCommand objInsertPref = new SqlCommand();
+            objInsertPref.Parameters.AddWithValue("@likes", memberlikes);
+            objInsertPref.Parameters.AddWithValue("@dislikes", memberdislikes);
+            int result = objDB.DoUpdateUsingCmdObj(objInsertPref);
+        }
+
     }
 
 }

@@ -67,6 +67,53 @@ namespace TermProject.UserControls
             lbDislikes.Attributes.Remove("disabled");
         } // end enable control
         
+        public void RemoveColor()
+        { // removes styling done for validation
+            lblReligion.Style.Remove("color"); lblCommitment.Style.Remove("color");
+            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
+        }
 
+        public void SetReligion()
+        {
+            lblReligion.Attributes.Add("style", "color:red");
+        }
+        public void SetInterests()
+        {
+            lblInterests.Attributes.Add("style", "color:red");
+        }
+        public void SetLikes()
+        {
+            lblLikes.Attributes.Add("style", "color:red");
+        }
+        public void SetDislikes()
+        {
+            lblDislikes.Attributes.Add("style", "color:red");
+        }
+        public void SetCommitment()
+        {
+            lblCommitment.Attributes.Add("style", "color:red");
+        }
+
+        public ListBox LBReligion
+        {
+            get { return this.lbReligion; }
+        }
+
+        public ListBox LBCommitment
+        {
+            get {return this.lbCommittment; }
+        }
+        public ListBox LBInterest
+        {
+            get { return this.lbInterests; }
+        }
+        public ListBox LBLikes
+        {
+            get { return this.lbLikes; }
+        }
+        public ListBox LBDislikes
+        {
+            get { return this.lbDislikes; }
+        }
     }
 }

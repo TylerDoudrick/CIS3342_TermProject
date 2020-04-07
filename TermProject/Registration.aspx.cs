@@ -20,7 +20,31 @@ namespace TermProject
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
+            List<int> memberLikes = new List<int>();
+            List<int> memberDislikes = new List<int>();
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string mLikes = js.Serialize(memberLikes) ;
+            string mDislikes =js.Serialize(memberDislikes);
 
+          /*  WebRequest request = WebRequest.Create(webapiURL + "insertPreferences/");
+            request.Method = "POST";
+            request.ContentLength = mLikes.Length + mDislikes.Length;
+            request.ContentType = "application/json";
+            // Write the JSON data to the Web Request
+
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(mLikes);
+            writer.Write(mDislikes);
+            writer.Flush();
+            writer.Close();
+            // Read the data from the Web Response, which requires working with streams.
+
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close(); */
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
@@ -28,10 +52,8 @@ namespace TermProject
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
             lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
-            //lblReligion.Style.Remove("color");lblCommitment.Style.Remove("color");
             lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
-//            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
-
+            ddl.RemoveColor();
             Boolean check =validateForm(); // call method to validate input
 
             if (!check)
@@ -45,28 +67,28 @@ namespace TermProject
         } // end save event handler
 
         private Boolean validateForm()
-        { 
+        {
             Boolean check = false;
-          /*  if (lbInterests.SelectedValue=="")
+            if (ddl.LBInterest.SelectedIndex>0)
             {
-                check = true; lblInterests.Attributes.Add("style", "color:red");
+                check = true; ddl.SetInterests();
             }
-            if (lbLikes.SelectedValue == "")
+             if (ddl.LBLikes.SelectedIndex > 0)
             {
-                check = true; lblLikes.Attributes.Add("style", "color:red");
+                check = true; ddl.SetLikes();
             }
-            if (lbDislikes.SelectedValue == "")
+            if (ddl.LBDislikes.SelectedIndex > 0)
             {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
+                check = true; ddl.SetDislikes();
             }
-            if (ddlCommittment.SelectedValue == "-1")
+            if (ddl.LBCommitment.SelectedIndex > 0)
             {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
-            }
-            if (ddlReligion.SelectedValue == "-1")
+                check = true; ddl.SetCommitment();
+            } 
+            if (ddl.LBReligion.SelectedIndex > 0)
             {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
-            } */
+                check = true; ddl.SetReligion();
+            } 
             if (txtTagline.Text=="")
             {
                 check = true; lblTagline.Attributes.Add("style", "color:red");
