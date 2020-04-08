@@ -15,7 +15,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
 
             // the following gets the appropriate tables from the dataset and uses it to populate the ddl
             SqlCommand objSearchCriteria = new SqlCommand();

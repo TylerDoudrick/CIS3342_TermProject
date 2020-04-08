@@ -11,7 +11,7 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
 
         }
 

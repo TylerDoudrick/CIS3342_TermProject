@@ -63,18 +63,18 @@ namespace TermProject
 
                 commandObj.Parameters.Add(inputUsername);
 
-                
+
                 DataSet dsUser = dbConnection.GetDataSetUsingCmdObj(commandObj);
-                if(dsUser.Tables[0].Rows.Count > 0)
+                if (dsUser.Tables[0].Rows.Count > 0)
                 {
                     DataRow drUserRecord = dsUser.Tables[0].Rows[0];
-                    byte[] salt = (byte[]) drUserRecord["salt"];
-                    byte[] hashedPassword = (byte[]) drUserRecord["password"];
+                    byte[] salt = (byte[])drUserRecord["salt"];
+                    byte[] hashedPassword = (byte[])drUserRecord["password"];
 
 
-                    if (CryptoUtilities.comparePassword(hashedPassword, salt, password)){
-                        //User is logged in
-                        Session["LoggedIn"] = "true";
+                    if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
+                    {
+                        Session["UserID"] = drUserRecord["userID"].ToString();
                         Response.Redirect("Dashboard.aspx");
                     }
                     else
@@ -86,11 +86,25 @@ namespace TermProject
                 else
                 {
                     Response.Write("Failed username check");
-                   //Profile not found
+                    //Profile not found
                 }
 
             }
-           
+
+        }
+        protected void btnDebug1_Click(object sender, EventArgs e)
+        {
+            Session["FirstName"] = "Mary";
+            Session["LastName"] = "Poppins";
+            Session["UserID"] = "20";
+            Response.Redirect("Dashboard.aspx");
+        }
+        protected void btnDebug2_Click(object sender, EventArgs e)
+        {
+            Session["FirstName"] = "John";
+            Session["LastName"] = "Doe";
+            Session["UserID"] = "19";
+            Response.Redirect("Dashboard.aspx");
         }
     }
 }

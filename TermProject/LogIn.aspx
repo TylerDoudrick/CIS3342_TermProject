@@ -45,6 +45,9 @@
                         <label class="form-check-label noselect" for="<%= chkLogInRemember.ClientID %>">Remember Me</label>
                     </div>
                     <asp:Button type="submit" class="btn btn-primary my-3" runat="server" Text="Log In" OnClick="btnLoginSubmit_Click" />
+                    <hr class="py-2"/>
+                    <asp:Button type="submit" CssClass="btn btn-secondary my-3" runat="server" Text="Debug: Login as Mary" OnClick="btnDebug1_Click" />
+                    <asp:Button type="submit" CssClass="btn btn-secondary my-3" runat="server" Text="Debug: Login as John" OnClick="btnDebug2_Click" />
                     <hr class="py-2" />
                     <div>
                         <h5>Don't have an account?</h5>

@@ -13,7 +13,7 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["LoggedIn"] != null)
+            if (Session["UserID"] != null)
             { 
                 divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
                 divFavThings.Attributes.Add("style", "display:flex"); // show fav things

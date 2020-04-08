@@ -19,7 +19,7 @@
                 <h3 class="display-4">Dates</h3>
                 <div class="card-body">
                     <i class="fas fa-heart" style="font-size: 13em;"></i>
-                    <h3>3 Planned Dated</h3>
+                    <h3>3 Planned Dates</h3>
                     <a href="Messages.aspx" class="btn btn-primary stretched-link my-2">Go to Dates</a>
                 </div>
             </div>
