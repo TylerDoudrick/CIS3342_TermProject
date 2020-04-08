@@ -16,8 +16,8 @@ namespace TermProject
 {
     public partial class LogIn : System.Web.UI.Page
     {
-        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -62,7 +62,7 @@ namespace TermProject
                 {
                     Session["LoggedIn"] = "true";
                     Session["email"] = ds.Tables[0].Rows[0]["emailAddress"].ToString();
-                    Response.Redirect("Dashboard.aspx");
+                    
 
                     // get preferences
                     int userID = Convert.ToInt32(ds.Tables[0].Rows[0]["userID"].ToString());
@@ -74,13 +74,16 @@ namespace TermProject
                     reader.Close(); response.Close();
                     ds = JsonConvert.DeserializeObject<DataSet>(data);
 
-                    List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberLikes"].ToString());
-                    List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberDislikes"].ToString());
-                    List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberBlocks"].ToString());
+                    List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][0].ToString());
+                    List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
+                    List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
 
+                    Session["userID"] = userID;
                     Session["memberLikes"] = memberLikes;
                     Session["memberDislikes"] = memberDislikes;
                     Session["memberBlocks"] = memberBlocks;
+
+                    Response.Redirect("Dashboard.aspx");
                 }
                 else
                 { 

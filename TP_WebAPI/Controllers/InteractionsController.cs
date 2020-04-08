@@ -10,18 +10,18 @@ using MusicStoreLibrary;
 
 namespace TP_WebAPI.Controllers
 {
-    [Route("api/interactions/")]
+    [Route("api/datingservice/interactions/")]
     [ApiController]
     public class InteractionsController : ControllerBase
     {
         DBConnect objDB = new DBConnect();
 
-        //[HttpPost("insertPreferences/")]
-        [HttpGet("insertPref")]
-        public int insertPreferences(int userID, string memberlikes, string memberdislikes,string memberblocks)
+        [HttpPost("insertPreferences/")]
+        public int insertPreferences(int userID, Byte[] memberlikes, Byte[] memberdislikes, Byte[] memberblocks)
         { // inserts empty serialized lists to the db
             SqlCommand objInsertPref = new SqlCommand();
             objInsertPref.CommandText = "TP_InsertPreferences";
+            objInsertPref.CommandType = CommandType.StoredProcedure;
             objInsertPref.Parameters.AddWithValue("@userID", userID);
             objInsertPref.Parameters.AddWithValue("@likes", memberlikes);
             objInsertPref.Parameters.AddWithValue("@dislikes", memberdislikes);
@@ -30,10 +30,11 @@ namespace TP_WebAPI.Controllers
             return result;
         }
 
-        [HttpGet("getPreferences")]
+        [HttpGet("getPreferences/{userID}")]
         public DataSet GetPreferences(int userID)
         { // gets user preferences upon login
             SqlCommand objGetPref = new SqlCommand();
+            objGetPref.CommandType = CommandType.StoredProcedure;
             objGetPref.CommandText = "TP_GetPreferences";
             objGetPref.Parameters.AddWithValue("@userID", userID);
             DataSet result = objDB.GetDataSetUsingCmdObj(objGetPref);
@@ -44,6 +45,7 @@ namespace TP_WebAPI.Controllers
         public int UpdatePreferences(int userID, string memberLikes, string memberDislikes,string memberBlocks)
         { // updates preferences for user
             SqlCommand objUpdatePref = new SqlCommand();
+            objUpdatePref.CommandType = CommandType.StoredProcedure;
             objUpdatePref.CommandText = "TP_UpdatePreferences";
             objUpdatePref.Parameters.AddWithValue("@userID", userID);
             objUpdatePref.Parameters.AddWithValue("@likes", memberLikes);

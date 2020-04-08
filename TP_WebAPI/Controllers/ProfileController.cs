@@ -11,7 +11,7 @@ using System.Data;
 
 namespace TP_WebAPI.Controllers
 {
-    [Route("api/profile/")]
+    [Route("api/datingservice/profile/")]
     [ApiController]
     public class ProfileController : ControllerBase
     {
