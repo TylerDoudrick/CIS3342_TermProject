@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MusicStoreLibrary
+namespace TermProject
 {
     public class DBConnect
     {
@@ -99,19 +99,22 @@ namespace MusicStoreLibrary
         // This method is used to execute Stored Procedures that use a INSERT, UPDATE, or DELETE SQL statement
         // Inputs: a Command object setup to use a Stored Procedure (requires the use of CommandText, CommandType, and Parameters properties). 
         // Returns: the number of rows affected by the update, or -1 when an exception occurs.
-        public int DoUpdateUsingCmdObj(SqlCommand theCommandObject)
+        public int DoUpdateUsingCmdObj(SqlCommand theCommandObject, out string exception)
         {
+            exception = null;
             try
             {
                 theCommandObject.Connection = myConnectionSql;
                 theCommandObject.Connection.Open();
                 int ret = theCommandObject.ExecuteNonQuery();
                 theCommandObject.Connection.Close();
+                
                 return ret;
             }
             catch (Exception ex)
             {
-                return -1;
+                exception = ex.ToString();
+                return -2;
             }
         }
 

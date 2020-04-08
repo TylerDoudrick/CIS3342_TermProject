@@ -1,6 +1,20 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="CreateAccount.aspx.cs" Inherits="TermProject.CreateAccount" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
+    <script>
+    var ttr = 10;
+
+    function redirectCountdown() {
+        ttr = ttr - 1;
+        if (ttr <= 0) {
+            window.location.replace("Registration.aspx");
+        }else {
+            document.getElementById("countdown").innerHTML = ttr;
+            setTimeout("redirectCountdown()", 1000);
+        }
+    }
+
+</script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
     <!-- Modal -->
@@ -24,7 +38,7 @@
             </div>
         </div>
     </div>
-    <div class="row justify-content-center my-5">
+    <div class="row justify-content-center my-5" id="divCreateAccount" runat="server">
         <div class="col-4">
             <div class="card p-3">
                 <h5 class="card-title text-center">Create Account</h5>
@@ -164,6 +178,20 @@
             </div>
         </div>
     </div>
+    <div class="row justify-content-center my-5" id="divValidate" runat="server" visible="false">
+        <div class="col-4">
+            <div class="card p-3">
+                <h5 class="card-title text-center">Validate Account</h5>
+                <div class="card-body">
+                    <p>
+                        Good news! You're account has been validated because we don't know if we can do validation!</p>
+                       <p> You'll be redirected to account creation in... <span id="countdown"></span></p>
+                </div>
+            </div>
+
+        </div>
+    </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+
 </asp:Content>

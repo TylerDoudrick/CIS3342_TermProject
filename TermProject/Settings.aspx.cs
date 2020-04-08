@@ -13,7 +13,7 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["LoggedIn"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
         } //end pageload
 
         protected void lbChangeUsername_Click(object sender, EventArgs e)

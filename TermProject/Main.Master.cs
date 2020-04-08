@@ -11,7 +11,7 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Session["LoggedIn"] == null)
+            if(Session["UserID"] == null)
             {
                 navLoggedIn.Visible = false;
                 navLoggedOut.Visible = true;
@@ -20,6 +20,8 @@ namespace TermProject
             {
                 navLoggedIn.Visible = true;
                 navLoggedOut.Visible = false;
+                lblLoggedIn.Text = "Signed in as " + Session["FirstName"] + " " + Session["LastName"];
+
             }
         }
     }

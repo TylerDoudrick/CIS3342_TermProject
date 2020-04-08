@@ -30,8 +30,9 @@
                 <h5 class="card-title text-center">Log In</h5>
                 <div class="card-body">
                     <div class="form-group">
-                        <label for="<%= txtLogInEmail.ClientID %>">Username</label>
-                        <asp:TextBox  CssClass="form-control" ID="txtLogInEmail" placeholder="johndoe" runat="server" />
+                        <label for="<%= txtLogInUsername.ClientID %>">Username</label>
+                        <asp:TextBox type="text" CssClass="form-control" ID="txtLogInUsername" placeholder="Username" runat="server" />
+
                     </div>
                     <div class="form-group">
                         <label for="<%= txtLogInPassword.ClientID %>">Password</label>
@@ -45,6 +46,9 @@
                         <label class="form-check-label noselect" for="<%= chkLogInRemember.ClientID %>">Remember Me</label>
                     </div>
                     <asp:Button type="submit" class="btn btn-primary my-3" runat="server" Text="Log In" OnClick="btnLoginSubmit_Click" />
+                    <hr class="py-2"/>
+                    <asp:Button type="submit" CssClass="btn btn-secondary my-3" runat="server" Text="Debug: Login as Mary" OnClick="btnDebug1_Click" />
+                    <asp:Button type="submit" CssClass="btn btn-secondary my-3" runat="server" Text="Debug: Login as John" OnClick="btnDebug2_Click" />
                     <hr class="py-2" />
                     <div>
                         <h5>Don't have an account?</h5>
