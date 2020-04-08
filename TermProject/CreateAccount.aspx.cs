@@ -40,7 +40,7 @@ namespace TermProject
             string AddressOne = txtAddressOne.Text;
             string AddressTwo = txtAddressTwo.Text;
             string city = txtCity.Text;
-            string state = txtState.Text;
+            string state = ddlState.SelectedValue;
             string zip = txtZip.Text;
 
             //
@@ -60,7 +60,7 @@ namespace TermProject
             txtAddressOne.CssClass = txtAddressOne.CssClass.Replace("is-invalid", "").Trim();
             txtAddressTwo.CssClass = txtAddressTwo.CssClass.Replace("is-invalid", "").Trim();
             txtCity.CssClass = txtCity.CssClass.Replace("is-invalid", "").Trim();
-            txtState.CssClass = txtState.CssClass.Replace("is-invalid", "").Trim();
+            ddlState.CssClass = ddlState.CssClass.Replace("is-invalid", "").Trim();
             txtZip.CssClass = txtZip.CssClass.Replace("is-invalid", "").Trim();
 
 
@@ -109,7 +109,7 @@ namespace TermProject
             if (state.Length <= 0)
             {
                 trigger = true;
-                txtState.CssClass += " is-invalid";
+                ddlState.CssClass += " is-invalid";
             }
             if (zip.Length <= 0 || !regexZip.IsMatch(zip))
             {
