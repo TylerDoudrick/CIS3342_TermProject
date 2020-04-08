@@ -16,7 +16,8 @@ namespace TermProject
 {
     public partial class Registration : System.Web.UI.Page
     {
-        string webapiURL = "https://localhost:44394/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -28,10 +29,8 @@ namespace TermProject
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
             lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
-            //lblReligion.Style.Remove("color");lblCommitment.Style.Remove("color");
             lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
-//            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
-
+            ddl.RemoveColor();
             Boolean check =validateForm(); // call method to validate input
 
             if (!check)
@@ -45,28 +44,11 @@ namespace TermProject
         } // end save event handler
 
         private Boolean validateForm()
-        { 
+        {
             Boolean check = false;
-          /*  if (lbInterests.SelectedValue=="")
-            {
-                check = true; lblInterests.Attributes.Add("style", "color:red");
-            }
-            if (lbLikes.SelectedValue == "")
-            {
-                check = true; lblLikes.Attributes.Add("style", "color:red");
-            }
-            if (lbDislikes.SelectedValue == "")
-            {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
-            }
-            if (ddlCommittment.SelectedValue == "-1")
-            {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
-            }
-            if (ddlReligion.SelectedValue == "-1")
-            {
-                check = true; lblDislikes.Attributes.Add("style", "color:red");
-            } */
+            
+            // validation for ddl uc is left
+
             if (txtTagline.Text=="")
             {
                 check = true; lblTagline.Attributes.Add("style", "color:red");

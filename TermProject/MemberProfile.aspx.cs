@@ -12,6 +12,7 @@ namespace TermProject
 
     public partial class MemberProfile : System.Web.UI.Page
     {
+        int memberUserID;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["LoggedIn"] != null)
@@ -20,27 +21,34 @@ namespace TermProject
                 divFavThings.Attributes.Add("style", "display:flex"); // show fav things
                 // enable buttons
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true;  btnDateRequest.Enabled = true;
+                
             } // end if 
             else
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false;btnDateRequest.Enabled = false;
             }
-
+            memberUserID = 0; // this is the user id of the person who's profile we're viewing
         } // end page load
 
         protected void btnLike_Click(object sender, EventArgs e)
         {
-
+            List<int> memberLikes = (List<int>)Session["memberLikes"];
+            memberLikes.Add(memberUserID);
+            Session["memberLikes"] = memberLikes;
         } // end btn like event handler
 
         protected void btnPass_Click(object sender, EventArgs e)
         {
-
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
+            memberDislikes.Add(memberUserID);
+            Session["memberDislikes"] = memberDislikes;
         } // end btn pass event handler
 
         protected void btnBlock_Click(object sender, EventArgs e)
         {
-
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+            memberBlocks.Add(memberUserID);
+            Session["memberBlocks"] = memberBlocks;
         } // end btn block event handler
         
 

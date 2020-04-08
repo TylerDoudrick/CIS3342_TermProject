@@ -98,7 +98,25 @@
                 </div>
             </div>
 
-            <div runat="server" id="divBlockedUsers" class="hidden">
+            <div runat="server" id="divBlockedUsers" class="hidden row">
+                <asp:Repeater runat="server" ID="rptBlockedUsers">
+                    <ItemTemplate>
+                        <div class="col">
+                            <div class="card">
+                                <div class="card-header">
+                                    <asp:Label ID="lblName" runat="server" Text='<%#Eval("") %>'></asp:Label>
+                                </div>
+                                <div class="card=body">
+                                    <asp:Label ID="lblTagline" runat="server" Text='<%#Eval("") %>'></asp:Label>
+                                </div>
+                                <div class="card-footer">
+                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn" />
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+
                 <div class="col ">
                     <div runat="server" class="row">
                         <div class="card w-50">
