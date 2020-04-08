@@ -1,8 +1,11 @@
-﻿using System;
+using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -12,7 +15,8 @@ namespace TermProject
     public partial class Profile : System.Web.UI.Page
     {
         DBConnect obj = new DBConnect();
-
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
@@ -43,16 +47,17 @@ namespace TermProject
             lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
             lbDislikes.DataBind();
 
+            ddl.DisableControl();
             // disable lsitboxes, checkboxes, and radio buttons
-            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
+            ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
-            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
         } // end pageload
 
         protected void lbEdit_Click(object sender, EventArgs e)
         { // will enable contents in favorite things + tagline
-            
-            lbDislikes.Attributes.Remove("disabled"); lbLikes.Attributes.Remove("disabled"); lbInterests.Attributes.Remove("disabled");
+            txtFavBooks.ReadOnly = false; txtFavMovies.ReadOnly = false; txtFavRestaurants.ReadOnly = false;
+            txtFavSayings.ReadOnly = false; txtFavSongs.ReadOnly = false;
+            ddl.EnableControl();
             divBtnUpdate3.Attributes.Add("style", "display:flex");
         } // end link button edit btn click
 
@@ -68,9 +73,8 @@ namespace TermProject
         { // this will make the contents in basic info editable
             txtTagline.ReadOnly = false;
             txtBio.ReadOnly = false;
-            ddlReligion.Enabled = true; ddlCommittment.Enabled = true; ddlOccupation.Enabled = true;
             chkSeekingFemale.Enabled = true; chkSeekingMale.Enabled = true; rWantKidsNo.Enabled = true; rWantKidsYes.Enabled = true;
-            txtNumKids.ReadOnly = false;
+            txtNumKids.ReadOnly = false; ddlOccupation.Enabled = true;
             divBtnUpdate2.Attributes.Add("style", "display:flex");
         } // end edit basic info
 
@@ -91,9 +95,10 @@ namespace TermProject
 
         protected void btnCancel3_Click(object sender, EventArgs e)
         { // cancels editing of favorite things
+            txtFavBooks.ReadOnly = true; txtFavMovies.ReadOnly = true; txtFavRestaurants.ReadOnly = true;
+            txtFavSayings.ReadOnly = true; txtFavSongs.ReadOnly = true;
             divBtnUpdate3.Attributes.Add("style", "display:none");
             // disable everything
-            lbDislikes.Attributes.Add("disabled", ""); lbLikes.Attributes.Add("disabled", ""); lbInterests.Attributes.Add("disabled", "");
         } // end cancel 3
 
         protected void btnCancel2_Click(object sender, EventArgs e)
@@ -102,7 +107,6 @@ namespace TermProject
             // disable everything
             txtTagline.ReadOnly = true;
             txtBio.ReadOnly = true;
-            ddlReligion.Enabled = false; ddlCommittment.Enabled = false; ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;
             txtNumKids.ReadOnly = true;
         } // end cancel 2

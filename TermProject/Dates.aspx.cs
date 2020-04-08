@@ -9,6 +9,8 @@ namespace TermProject
 {
     public partial class Dates : System.Web.UI.Page
     {
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");

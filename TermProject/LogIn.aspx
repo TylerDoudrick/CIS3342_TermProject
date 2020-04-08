@@ -32,6 +32,7 @@
                     <div class="form-group">
                         <label for="<%= txtLogInUsername.ClientID %>">Username</label>
                         <asp:TextBox type="text" CssClass="form-control" ID="txtLogInUsername" placeholder="Username" runat="server" />
+
                     </div>
                     <div class="form-group">
                         <label for="<%= txtLogInPassword.ClientID %>">Password</label>

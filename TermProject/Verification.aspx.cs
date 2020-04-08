@@ -10,24 +10,26 @@ namespace TermProject
 {
     public partial class Verification : System.Web.UI.Page
     {
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["email"] == null) Response.Redirect("Default.aspx");
         }
 
         protected void lbSendAgain_Click(object sender, EventArgs e)
         { // sends email again
             string email = Session["email"].ToString(); string sendAdd = "querydating@gmail.com";
-
+            string link = Request.Url.Host+"'/Registration.aspx'";
             MailMessage msg = new MailMessage();
             msg.To.Add(new MailAddress(@email));
             msg.Subject = "QUERY Verification Email";
             msg.From = new MailAddress(sendAdd);
             msg.IsBodyHtml = true;
-            msg.Body = "<div> Thank you for signing up for Query.com! <Br><BR> Please click the below link to verify your account status." +
-                "<Br><BR> <div>";
-            SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-            smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
+            msg.Priority = MailPriority.Normal;
+            msg.Body = "<div> Thank you for signing up for Query! <Br><BR> Please click the below link to verify your account status." +
+                "<Br><BR> <a href=" + link + "> Click here! </a>  </div>";
+            SmtpClient smtp = new SmtpClient("smtp.temple.edu");
             smtp.EnableSsl = true;
 
             smtp.Send(msg);

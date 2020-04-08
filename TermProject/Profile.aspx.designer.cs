@@ -148,60 +148,6 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtBio;
         
         /// <summary>
-        /// lblReligion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblReligion;
-        
-        /// <summary>
-        /// ddlReligion control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlReligion;
-        
-        /// <summary>
-        /// lblCommitment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblCommitment;
-        
-        /// <summary>
-        /// ddlCommittment control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlCommittment;
-        
-        /// <summary>
-        /// lblOccupation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblOccupation;
-        
-        /// <summary>
-        /// ddlOccupation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlOccupation;
-        
-        /// <summary>
         /// lblSeekingGender control.
         /// </summary>
         /// <remarks>
@@ -274,6 +220,24 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.RadioButton rWantKidsNo;
         
         /// <summary>
+        /// lblOccupation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblOccupation;
+        
+        /// <summary>
+        /// ddlOccupation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlOccupation;
+        
+        /// <summary>
         /// divBtnUpdate2 control.
         /// </summary>
         /// <remarks>
@@ -310,58 +274,103 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.LinkButton lbEdit;
         
         /// <summary>
-        /// lblInterests control.
+        /// lblFavSongs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblInterests;
+        protected global::System.Web.UI.WebControls.Label lblFavSongs;
         
         /// <summary>
-        /// lbInterests control.
+        /// txtFavSongs control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbInterests;
+        protected global::System.Web.UI.WebControls.TextBox txtFavSongs;
         
         /// <summary>
-        /// lblLikes control.
+        /// lblFavSayings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblLikes;
+        protected global::System.Web.UI.WebControls.Label lblFavSayings;
         
         /// <summary>
-        /// lbLikes control.
+        /// txtFavSayings control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbLikes;
+        protected global::System.Web.UI.WebControls.TextBox txtFavSayings;
         
         /// <summary>
-        /// lblDislikes control.
+        /// lblFavRestaurants control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblDislikes;
+        protected global::System.Web.UI.WebControls.Label lblFavRestaurants;
         
         /// <summary>
-        /// lbDislikes control.
+        /// txtFavRestaurants control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ListBox lbDislikes;
+        protected global::System.Web.UI.WebControls.TextBox txtFavRestaurants;
+        
+        /// <summary>
+        /// lblFavMovies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFavMovies;
+        
+        /// <summary>
+        /// txtFavMovies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFavMovies;
+        
+        /// <summary>
+        /// lblFavBooks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblFavBooks;
+        
+        /// <summary>
+        /// txtFavBooks control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtFavBooks;
+        
+        /// <summary>
+        /// ddl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::TermProject.UserControls.ddl ddl;
         
         /// <summary>
         /// divBtnUpdate3 control.

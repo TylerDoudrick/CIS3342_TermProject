@@ -1,5 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Registration.aspx.cs" Inherits="TermProject.Registration" %>
 
+<%@ Register Src="~/UserControls/ddl.ascx" TagPrefix="uc1" TagName="ddl" %>
+
+
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
 </asp:Content>
@@ -27,7 +30,7 @@
             <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
-    <br />
+    <hr /><br />
     <h5 class="text-info font-weight-bold">Basic Info</h5>
     <div class="row justify-content-center my-5">
         <div class="col-2">
@@ -61,52 +64,12 @@
             <span class="required">*</span>
             <asp:TextBox type="date" CssClass="form-control" ID="txtBirthday" placeholder="Date" runat="server"></asp:TextBox>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <asp:Label runat="server" ID="lblPhotos"> Photos</asp:Label>
             <span class="required">*</span>
             <asp:FileUpload class="d-flex align-items-end" runat="server" ID="photoUpload" />
         </div>
 
-    </div>
-    <div class="row justify-content-center my-5">
-        <div class="col-3 form-group">
-            <asp:Label runat="server" ID="lblHeight"> Height</asp:Label>
-            <div class="input-group">
-                <asp:TextBox runat="server" ID="txtHeightFT" CssClass="form-control"></asp:TextBox>
-                &nbsp;&nbsp;
-                <div class="input-group-append">
-                    <span runat="server" class="d-flex align-items-end">ft.</span>&nbsp;&nbsp;
-                </div>
-                <asp:TextBox runat="server" ID="txtHeightIn" CssClass="form-control"></asp:TextBox>&nbsp;&nbsp;
-                <div class="input-group-append">
-                    <span runat="server" class="d-flex align-items-end">in.</span>
-                </div>
-            </div>
-        </div>
-        <div class="col-1 form-group">
-            <asp:Label runat="server" ID="lblWeight"> Weight</asp:Label>
-            <div class="input-group">
-                <asp:TextBox runat="server" ID="txtWeight" CssClass="form-control"></asp:TextBox>
-                &nbsp;&nbsp;
-                <div class="input-group-append">
-                    <span runat="server" class="d-flex align-items-end">lbs. </span>
-                </div>
-            </div>
-        </div>
-        <div class="col-3 form-group">
-            <asp:Label runat="server" ID="lblReligion"> Religion</asp:Label>
-            <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlReligion" CssClass="form-control" AppendDataBoundItems="true">
-                <asp:ListItem Value="-1"> Select Religion...</asp:ListItem>
-            </asp:DropDownList>
-        </div>
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblCommitment">Commitment Type</asp:Label>
-            <span class="required">*</span>
-            <asp:DropDownList runat="server" ID="ddlCommittment" CssClass="form-control" AppendDataBoundItems="true">
-                <asp:ListItem Value="-1"> Select Commitment Type...</asp:ListItem>
-            </asp:DropDownList>
-        </div>
     </div>
     <div class="row justify-content-center my-5">
         <div class="col-3">
@@ -195,6 +158,34 @@
 
             </asp:DropDownList>
         </div>
+        <div class="col-2 form-group">
+            <asp:Label runat="server" ID="lblHeight"> Height</asp:Label>
+            <div class="input-group">
+                <asp:TextBox runat="server" ID="txtHeightFT" CssClass="form-control"></asp:TextBox>
+                &nbsp;&nbsp;
+                <div class="input-group-append">
+                    <span runat="server" class="d-flex align-items-end">ft.</span>&nbsp;&nbsp;
+                </div>
+                <asp:TextBox runat="server" ID="txtHeightIn" CssClass="form-control"></asp:TextBox>&nbsp;&nbsp;
+                <div class="input-group-append">
+                    <span runat="server" class="d-flex align-items-end">in.</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-1 form-group">
+            <asp:Label runat="server" ID="lblWeight"> Weight</asp:Label>
+            <div class="input-group">
+                <asp:TextBox runat="server" ID="txtWeight" CssClass="form-control"></asp:TextBox>
+                &nbsp;&nbsp;
+                <div class="input-group-append">
+                    <span runat="server" class="d-flex align-items-end">lbs. </span>
+                </div>
+            </div>
+        </div>
+       
+    </div>
+    <div class="row justify-content-center my-5">
+        
         <div class="col-2">
             <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
             <span class="required">*</span>
@@ -204,10 +195,11 @@
                 <asp:CheckBox runat="server" ID="chkSeekingMale" Text="Male" />
             </div>
         </div>
-        <div class="col-2">
+        <div class="col-1">
             <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
             <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control"> </asp:TextBox>
-        </div>
+
+        </div>&nbsp; &nbsp;
         <div class="col-3">
             <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
             <div class="form-group">
@@ -216,8 +208,8 @@
             </div>
         </div>
     </div>
-
-    <h5 class="text-info font-weight-bold">Favorite Things </h5>
+    <hr /> <hr /> <br />
+    <h5 class="text-info font-weight-bold"> Miscellenous </h5>
     <div class="row justify-content-center my-5">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
@@ -243,23 +235,7 @@
 
         </div>
     </div>
-    <div class="row justify-content-center my-5">
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblInterests"> Interests</asp:Label>
-            <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbInterests" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
-        </div>
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblLikes"> Likes</asp:Label>
-            <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbLikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
-        </div>
-        <div class="col-3">
-            <asp:Label runat="server" ID="lblDislikes"> Dislikes</asp:Label>
-            <span class="required">*</span>
-            <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
-        </div>
-    </div>
+    <uc1:ddl runat="server" id="ddl" />
     <br />
     <div class="row d-flex justify-content-center">
         <asp:Button runat="server" ID="btnSave" Text="Save" CssClass="btn btn-success" OnClick="btnSave_Click" />
@@ -267,9 +243,9 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
-    <script>
-        $(function () {
-            $('[id*=lbInterests]').multiselect
+    
+<script>
+       $('[id*=lbInterests]').multiselect
                 ({
                     includeSelectAllOption: false,
                     nonSelectedText: 'Select atleast 1 interest...',
@@ -287,7 +263,19 @@
                     nonSelectedText: 'Select atleast 1 dislike...',
                     maxHeight: 200
                 });
+            $('[id*=lbCommittment]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select commitment type...',
+                    maxHeight: 200
+                });
+            $('[id*=lbReligion]').multiselect
+                ({
+                    includeSelectAllOption: false,
+                    nonSelectedText: 'Select a religion...',
+                    maxHeight: 200
         });
-    </script>
+
+</script>
 
 </asp:Content>

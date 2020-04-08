@@ -1,12 +1,15 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Net.Mail;
 using System.Text;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -17,6 +20,8 @@ namespace TermProject
     {
         DBConnect dbConnection = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
+        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -105,6 +110,47 @@ namespace TermProject
             Session["LastName"] = "Doe";
             Session["UserID"] = "19";
             Response.Redirect("Dashboard.aspx");
+               /*
+               // validation login
+                WebRequest request = WebRequest.Create(profileWebAPI + "checkLogin/"+email+"/"+password);
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                String data = reader.ReadToEnd();
+                reader.Close();  response.Close();
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+                if (ds.Tables[0].Rows.Count == 1)
+                {
+                    Session["LoggedIn"] = "true";
+                    Session["email"] = ds.Tables[0].Rows[0]["emailAddress"].ToString();
+                    Response.Redirect("Dashboard.aspx");
+
+                    // get preferences
+                    int userID = Convert.ToInt32(ds.Tables[0].Rows[0]["userID"].ToString());
+                    request = WebRequest.Create(interactionsWebAPI + "getPreferences/" + userID);
+                    response = request.GetResponse();
+                    theDataStream = response.GetResponseStream();
+                    reader = new StreamReader(theDataStream);
+                    data = reader.ReadToEnd();
+                    reader.Close(); response.Close();
+                    ds = JsonConvert.DeserializeObject<DataSet>(data);
+
+                    List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberLikes"].ToString());
+                    List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberDislikes"].ToString());
+                    List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberBlocks"].ToString());
+
+                    Session["memberLikes"] = memberLikes;
+                    Session["memberDislikes"] = memberDislikes;
+                    Session["memberBlocks"] = memberBlocks;
+                }
+                else
+                { 
+                    // invalid login
+
+                }
+            }
+            */
         }
     }
 }
