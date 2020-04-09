@@ -1,7 +1,14 @@
-﻿using System;
+﻿using Models;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.Data;
+using System.IO;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
+using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -11,9 +18,24 @@ namespace TermProject
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
+        int userID;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+           
+            else
+            {
+                lblSuccess.Text = "";
+                userID = Convert.ToInt32(Session["UserID"]);
+                WebRequest request = WebRequest.Create(profileWebAPI + "/GetSettings");
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                string data = reader.ReadToEnd();
+                reader.Close(); response.Close();
+
+                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data); // ds contains username + password, hide profile pref, 
+            }
         } //end pageload
 
         protected void lbChangeUsername_Click(object sender, EventArgs e)
@@ -96,7 +118,71 @@ namespace TermProject
 
         protected void btnSave_Click(object sender, EventArgs e)
         { // this will update the information after validation
+            Regex regexZip = new Regex(@"(^\d{5}$)|(^\d{5}-\d{4}$)");
+            txtStAddresses.CssClass = txtStAddresses.CssClass.Replace("is-invalid", "").Trim();
+            txtZip.CssClass = txtZip.CssClass.Replace("is-invalid", "").Trim();
+            txtCity.CssClass = txtCity.CssClass.Replace("is-invalid", "").Trim();
+            ddlState.CssClass = ddlState.CssClass.Replace("is-invalid", "").Trim();
 
+            Boolean trigger = false;
+            if (txtStAddresses.Text.Length<=0)
+            {
+                trigger = true;
+                txtStAddresses.CssClass += " is-invalid";
+            }
+            if (txtCity.Text.Length<=0)
+            {
+                trigger = true;
+                txtCity.CssClass += " is-invalid";
+            }
+            if(txtZip.Text.Length <= 0 || !regexZip.IsMatch(txtZip.Text))
+            {
+                trigger = true;
+                txtZip.CssClass += " is-invalid";
+            }
+            if (ddlState.SelectedValue== "-1")
+            {
+                trigger = true;
+                ddlState.CssClass += "is-invalid";
+            }
+            if (trigger)
+            {
+            }
+            else
+            {
+                
+                UserAddress a = new UserAddress();
+                a.id = userID; a.billingAddress = txtStAddresses.Text; a.city = txtCity.Text; a.state = ddlState.SelectedValue; a.zipCode = Convert.ToInt32(txtZip.Text);
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string jsonA = js.Serialize(a);
+
+                WebRequest request = WebRequest.Create(profileWebAPI + "/updateAddress");
+                request.Method = "PUT";
+                request.ContentLength = jsonA.Length;
+                request.ContentType = "application/json";
+
+                // Write the JSON data to the Web Request           
+                StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(jsonA);
+                writer.Flush();
+                writer.Close();
+
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                String data = reader.ReadToEnd();
+                reader.Close(); response.Close();
+
+                // show success message, hide save, and enable edit
+                lblSuccess.Text = "Successfully updated address.";
+                btnSave.Attributes.Add("style", "display:none");
+                btnEditAddress.Enabled = true;
+                txtStAddresses.ReadOnly = true;
+                txtCity.ReadOnly = true;
+                ddlState.Enabled = false;
+                txtZip.ReadOnly = true;
+            }
         } // end save eventhandler
+
     } // end class
 } // end namesapce

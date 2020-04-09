@@ -80,6 +80,7 @@ namespace TermProject
                     if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
                     {
                         Session["UserID"] = drUserRecord["userID"].ToString();
+
                         Response.Redirect("Dashboard.aspx");
                     }
                     else
@@ -110,50 +111,27 @@ namespace TermProject
             Session["LastName"] = "Doe";
             Session["UserID"] = "19";
             Response.Redirect("Dashboard.aspx");
-               /*
-               // validation login
-                WebRequest request = WebRequest.Create(profileWebAPI + "checkLogin/"+email+"/"+password);
-                WebResponse response = request.GetResponse();
+            /*
+                 // get preferences
+                 WebRequest request = WebRequest.Create(interactionsWebAPI + "getPreferences/" + userID);
+                 WebResponse response = request.GetResponse();
                 Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();  response.Close();
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-                if (ds.Tables[0].Rows.Count == 1)
-                {
-                    Session["LoggedIn"] = "true";
-                    Session["email"] = ds.Tables[0].Rows[0]["emailAddress"].ToString();
-                    
+                 StreamReader reader = new StreamReader(theDataStream);
+                 string data = reader.ReadToEnd();
+                 reader.Close(); response.Close();
+                 ds = JsonConvert.DeserializeObject<DataSet>(data);
 
-                    // get preferences
-                    int userID = Convert.ToInt32(ds.Tables[0].Rows[0]["userID"].ToString());
-                    request = WebRequest.Create(interactionsWebAPI + "getPreferences/" + userID);
-                    response = request.GetResponse();
-                    theDataStream = response.GetResponseStream();
-                    reader = new StreamReader(theDataStream);
-                    data = reader.ReadToEnd();
-                    reader.Close(); response.Close();
-                    ds = JsonConvert.DeserializeObject<DataSet>(data);
+                 List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][0].ToString());
+                 List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
+                 List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
 
-                    List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][0].ToString());
-                    List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
-                    List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0][1].ToString());
+                 Session["userID"] = userID;
+                 Session["memberLikes"] = memberLikes;
+                 Session["memberDislikes"] = memberDislikes;
+                 Session["memberBlocks"] = memberBlocks;
 
-                    Session["userID"] = userID;
-                    Session["memberLikes"] = memberLikes;
-                    Session["memberDislikes"] = memberDislikes;
-                    Session["memberBlocks"] = memberBlocks;
-
-                    Response.Redirect("Dashboard.aspx");
-                }
-                else
-                { 
-                    // invalid login
-
-                }
-            }
-            */
+         }
+         */
         }
     }
 }

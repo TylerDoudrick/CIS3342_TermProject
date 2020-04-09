@@ -36,6 +36,11 @@
         </div>
 
         <div>
+            <div class="col">
+                    <div runat="server" class="row"> 
+                        <asp:Label runat="server" ID="lblSuccess" CssClass="text-success"></asp:Label>
+                    </div>
+                </div>
             <div runat="server" id="divChangeUsername" class="hidden">
                 <div class="col">
                     <div class="row">
@@ -130,6 +135,7 @@
                 </div>
             </div>
             <div runat="server" id="divAddress" class="hidden">
+                
                 <div class="col">
                     <div runat="server" class="row">
                         <div class="col-9">

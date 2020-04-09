@@ -14,7 +14,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using TP_WebAPI.Models;
+using Models;
 
 namespace TermProject
 {

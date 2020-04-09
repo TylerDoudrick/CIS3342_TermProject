@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicStoreLibrary;
-using TP_WebAPI.Models;
+using Models;
 
 namespace TP_WebAPI.Controllers
 {
