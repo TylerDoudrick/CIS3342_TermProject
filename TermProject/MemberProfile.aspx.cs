@@ -9,6 +9,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TP_WebAPI.Models;
 
 namespace TermProject
 {
@@ -17,8 +18,7 @@ namespace TermProject
     public partial class MemberProfile : System.Web.UI.Page
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
-        int memberUserID; int userID; string memberName = "";
-        List<int> memberLikes = new List<int>(); List<int> memberDislikes = new List<int>(); List<int> memberBlocks = new List<int>();
+        int memberUserID=9; int userID=2; string memberName = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserID"] != null)
@@ -27,7 +27,7 @@ namespace TermProject
                 divFavThings.Attributes.Add("style", "display:flex"); // show fav things
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDateRequest.Enabled = true;
                 userID = Convert.ToInt32(Session["userID"].ToString()); // get userID from session
-                memberLikes = (List<int>)Session["memberLikes"]; memberDislikes = (List<int>)Session["memberDislikes"]; memberBlocks = (List<int>)Session["memberBlocks"];
+                //memberLikes = (List<int>)Session["memberLikes"]; memberDislikes = (List<int>)Session["memberDislikes"]; memberBlocks = (List<int>)Session["memberBlocks"];
             } // end if 
             else
             {
@@ -38,6 +38,7 @@ namespace TermProject
 
         protected void btnLike_Click(object sender, EventArgs e)
         {
+            List<int>   memberLikes = (List<int>)Session["memberLikes"];
 
             memberLikes.Add(memberUserID);
             Session["memberLikes"] = memberLikes;
@@ -47,6 +48,7 @@ namespace TermProject
 
         protected void btnPass_Click(object sender, EventArgs e)
         {
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
             memberDislikes.Add(memberUserID);
             Session["memberDislikes"] = memberDislikes;
             string message = "You have passed on " + memberName;
@@ -55,6 +57,7 @@ namespace TermProject
 
         protected void btnBlock_Click(object sender, EventArgs e)
         {
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
             memberBlocks.Add(memberUserID);
             Session["memberBlocks"] = memberBlocks;
             string message = "You have blocked " + memberName;
@@ -81,24 +84,35 @@ namespace TermProject
 
         protected void UpdatePreferences(string message)
         {
+            List<int> memberLikes = (List<int>)Session["memberLikes"]; List<int> memberDislikes = (List<int>)Session["memberDislikes"]; List<int> memberBlocks = (List<int>)Session["memberBlocks"];
             BinaryFormatter bf = new BinaryFormatter();
             MemoryStream mStream = new MemoryStream();
             Byte[] mLikes; Byte[] mDislikes; Byte[] mBlocks;
-            JavaScriptSerializer js = new JavaScriptSerializer();
+
             bf.Serialize(mStream, memberLikes); mLikes = mStream.ToArray();
             bf.Serialize(mStream, memberDislikes); mDislikes = mStream.ToArray();
             bf.Serialize(mStream, memberBlocks); mBlocks = mStream.ToArray();
 
-            // set up the web api call and add the parameters
-            WebRequest request = WebRequest.Create(interactionsWebAPI + "updatePreferences");
-            request.Method = "PUT";
-            request.ContentLength = userID.ToString().Length + mLikes.Length + mDislikes.Length + mBlocks.Length;
-            request.ContentType = "application/json";
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(userID); writer.Write(mLikes); writer.Write(mDislikes); writer.Write(mBlocks);
-            writer.Flush(); writer.Close();
+            // int userID = 100;  // this needs to be changed to the userID of the new user
 
-            // send request and read response
+            Preferences p = new Preferences();
+            p.id = userID; p.mLikes = mLikes; p.mDislikes = mDislikes; p.mBlocks = mBlocks;
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string jsonP = js.Serialize(p);
+
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "updatePreferences/");
+            request.Method = "PUT";
+            request.ContentLength = jsonP.Length;
+            request.ContentType = "application/json";
+
+
+            // Write the JSON data to the Web Request           
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(jsonP);
+            writer.Flush();
+            writer.Close();
+
+            // Read the data from the Web Response, which requires working with streams.
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);

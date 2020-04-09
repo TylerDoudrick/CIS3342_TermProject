@@ -22,8 +22,6 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         DBConnect dbConnection = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
-        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
 

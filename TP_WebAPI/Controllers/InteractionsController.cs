@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using MusicStoreLibrary;
+using TP_WebAPI.Models;
 
 namespace TP_WebAPI.Controllers
 {
@@ -17,15 +18,15 @@ namespace TP_WebAPI.Controllers
         DBConnect objDB = new DBConnect();
 
         [HttpPost("insertPreferences/")]
-        public int insertPreferences(int userID, Byte[] memberlikes, Byte[] memberdislikes, Byte[] memberblocks)
+        public int insertPreferences([FromBody] Preferences p)
         { // inserts empty serialized lists to the db
             SqlCommand objInsertPref = new SqlCommand();
             objInsertPref.CommandText = "TP_InsertPreferences";
             objInsertPref.CommandType = CommandType.StoredProcedure;
-            objInsertPref.Parameters.AddWithValue("@userID", userID);
-            objInsertPref.Parameters.AddWithValue("@likes", memberlikes);
-            objInsertPref.Parameters.AddWithValue("@dislikes", memberdislikes);
-            objInsertPref.Parameters.AddWithValue("@blocks", memberblocks);
+            objInsertPref.Parameters.AddWithValue("@userID", p.id);
+            objInsertPref.Parameters.AddWithValue("@likes", p.mLikes);
+            objInsertPref.Parameters.AddWithValue("@dislikes", p.mDislikes);
+            objInsertPref.Parameters.AddWithValue("@blocks", p.mBlocks);
             int result = objDB.DoUpdateUsingCmdObj(objInsertPref);
             return result;
         }
@@ -42,15 +43,15 @@ namespace TP_WebAPI.Controllers
         }
 
         [HttpPut("updatePreferences")]
-        public int UpdatePreferences(int userID, string memberLikes, string memberDislikes,string memberBlocks)
+        public int UpdatePreferences([FromBody] Preferences p)
         { // updates preferences for user
             SqlCommand objUpdatePref = new SqlCommand();
             objUpdatePref.CommandType = CommandType.StoredProcedure;
             objUpdatePref.CommandText = "TP_UpdatePreferences";
-            objUpdatePref.Parameters.AddWithValue("@userID", userID);
-            objUpdatePref.Parameters.AddWithValue("@likes", memberLikes);
-            objUpdatePref.Parameters.AddWithValue("@dislikes", memberDislikes);
-            objUpdatePref.Parameters.AddWithValue("@blocks", memberBlocks);
+            objUpdatePref.Parameters.AddWithValue("@userID", p.id);
+            objUpdatePref.Parameters.AddWithValue("@likes", p.mLikes);
+            objUpdatePref.Parameters.AddWithValue("@dislikes", p.mDislikes);
+            objUpdatePref.Parameters.AddWithValue("@blocks", p.mBlocks);
             int result = objDB.DoUpdateUsingCmdObj(objUpdatePref);
             return result;
         }

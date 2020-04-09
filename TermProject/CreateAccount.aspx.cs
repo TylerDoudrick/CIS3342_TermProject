@@ -14,6 +14,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TP_WebAPI.Models;
 
 namespace TermProject
 {
@@ -23,8 +24,7 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         DBConnect dbConnection = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
-        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/profile/";
+        int userID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -33,7 +33,6 @@ namespace TermProject
 
         protected void btnCreateAccount_Click(object sender, EventArgs e)
         {
-
             string username = txtUsername.Text;
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text;
@@ -242,7 +241,16 @@ namespace TermProject
 
             smtp.Send(msg); */
             
-         /*   List<int> memberLikes = new List<int>();
+          
+            //Session["email"] = email;
+          //  Session["userID"] = userID;
+            //   Response.Redirect("Registration.aspx");
+
+        }
+
+        protected void insertPreferences()
+        { // calls web api to insert empty lists
+            List<int> memberLikes = new List<int>();
             List<int> memberDislikes = new List<int>();
             List<int> memberBlocks = new List<int>();
 
@@ -253,39 +261,37 @@ namespace TermProject
             bf.Serialize(mStream, memberLikes); mLikes = mStream.ToArray();
             bf.Serialize(mStream, memberDislikes); mDislikes = mStream.ToArray();
             bf.Serialize(mStream, memberBlocks); mBlocks = mStream.ToArray();
+            
+           // int userID = 100;  // this needs to be changed to the userID of the new user
 
-            int userID = 100;  // this needs to be changed to the userID of the new user
+            Preferences p = new Preferences();
+            p.id = userID; p.mLikes = mLikes; p.mDislikes = mDislikes; p.mBlocks = mBlocks;
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            string jsonP = js.Serialize(p);
 
             WebRequest request = WebRequest.Create(interactionsWebAPI + "insertPreferences/");
             request.Method = "POST";
-            request.ContentLength = userID.ToString().Length + mLikes.Length + mDislikes.Length+mBlocks.Length;
-            request.ContentType = "application/x-www-form-urlencoded";
-            //request.ContentType = "application/json";
-            // Write the JSON data to the Web Request
-         
-             StreamWriter writer = new StreamWriter(request.GetRequestStream());
-             writer.Write(userID);
-             //writer.Write(mLikes, 0, ml);
-             writer.Write(mDislikes);
-             writer.Write(mBlocks);
-             writer.Flush();
-             writer.Close();
-            // Read the data from the Web Response, which requires working with streams.
+            request.ContentLength = jsonP.Length;
+            request.ContentType = "application/json";
+            
 
-          /*  WebResponse response = request.GetResponse();
+            // Write the JSON data to the Web Request           
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(jsonP);
+            writer.Flush();
+            writer.Close();
+
+            // Read the data from the Web Response, which requires working with streams.
+            WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
             String data = reader.ReadToEnd();
             reader.Close();
             response.Close();
 
-            Session["email"] = email;
-            Session["userID"] = userID;
             Session["memberLikes"] = memberLikes;
             Session["memberDislikes"] = memberDislikes;
             Session["memberBlocks"] = memberBlocks;
-            Response.Redirect("Registration.aspx");*/
-
         }
     }
 }
