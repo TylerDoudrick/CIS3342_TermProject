@@ -21,9 +21,8 @@ namespace TermProject
         List<int> memberLikes = new List<int>(); List<int> memberDislikes = new List<int>(); List<int> memberBlocks = new List<int>();
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            if (Session["LoggedIn"] != null)
-            {
+            if (Session["UserID"] != null)
+            { 
                 divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
                 divFavThings.Attributes.Add("style", "display:flex"); // show fav things
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDateRequest.Enabled = true;

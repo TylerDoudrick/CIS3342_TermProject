@@ -1,6 +1,5 @@
-﻿using MusicStoreLibrary;
-using Newtonsoft.Json;
 using System;
+using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
@@ -20,7 +19,9 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
-            ddl.DisableControl();
+            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+
+           ddl.DisableControl();
             // disable lsitboxes, checkboxes, and radio buttons
             ddlOccupation.Enabled = false;
             chkSeekingFemale.Enabled = false; chkSeekingMale.Enabled = false; rWantKidsNo.Enabled = false; rWantKidsYes.Enabled = false;

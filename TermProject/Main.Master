@@ -104,7 +104,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link pl-2" href="LogOut.aspx"><i class="fas fa-lock-open"></i>Log Out</a>
-                    <span style="color: rgba(0,0,0,.5); position: absolute; bottom: 0; right: 1.5em; font-size: 0.9em;">Signed in as Matty Cohen</span>
+                    <asp:Label style="color: rgba(0,0,0,.5); position: absolute; bottom: 0; right: 1.5em; font-size: 0.9em;" runat="server" id="lblLoggedIn"></asp:Label>
                 </li>
             </ul>
         </div>
