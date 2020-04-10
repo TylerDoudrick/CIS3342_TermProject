@@ -82,6 +82,206 @@ namespace TP_WebAPI.Controllers
             return dsAddress;
         }
         
+        [HttpPost("update/tagline/{id}")]
+        public string UpdateTagLine(string id, [FromBody] IDictionary<string, string> newValues)
+        {
+            string tagLine = newValues["tagLine"];
+
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateTagline";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            commandObj.Parameters.AddWithValue("@TagLine", tagLine);
+
+            //return myDS;
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
+        [HttpPost("update/contact/{id}")]
+        public string UpdateContactInformation(string id, [FromBody] IDictionary<string, string> newValues)
+        {
+            string phone = newValues["phone"];
+            string email = newValues["email"];
+
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateContactInfo";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            commandObj.Parameters.AddWithValue("@phone", phone);
+            commandObj.Parameters.AddWithValue("@email", email);
+
+            //return myDS;
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
+
+        [HttpPost("update/basic/{id}")]
+        public string UpdateBasicInformation(string id, [FromBody] IDictionary<string,string> newValues)
+        {
+            string bio = newValues["bio"];
+            string numChildren = newValues["numChildren"];
+            string seeking = newValues["seeking"];
+            string wantChildren = newValues["wantChildren"];
+            string occupation = newValues["occupation"];
+
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateBasicInfo";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            commandObj.Parameters.AddWithValue("@bio", bio);
+            commandObj.Parameters.AddWithValue("@numChildren", numChildren);
+            commandObj.Parameters.AddWithValue("@wantChildren", wantChildren);
+            commandObj.Parameters.AddWithValue("@occupation", occupation);
+            commandObj.Parameters.AddWithValue("@seeking", seeking);
+            
+            //return myDS;
+            if(databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
+
+        [HttpPost("update/about/{id}")]
+        public string UpdateAboutYouInformation(string id, [FromBody] IDictionary<string, string> newValues)
+        {
+            string songs = newValues["songs"];
+            string sayings = newValues["sayings"];
+            string restuarants = newValues["restuarants"];
+            string movies = newValues["movies"];
+            string books = newValues["books"];
+
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateAboutYouInfo";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            commandObj.Parameters.AddWithValue("@favMovies", movies);
+            commandObj.Parameters.AddWithValue("@favSayings", sayings);
+            commandObj.Parameters.AddWithValue("@favRestuarants", restuarants);
+            commandObj.Parameters.AddWithValue("@favBooks", books);
+            commandObj.Parameters.AddWithValue("@favSongs", songs);
+
+            //return myDS;
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
+        [HttpPost("update/details/{id}")]
+        public string UpdateDetails(string id, [FromBody] IDictionary<string, List<string>> newValues)
+        {
+            List<string> religions = newValues["religions"];
+            List<string> commitments = newValues["commitments"];
+            List<string> interests = newValues["interests"];
+            List<string> likes = newValues["likes"];
+            List<string> dislikes = newValues["dislikes"];
+
+
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateDetails";
+
+            DataTable dtReligions = new DataTable();
+            dtReligions.Columns.Add("UserId", typeof(int));
+            dtReligions.Columns.Add("TypeId", typeof(int));
+
+            DataTable dtCommitments = new DataTable();
+            dtCommitments.Columns.Add("UserId", typeof(int));
+            dtCommitments.Columns.Add("TypeId", typeof(int));
+
+            DataTable dtInterests = new DataTable();
+            dtInterests.Columns.Add("UserId", typeof(int));
+            dtInterests.Columns.Add("TypeId", typeof(int));
+
+            DataTable dtLikes = new DataTable();
+            dtLikes.Columns.Add("UserId", typeof(int));
+            dtLikes.Columns.Add("TypeId", typeof(int));
+
+            DataTable dtDislikes = new DataTable();
+            dtDislikes.Columns.Add("UserId", typeof(int));
+            dtDislikes.Columns.Add("TypeId", typeof(int));
+
+            foreach(string str in religions)
+            {
+                DataRow newRow = dtReligions.NewRow();
+                newRow["UserId"] = Int32.Parse(id);
+                newRow["TypeId"] = Int32.Parse(str);
+                dtReligions.Rows.Add(newRow);
+            }
+            foreach (string str in commitments)
+            {
+                DataRow newRow = dtCommitments.NewRow();
+                newRow["UserId"] = Int32.Parse(id);
+                newRow["TypeId"] = Int32.Parse(str);
+                dtCommitments.Rows.Add(newRow);
+            }
+            foreach (string str in interests)
+            {
+                DataRow newRow = dtInterests.NewRow();
+                newRow["UserId"] = Int32.Parse(id);
+                newRow["TypeId"] = Int32.Parse(str);
+                dtInterests.Rows.Add(newRow);
+            }
+            foreach (string str in likes)
+            {
+                DataRow newRow = dtLikes.NewRow();
+                newRow["UserId"] = Int32.Parse(id);
+                newRow["TypeId"] = Int32.Parse(str);
+                dtLikes.Rows.Add(newRow);
+            }
+            foreach (string str in dislikes)
+            {
+                DataRow newRow = dtDislikes.NewRow();
+                newRow["UserId"] = Int32.Parse(id);
+                newRow["TypeId"] = Int32.Parse(str);
+                dtDislikes.Rows.Add(newRow);
+            }
+
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            commandObj.Parameters.AddWithValue("@Religions", dtReligions);
+            commandObj.Parameters.AddWithValue("@Commitments", dtCommitments);
+            commandObj.Parameters.AddWithValue("@Interests", dtInterests);
+            commandObj.Parameters.AddWithValue("@Likes", dtLikes);
+            commandObj.Parameters.AddWithValue("@Dislikes", dtDislikes);
+
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
     }
 
 }

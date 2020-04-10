@@ -102,16 +102,16 @@ namespace TermProject
         }
         protected void btnDebug1_Click(object sender, EventArgs e)
         {
-            Session["FirstName"] = "Mary";
-            Session["LastName"] = "Poppins";
-            Session["UserID"] = "20";
+            Session["FirstName"] = "Samantha";
+            Session["LastName"] = "Rogers";
+            Session["UserID"] = "2";
             Response.Redirect("Dashboard.aspx");
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
         {
-            Session["FirstName"] = "John";
-            Session["LastName"] = "Doe";
-            Session["UserID"] = "19";
+            Session["FirstName"] = "Thomas";
+            Session["LastName"] = "Smith";
+            Session["UserID"] = "1";
             Response.Redirect("Dashboard.aspx");
         }
 

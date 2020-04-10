@@ -27,7 +27,39 @@ namespace TermProject
         int userID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack) { 
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_LookupAllSecurityQuestions";
+            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+            DataTable firstSet = myDS.Tables[0];
+            DataTable secondSet = myDS.Tables[1];
+            DataTable thirdSet = myDS.Tables[2];
 
+            ddlSecurityQOne.DataSource = firstSet;
+            ddlSecurityQTwo.DataSource = secondSet;
+            ddlSecurityQThree.DataSource = thirdSet;
+
+            ddlSecurityQOne.DataTextField = "SecurityQuestionText";
+            ddlSecurityQOne.DataValueField = "SecurityQuestionID";
+            ddlSecurityQTwo.DataTextField = "SecurityQuestionText";
+            ddlSecurityQTwo.DataValueField = "SecurityQuestionID";
+            ddlSecurityQThree.DataTextField = "SecurityQuestionText";
+            ddlSecurityQThree.DataValueField = "SecurityQuestionID";
+
+            ddlSecurityQOne.DataBind();
+            ddlSecurityQTwo.DataBind();
+            ddlSecurityQThree.DataBind();
+
+            ddlSecurityQOne.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+            ddlSecurityQTwo.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+            ddlSecurityQThree.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+
+            ddlSecurityQOne.SelectedIndex = 0;
+            ddlSecurityQTwo.SelectedIndex = 0;
+            ddlSecurityQThree.SelectedIndex = 0;
+            }
         }
 
 
@@ -45,6 +77,9 @@ namespace TermProject
             string state = ddlState.SelectedValue;
             string zip = txtZip.Text;
 
+            string SQOne = txtSecurityQOne.Text;
+            string SQTwo = txtSecurityQTwo.Text;
+            string SQThree = txtSecurityQThree.Text;
             //
             //Regular Expressions sourced from http://regexlib.com
             //
@@ -64,6 +99,14 @@ namespace TermProject
             txtCity.CssClass = txtCity.CssClass.Replace("is-invalid", "").Trim();
             ddlState.CssClass = ddlState.CssClass.Replace("is-invalid", "").Trim();
             txtZip.CssClass = txtZip.CssClass.Replace("is-invalid", "").Trim();
+
+            txtSecurityQOne.CssClass = txtSecurityQOne.CssClass.Replace("is-invalid", "").Trim();
+            txtSecurityQTwo.CssClass = txtSecurityQTwo.CssClass.Replace("is-invalid", "").Trim();
+            txtSecurityQThree.CssClass = txtSecurityQThree.CssClass.Replace("is-invalid", "").Trim();
+
+            ddlSecurityQOne.CssClass = ddlSecurityQOne.CssClass.Replace("is-invalid", "").Trim();
+            ddlSecurityQTwo.CssClass = ddlSecurityQTwo.CssClass.Replace("is-invalid", "").Trim();
+            ddlSecurityQThree.CssClass = ddlSecurityQThree.CssClass.Replace("is-invalid", "").Trim();
 
 
             Boolean trigger = false;
@@ -117,6 +160,36 @@ namespace TermProject
             {
                 trigger = true;
                 txtZip.CssClass += " is-invalid";
+            }
+            if (SQOne.Length <= 0)
+            {
+                trigger = true;
+                txtSecurityQOne.CssClass += " is-invalid";
+            }
+            if (SQTwo.Length <= 0)
+            {
+                trigger = true;
+                txtSecurityQTwo.CssClass += " is-invalid";
+            }
+            if (SQThree.Length <= 0)
+            {
+                trigger = true;
+                txtSecurityQThree.CssClass += " is-invalid";
+            }
+            if(ddlSecurityQOne.SelectedValue == "")
+            {
+                trigger = true;
+                ddlSecurityQOne.CssClass += " is-invalid";
+            }
+            if (ddlSecurityQTwo.SelectedValue == "")
+            {
+                trigger = true;
+                ddlSecurityQTwo.CssClass += " is-invalid";
+            }
+            if (ddlSecurityQThree.SelectedValue == "")
+            {
+                trigger = true;
+                ddlSecurityQThree.CssClass += " is-invalid";
             }
 
             if (trigger)
@@ -177,13 +250,18 @@ namespace TermProject
                 {
                     Direction = ParameterDirection.Output
                 };
-
+                SqlParameter outputNewUserID = new SqlParameter("@NewUserID", SqlDbType.Int)
+                {
+                    Direction = ParameterDirection.Output
+                };
                 commandObj.Parameters.Add(inputUsername);
                 commandObj.Parameters.Add(inputPassword);
                 commandObj.Parameters.Add(inputSalt);
                 commandObj.Parameters.Add(inputEmail);
                 commandObj.Parameters.Add(inputFirstName);
                 commandObj.Parameters.Add(inputLastName);
+
+                commandObj.Parameters.Add(outputNewUserID);
 
                 commandObj.Parameters.Add(outputEmailExists);
                 commandObj.Parameters.Add(outputUsernameExists);
@@ -203,9 +281,50 @@ namespace TermProject
                     {
                         Response.Write("Fail, email exists");
                     }
-                    divCreateAccount.Visible = false;
-                    divValidate.Visible = true;
-                    ScriptManager.RegisterStartupScript(this, typeof(Page), "StartCountdown", "redirectCountdown()", true);
+                    if (!(Int32.Parse(outputUsernameExists.Value.ToString()) == 1 && (Int32.Parse(outputEmailExists.Value.ToString()) == 1)))
+                    {
+
+
+                        commandObj.Parameters.Clear();
+                        commandObj.CommandType = CommandType.StoredProcedure;
+                        commandObj.CommandText = "TP_UpdateSecurityQuestions";
+                        DataTable dtSecurityQuestions = new DataTable();
+                        dtSecurityQuestions.Columns.Add("UserId", typeof(int));
+                        dtSecurityQuestions.Columns.Add("QuestionID", typeof(int));
+                        dtSecurityQuestions.Columns.Add("QuestionAnswer", typeof(string));
+
+                        DataRow newRow = dtSecurityQuestions.NewRow();
+                        newRow["UserId"] = Int32.Parse(outputNewUserID.Value.ToString());
+                        newRow["QuestionId"] = Int32.Parse(ddlSecurityQOne.SelectedValue);
+                        newRow["QuestionAnswer"] = txtSecurityQOne.Text;
+                        dtSecurityQuestions.Rows.Add(newRow);
+
+                        newRow = dtSecurityQuestions.NewRow();
+                        newRow["UserId"] = Int32.Parse(outputNewUserID.Value.ToString());
+                        newRow["QuestionId"] = Int32.Parse(ddlSecurityQTwo.SelectedValue);
+                        newRow["QuestionAnswer"] = txtSecurityQTwo.Text;
+                        dtSecurityQuestions.Rows.Add(newRow);
+
+                        newRow = dtSecurityQuestions.NewRow();
+                        newRow["UserId"] = Int32.Parse(outputNewUserID.Value.ToString());
+                        newRow["QuestionId"] = Int32.Parse(ddlSecurityQThree.SelectedValue);
+                        newRow["QuestionAnswer"] = txtSecurityQThree.Text;
+                        dtSecurityQuestions.Rows.Add(newRow);
+
+                        commandObj.Parameters.AddWithValue("@SecurityQuestions", dtSecurityQuestions);
+                        commandObj.Parameters.AddWithValue("@UserID", outputNewUserID.Value.ToString());
+                        if (dbConnection.DoUpdateUsingCmdObj(commandObj, out exception) == -2)
+                        {
+                            Response.Write(exception);
+                        }
+                        else
+                        {
+                            divCreateAccount.Visible = false;
+                            divValidate.Visible = true;
+                            ScriptManager.RegisterStartupScript(this, typeof(Page), "StartCountdown", "redirectCountdown()", true);
+                        }
+
+                    }
                 }
             }
 
