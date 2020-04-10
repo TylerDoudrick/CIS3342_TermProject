@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="TermProject.Profile" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="TermProject.Profile" MaintainScrollPositionOnPostBack = "true"%>
 
 <%@ Register Src="~/UserControls/ddl.ascx" TagPrefix="uc1" TagName="ddl" %>
 
@@ -93,106 +93,107 @@
         <div class="col-2">
             <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
 
-            <div class="form-group align-items-start d-flex flex-column justify-content-around" id="divSeeking">
-                <asp:CheckBox runat="server" ID="chkSeekingFemale" Text="Female" Enabled="false" />
-                <asp:CheckBox runat="server" ID="chkSeekingMale" Text="Male" Enabled="false" />
-            </div>
+                <asp:DropDownList ID="ddlSeeking" runat="server" CssClass="form-control" Enabled="false">
+                    <asp:ListItem Value="Female">Female</asp:ListItem>
+                    <asp:ListItem Value="Male">Male</asp:ListItem>
+                    <asp:ListItem Value="Both">Both</asp:ListItem>
+                </asp:DropDownList>
         </div>
         <div class="col-2">
             <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
             <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control" ReadOnly="true"> </asp:TextBox>
         </div>
         <div class="col-2">
-            <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
-            <asp:DropDownList ID="ddlWantKids" runat="server" CssClass="form-control">
-                <asp:ListItem Value="yes">Yes</asp:ListItem>
-                <asp:ListItem Value="no">No</asp:ListItem>
+            <asp:Label runat="server" ID="lblWantChildren"> Do you want kids? </asp:Label>
+            <asp:DropDownList ID="ddlWantChildren" runat="server" CssClass="form-control">
+                <asp:ListItem Value="1">Yes</asp:ListItem>
+                <asp:ListItem Value="0">No</asp:ListItem>
             </asp:DropDownList>
 
         </div>
         <div class="col-4">
             <asp:Label runat="server" ID="lblOccupation"> Occupation</asp:Label>
 
-            <asp:DropDownList runat="server" ID="ddlOccupation" CssClass="form-control" disabled="disabled" EnableViewState="false">
+            <asp:DropDownList runat="server" ID="ddlOccupation" CssClass="form-control">
                 <asp:ListItem Value="-1"> Select your occupation..</asp:ListItem>
-                <asp:ListItem Value="1">  Chiropractor</asp:ListItem>
-                <asp:ListItem Value="2">  Dentist</asp:ListItem>
-                <asp:ListItem Value="">  Dietitian or Nutritionist</asp:ListItem>
-                <asp:ListItem Value="4">  Optometrist</asp:ListItem>
-                <asp:ListItem Value="5">  Pharmacist</asp:ListItem>
-                <asp:ListItem Value="6">  Physician</asp:ListItem>
-                <asp:ListItem Value="7">  Physician Assistant</asp:ListItem>
-                <asp:ListItem Value="8">  Podiatrist</asp:ListItem>
-                <asp:ListItem Value="9">  Registered Nurse</asp:ListItem>
-                <asp:ListItem Value="10">  Therapist</asp:ListItem>
-                <asp:ListItem Value="11">  Veterinarian</asp:ListItem>
-                <asp:ListItem Value="12">  Health Technologist or Technician</asp:ListItem>
-                <asp:ListItem Value="1">  Other Healthcare or Technical Occupation</asp:ListItem>
-                <asp:ListItem Value="14">  Nursing, Psychiatric, or Home Health Aide</asp:ListItem>
-                <asp:ListItem Value="15">  Occupational and PT Assistant/Aide</asp:ListItem>
-                <asp:ListItem Value="16">  Other Healthcare Support Occupation</asp:ListItem>
-                <asp:ListItem Value="17">  Chief Executive</asp:ListItem>
-                <asp:ListItem Value="18">  General and Operations Manager</asp:ListItem>
-                <asp:ListItem Value="19">  Advertising</asp:ListItem>
-                <asp:ListItem Value="19.2"> Promotion</asp:ListItem>
-                <asp:ListItem Value="19."> Public Relations</asp:ListItem>
-                <asp:ListItem Value="19.4"> Sales</asp:ListItem>
-                <asp:ListItem Value="19.1"> Marketing</asp:ListItem>
-                <asp:ListItem Value="20">  Operations Specialties Manager</asp:ListItem>
-                <asp:ListItem Value="21">  Construction Manager</asp:ListItem>
-                <asp:ListItem Value="22">  Engineering Manager</asp:ListItem>
-                <asp:ListItem Value="2">  Accountant, Auditor</asp:ListItem>
-                <asp:ListItem Value="24">  Business Operations or Financial Specialist</asp:ListItem>
-                <asp:ListItem Value="25">  Business Owner</asp:ListItem>
-                <asp:ListItem Value="26">  Other Business or Executive</asp:ListItem>
-                <asp:ListItem Value="27">  Architect, Surveyor, or Cartographer</asp:ListItem>
-                <asp:ListItem Value="28">  Engineer</asp:ListItem>
-                <asp:ListItem Value="29">  Other Architecture and Engineering Occupation</asp:ListItem>
-                <asp:ListItem Value="0">  Postsecondary Teacher</asp:ListItem>
-                <asp:ListItem Value="1">  Primary, Secondary, or Special Education School Teacher</asp:ListItem>
-                <asp:ListItem Value="2">  Other Teacher or Instructor</asp:ListItem>
-                <asp:ListItem Value="">  Other Education, Training, and Library </asp:ListItem>
-                <asp:ListItem Value="4">  Arts, Entertainment, Sports,  Occupations</asp:ListItem>
-                <asp:ListItem Value="5">  Computer Specialist, Mathematical Science</asp:ListItem>
-                <asp:ListItem Value="6">  Social Worker</asp:ListItem>
-                <asp:ListItem Value="7">  Lawyer, Judge</asp:ListItem>
-                <asp:ListItem Value="8">  Life Scientist </asp:ListItem>
-                <asp:ListItem Value="9">  Physical Scientist </asp:ListItem>
-                <asp:ListItem Value="40">  Religious Worker</asp:ListItem>
-                <asp:ListItem Value="41">  Social Scientist and Related Worker</asp:ListItem>
-                <asp:ListItem Value="42">  Other Professional Occupation</asp:ListItem>
-                <asp:ListItem Value="4">  Supervisor of Administrative Support Workers</asp:ListItem>
-                <asp:ListItem Value="44">  Financial Clerk</asp:ListItem>
-                <asp:ListItem Value="45">  Secretary or Administrative Assistant</asp:ListItem>
-                <asp:ListItem Value="46">  Material Recording, Scheduling, and Dispatching Worker</asp:ListItem>
-                <asp:ListItem Value="47">  Other Office and Administrative Support </asp:ListItem>
-                <asp:ListItem Value="48">  Fire Fighter </asp:ListItem>
-                <asp:ListItem Value="49">  Chef or Head Cook</asp:ListItem>
-                <asp:ListItem Value="50">  Cook or Food Preparation Worker</asp:ListItem>
-                <asp:ListItem Value="51">  Food and Beverage Serving Worker </asp:ListItem>
-                <asp:ListItem Value="52">  Building and Grounds Cleaning and Maintenance</asp:ListItem>
-                <asp:ListItem Value="5">  Personal Care and Service </asp:ListItem>
-                <asp:ListItem Value="54">  Sales Supervisor, Retail Sales</asp:ListItem>
-                <asp:ListItem Value="55">  Retail Sales Worker</asp:ListItem>
-                <asp:ListItem Value="56">  Insurance Sales Agent</asp:ListItem>
-                <asp:ListItem Value="57">  Sales Representative</asp:ListItem>
-                <asp:ListItem Value="58">  Real Estate Sales Agent</asp:ListItem>
-                <asp:ListItem Value="59">  Other Services Occupation</asp:ListItem>
-                <asp:ListItem Value="60">  Construction and Extraction </asp:ListItem>
-                <asp:ListItem Value="61">  Farming, Fishing, and Forestry</asp:ListItem>
-                <asp:ListItem Value="62">  Installation, Maintenance, and Repair</asp:ListItem>
-                <asp:ListItem Value="6">  Production Occupations</asp:ListItem>
-                <asp:ListItem Value="64">  Other Agriculture,  and Skilled Crafts </asp:ListItem>
-                <asp:ListItem Value="65">  Aircraft Pilot or Flight Engineer</asp:ListItem>
-                <asp:ListItem Value="66">  Motor Vehicle Operator </asp:ListItem>
-                <asp:ListItem Value="67">  Other Transportation Occupation</asp:ListItem>
-                <asp:ListItem Value="68">  Military</asp:ListItem>
-                <asp:ListItem Value="69"> Police Officer or Correctional Officer</asp:ListItem>
-                <asp:ListItem Value="70">  Homemaker</asp:ListItem>
-                <asp:ListItem Value="74"> Student</asp:ListItem>
-                <asp:ListItem Value="71">  Other Occupation</asp:ListItem>
-                <asp:ListItem Value="72">  Don't Know</asp:ListItem>
-                <asp:ListItem Value="7">  Not Applicable</asp:ListItem>
+                <asp:ListItem>Chiropractor</asp:ListItem>
+                <asp:ListItem>Dentist</asp:ListItem>
+                <asp:ListItem>Dietitian/Nutritionist</asp:ListItem>
+                <asp:ListItem>Optometrist</asp:ListItem>
+                <asp:ListItem>Pharmacist</asp:ListItem>
+                <asp:ListItem>Physician</asp:ListItem>
+                <asp:ListItem>Physician Assistant</asp:ListItem>
+                <asp:ListItem>Podiatrist</asp:ListItem>
+                <asp:ListItem>Registered Nurse</asp:ListItem>
+                <asp:ListItem>Therapist</asp:ListItem>
+                <asp:ListItem>Veterinarian</asp:ListItem>
+                <asp:ListItem>Health Technologist or Technician</asp:ListItem>
+                <asp:ListItem>Other Healthcare or Technical Occupation</asp:ListItem>
+                <asp:ListItem>Nursing, Psychiatric, or Home Health Aide</asp:ListItem>
+                <asp:ListItem>Occupational and PT Assistant/Aide</asp:ListItem>
+                <asp:ListItem>Other Healthcare Support Occupation</asp:ListItem>
+                <asp:ListItem>Chief Executive</asp:ListItem>
+                <asp:ListItem>General and Operations Manager</asp:ListItem>
+                <asp:ListItem>Advertising</asp:ListItem>
+                <asp:ListItem>Promotion</asp:ListItem>
+                <asp:ListItem>Public Relations</asp:ListItem>
+                <asp:ListItem>Sales</asp:ListItem>
+                <asp:ListItem>Marketing</asp:ListItem>
+                <asp:ListItem>Operations Specialties Manager</asp:ListItem>
+                <asp:ListItem>Construction Manager</asp:ListItem>
+                <asp:ListItem>Engineering Manager</asp:ListItem>
+                <asp:ListItem>Accountant, Auditor</asp:ListItem>
+                <asp:ListItem>Business Operations or Financial Specialist</asp:ListItem>
+                <asp:ListItem>Business Owner</asp:ListItem>
+                <asp:ListItem>Other Business or Executive</asp:ListItem>
+                <asp:ListItem>Architect, Surveyor, or Cartographer</asp:ListItem>
+                <asp:ListItem>Engineer</asp:ListItem>
+                <asp:ListItem>Other Architecture and Engineering Occupation</asp:ListItem>
+                <asp:ListItem>Postsecondary Teacher</asp:ListItem>
+                <asp:ListItem>Primary, Secondary, or Special Education School Teacher</asp:ListItem>
+                <asp:ListItem>Other Teacher or Instructor</asp:ListItem>
+                <asp:ListItem>Other Education, Training, and Library </asp:ListItem>
+                <asp:ListItem>Arts, Entertainment, Sports,  Occupations</asp:ListItem>
+                <asp:ListItem>Computer Specialist, Mathematical Science</asp:ListItem>
+                <asp:ListItem>Social Worker</asp:ListItem>
+                <asp:ListItem>Lawyer, Judge</asp:ListItem>
+                <asp:ListItem>Life Scientist </asp:ListItem>
+                <asp:ListItem>Physical Scientist </asp:ListItem>
+                <asp:ListItem>Religious Worker</asp:ListItem>
+                <asp:ListItem>Social Scientist and Related Worker</asp:ListItem>
+                <asp:ListItem>Other Professional Occupation</asp:ListItem>
+                <asp:ListItem>Supervisor of Administrative Support Workers</asp:ListItem>
+                <asp:ListItem>Financial Clerk</asp:ListItem>
+                <asp:ListItem>Secretary or Administrative Assistant</asp:ListItem>
+                <asp:ListItem>Material Recording, Scheduling, and Dispatching Worker</asp:ListItem>
+                <asp:ListItem>Other Office and Administrative Support </asp:ListItem>
+                <asp:ListItem>Fire Fighter </asp:ListItem>
+                <asp:ListItem>Chef or Head Cook</asp:ListItem>
+                <asp:ListItem>Cook or Food Preparation Worker</asp:ListItem>
+                <asp:ListItem>Food and Beverage Serving Worker </asp:ListItem>
+                <asp:ListItem>Building and Grounds Cleaning and Maintenance</asp:ListItem>
+                <asp:ListItem>Personal Care and Service </asp:ListItem>
+                <asp:ListItem>Sales Supervisor, Retail Sales</asp:ListItem>
+                <asp:ListItem>Retail Sales Worker</asp:ListItem>
+                <asp:ListItem>Insurance Sales Agent</asp:ListItem>
+                <asp:ListItem>Sales Representative</asp:ListItem>
+                <asp:ListItem>Real Estate Sales Agent</asp:ListItem>
+                <asp:ListItem>Other Services Occupation</asp:ListItem>
+                <asp:ListItem>Construction and Extraction </asp:ListItem>
+                <asp:ListItem>Farming, Fishing, and Forestry</asp:ListItem>
+                <asp:ListItem>Installation, Maintenance, and Repair</asp:ListItem>
+                <asp:ListItem>Production Occupations</asp:ListItem>
+                <asp:ListItem>Other Agriculture,  and Skilled Crafts </asp:ListItem>
+                <asp:ListItem>Aircraft Pilot or Flight Engineer</asp:ListItem>
+                <asp:ListItem>Motor Vehicle Operator </asp:ListItem>
+                <asp:ListItem>Other Transportation Occupation</asp:ListItem>
+                <asp:ListItem>Military</asp:ListItem>
+                <asp:ListItem>Police Officer or Correctional Officer</asp:ListItem>
+                <asp:ListItem>Homemaker</asp:ListItem>
+                <asp:ListItem>Student</asp:ListItem>
+                <asp:ListItem>Other Occupation</asp:ListItem>
+                <asp:ListItem>Don't Know</asp:ListItem>
+                <asp:ListItem>Not Applicable</asp:ListItem>
 
             </asp:DropDownList>
         </div>
@@ -204,10 +205,10 @@
     <hr class="mx-auto w-75" />
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col text-right">
-            <div class="font-weight-bold text-info h5 my-auto">Miscellaneous</div>
+            <div class="font-weight-bold text-info h5 my-auto">About You</div>
         </div>
         <div class="col my-auto mx-2 text-right">
-            <span class="h3" id="btnEditMisc"><i class="fas fa-pen-square"></i></span>
+            <span class="h3" id="btnEditAboutYou"><i class="fas fa-pen-square"></i></span>
         </div>
     </div>
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
@@ -235,39 +236,54 @@
 
         </div>
     </div>
-    <uc1:ddl runat="server" ID="ddl" />
-
-    <div class="row justify-content-center hidden" id="divEditMiscControls">
+        <div class="row justify-content-center hidden" id="divEditAboutYouControls">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50" OnClick="btnEditMiscSubmit_Click" />
-        <button type="button" class="btn btn-secondary h-50" id="btnEditMiscCancel">Cancel</button>
+        <button type="button" class="btn btn-secondary h-50" id="btnEditAboutYouCancel">Cancel</button>
     </div>
-    <div class="lblMisc">
+
+        <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
+        <div class="col text-right">
+            <div class="font-weight-bold text-info h5 my-auto">Your Details</div>
+        </div>
+        <div class="col my-auto mx-2 text-right">
+            <asp:LinkButton CssClass="h3" id="btnEditYourDetails" runat="server" OnClick="btnEditYourDetails_Click"><i class="fas fa-pen-square"></i></asp:LinkButton>
+        </div>
+    </div>
+
+    <uc1:ddl runat="server" ID="ddl"/>
+
+
+    <div runat="server" id="lblYourDetails">
         <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
             <div class="col">
                 <label class="w-100 border-bottom  d-block">Religion</label>
-                <asp:Label runat="server" ID="lblReligion" CssClass="selectpicker col-10">Jainsim, Judaism, Sikhism</asp:Label>
+                <asp:Label runat="server" ID="lblReligion" CssClass="selectpicker col-10"></asp:Label>
 
             </div>
             <div class="col">
                 <label class="w-100 border-bottom  d-block">Commitment</label>
-                <asp:Label runat="server" ID="lblCommittment" CssClass="selectpicker col-10">Casual, Longterm</asp:Label>
+                <asp:Label runat="server" ID="lblCommittment" CssClass="selectpicker col-10"></asp:Label>
             </div>
             <div class="col">
                 <label class="w-100 border-bottom  d-block">Interests</label>
-                <asp:Label runat="server" ID="lblInterests" CssClass="selectpicker col-10">Collections, DIY, Embroidery</asp:Label>
+                <asp:Label runat="server" ID="lblInterests" CssClass="selectpicker col-10"></asp:Label>
             </div>
 
         </div>
         <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
             <div class="col">
                 <label class="w-100 border-bottom  d-block">Likes</label>
-                <asp:Label runat="server" ID="lblLikes" CssClass="selectpicker col-7">Action, Dancing, Chocolate</asp:Label>
+                <asp:Label runat="server" ID="lblLikes" CssClass="selectpicker col-7"></asp:Label>
             </div>
             <div class="col">
                 <label class="w-100 border-bottom  d-block">Dislikes</label>
-                <asp:Label runat="server" ID="lblDislikes" CssClass="selectpicker col-7">Art, Beer, Bullies</asp:Label>
+                <asp:Label runat="server" ID="lblDislikes" CssClass="selectpicker col-7"></asp:Label>
             </div>
         </div>
+    </div>
+            <div class="row justify-content-center" id="divEditYourDetailsControls" runat="server">
+        <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50" OnClick="btnEditYourDetailsSubmit_Click" />
+        <asp:Button type="button" class="btn btn-secondary h-50" id="btnEditYourDetailsCancel" runat="server" Text="Cancel" OnClick="btnEditYourDetailsCancel_Click"></asp:Button>
     </div>
 </asp:Content>
 
@@ -276,7 +292,6 @@
         $(document).ready(function () {
 
             var currentVals = {};
-            $(".ddlMisc").hide();
             HideAll();
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkProfile").addClass("active");
@@ -285,6 +300,8 @@
 
             //Contact Information
             $("#btnEditContact").click(function () {
+                $(".fa-pen-square").each(function () { $(this).hide() });
+
                 curentVals = {};
                 HideAll();
                 currentVals["txtPhone"] = $("#<%= txtPhoneNumber.ClientID %>").val();
@@ -295,6 +312,8 @@
             });
 
             $("#btnEditContactCancel").click(function () {
+                $(".fa-pen-square").each(function () { $(this).show() });
+
                 $("#<%= txtPhoneNumber.ClientID %>").val(currentVals["txtPhone"]);
                 $("#<%= txtEmail.ClientID %>").val(currentVals["txtEmail"]);
                 HideAll();
@@ -302,42 +321,45 @@
 
             //Basic Information
             $("#btnEditBasic").click(function () {
+                $(".fa-pen-square").each(function () { $(this).hide() });
+
                 currentVals = {};
                 HideAll();
                 currentVals["txtBio"] = $("#<%= txtBio.ClientID %>").val();
                 currentVals["txtNumKids"] = $("#<%= txtNumKids.ClientID %>").val();
                 currentVals["ddlOccupation"] = $("#<%= ddlOccupation.ClientID %> option:selected").val();
-                currentVals["ddlWantKids"] = $("#<%= ddlWantKids.ClientID %> option:selected").val();
-                currentVals["chkSeekingMale"] = $("#<%= chkSeekingMale.ClientID %>").prop('checked');
-                currentVals["chkSeekingFemale"] = $("#<%= chkSeekingFemale.ClientID %>").prop('checked');
+                currentVals["ddlWantChildren"] = $("#<%= ddlWantChildren.ClientID %> option:selected").val();
+                currentVals["ddlSeeking"] = $("#<%= ddlSeeking.ClientID %> option:selected").val();
+
 
                 $("#<%= txtBio.ClientID %>").attr('readonly', false);
                 $("#<%= txtNumKids.ClientID %>").attr('readonly', false);
                 $("#<%= ddlOccupation.ClientID %>").prop('disabled', false);
-                $("#<%= ddlWantKids.ClientID %>").prop('disabled', false);
-                $("#<%= chkSeekingMale.ClientID %>").prop('disabled', false);
-                $("#<%= chkSeekingFemale.ClientID %>").prop('disabled', false);
+                $("#<%= ddlWantChildren.ClientID %>").prop('disabled', false);
+                $("#<%= ddlSeeking.ClientID %>").prop('disabled', false);
                 $("#divEditBasicControls").removeClass('hidden');
                 console.log(currentVals);
 
             });
 
             $("#btnEditBasicCancel").click(function () {
+                $(".fa-pen-square").each(function () { $(this).show() });
+
                 $("#<%= txtBio.ClientID %>").val(currentVals["txtBio"]);
                 $("#<%= txtNumKids.ClientID %>").val(currentVals["txtNumKids"]);
                 $("#<%= ddlOccupation.ClientID %>").val(currentVals["ddlOccupation"]).change();
-                $("#<%= ddlWantKids.ClientID %>").val(currentVals["ddlWantKids"]).change();
-                $("#<%= chkSeekingMale.ClientID %>").prop('checked', currentVals["chkSeekingMale"]);
-                $("#<%= chkSeekingFemale.ClientID %>").prop('checked', currentVals["chkSeekingFemale"]);
+                $("#<%= ddlWantChildren.ClientID %>").val(currentVals["ddlWantChildren"]).change();
+                $("#<%= ddlSeeking.ClientID %>").val(currentVals["ddlSeeking"]).change();
+
 
                 HideAll();
             });
 
             //Misc Information
 
-            $("#btnEditMisc").click(function () {
-                $(".ddlMisc").show();
-                $(".lblMisc").hide();
+            $("#btnEditAboutYou").click(function () {
+                $(".fa-pen-square").each(function () { $(this).hide() });
+
                 curentVals = {};
                 HideAll();
                 currentVals["txtFavSongs"] = $("#<%= txtFavSongs.ClientID %>").val();
@@ -345,60 +367,56 @@
                 currentVals["txtFavRestuarants"] = $("#<%= txtFavRestaurants.ClientID %>").val();
                 currentVals["txtFavMovies"] = $("#<%= txtFavMovies.ClientID %>").val();
                 currentVals["txtFavBooks"] = $("#<%= txtFavBooks.ClientID %>").val();
-                currentVals["ddlReligion"] = $(".ddlReligion").selectpicker('val');
-                currentVals["ddlCommitment"] = $(".ddlCommitment").selectpicker('val');
-                currentVals["ddlInterests"] = $(".ddlInterests").selectpicker('val');
-                currentVals["ddlLikes"] = $(".ddlLikes").selectpicker('val');
-                currentVals["ddlDislikes"] = $(".ddlDislikes").selectpicker('val');
+
+
+
+
+
                 $("#<%= txtFavSongs.ClientID %>").attr('readonly', false);
                 $("#<%= txtFavSayings.ClientID %>").attr('readonly', false);
                 $("#<%= txtFavRestaurants.ClientID %>").attr('readonly', false);
                 $("#<%= txtFavMovies.ClientID %>").attr('readonly', false);
                 $("#<%= txtFavBooks.ClientID %>").attr('readonly', false);
-                $("#divEditMiscControls").removeClass('hidden');
+                $("#divEditAboutYouControls").removeClass('hidden');
                 $(".lblReligion").addClass('d-none');
                 $(".lblCommitment").addClass('d-none');
                 $(".lblInterests").addClass('d-none');
                 $(".lblLikes").addClass('d-none');
                 $(".lblDislikes").addClass('d-none');
-                $(".ddl").removeClass('d-none');
-                console.log(currentVals);
             });
 
-            $("#btnEditMiscCancel").click(function () {
+            $("#btnEditAboutYouCancel").click(function () {
+                $(".fa-pen-square").each(function () { $(this).show() });
                 $("#<%= txtFavSongs.ClientID %>").val(currentVals["txtFavSongs"]);
                 $("#<%= txtFavSayings.ClientID %>").val(currentVals["txtFavSayings"]);
                 $("#<%= txtFavRestaurants.ClientID %>").val(currentVals["txtFavRestuarants"]);
                 $("#<%= txtFavMovies.ClientID %>").val(currentVals["txtFavMovies"]);
                 $("#<%= txtFavBooks.ClientID %>").val(currentVals["txtFavBooks"]);
-                $(".ddlReligion").selectpicker('val', currentVals["ddlReligion"]);
-                $(".ddlCommitment").selectpicker('val', currentVals["ddlCommitment"]);
-                $(".ddlInterests").selectpicker('val', currentVals["ddlInterests"]);
-                $(".ddlLikes").selectpicker('val', currentVals["ddlLikes"]);
-                $(".ddlDislikes").selectpicker('val', currentVals["ddlDislikes"]);
+
                 HideAll();
 
             });
             //Is when when any cancel button is hit to ensure proper functionality.
             function HideAll() {
+
                 $("#<%= txtPhoneNumber.ClientID %>").attr('readonly', true);
                 $("#<%= txtEmail.ClientID %>").attr('readonly', true);
-                $("#divContactEditControls").addClass('hidden');
+                $("#divEditContactControls").addClass('hidden');
 
                 $("#<%= txtBio.ClientID %>").attr('readonly', true);
                 $("#<%= txtNumKids.ClientID %>").attr('readonly', true);
                 $("#<%= ddlOccupation.ClientID %>").prop('disabled', true);
-                $("#<%= ddlWantKids.ClientID %>").prop('disabled', true);
-                $("#<%= chkSeekingMale.ClientID %>").prop('disabled', true);
-                $("#<%= chkSeekingFemale.ClientID %>").prop('disabled', true);
-                $("#divBasicEditControls").addClass('hidden');
+                $("#<%= ddlWantChildren.ClientID %>").prop('disabled', true);
+                $("#<%= ddlSeeking.ClientID %>").prop('disabled', true);
+                $("#divEditBasicControls").addClass('hidden');
 
                 $("#<%= txtFavSongs.ClientID %>").attr('readonly', true);
                 $("#<%= txtFavSayings.ClientID %>").attr('readonly', true);
                 $("#<%= txtFavRestaurants.ClientID %>").attr('readonly', true);
                 $("#<%= txtFavMovies.ClientID %>").attr('readonly', true);
                 $("#<%= txtFavBooks.ClientID %>").attr('readonly', true);
-                $("#divEditMiscControls").addClass('hidden');
+
+                $("#divEditAboutYouControls").addClass('hidden');
             }
 
         });
