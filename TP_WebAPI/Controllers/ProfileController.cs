@@ -15,6 +15,7 @@ namespace TP_WebAPI.Controllers
     [ApiController]
     public class ProfileController : ControllerBase
     {
+
         [HttpGet("searchCriteria")]
         public DataSet GetSearchCriteria()
         { // returns tables associated with the search criteria
@@ -68,7 +69,7 @@ namespace TP_WebAPI.Controllers
             DataSet dsAddress = obj.GetDataSetUsingCmdObj(objGetAddress);
             return dsAddress;
         }
-       
+
     }
 
 }
