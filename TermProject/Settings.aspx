@@ -12,9 +12,10 @@
             height: auto;
             width: 100%;
         }
-
         .card {
             border: 1px solid black;
+            width: 16em;
+            height:auto;
         }
 
     </style>
@@ -24,6 +25,8 @@
     <br />
     <br />
     <br />
+
+
     <div class="row h-100">
         <div class="col-4 list-group list-group-flush w-50">
             <asp:LinkButton runat="server" ID="lbChangeUsername" OnClick="lbChangeUsername_Click" CssClass="list-group-item list-group-item-action bg-light w-50"> Change Username</asp:LinkButton><br />
@@ -36,6 +39,12 @@
         </div>
 
         <div>
+            <div class="col">
+                    <div runat="server" class="row"> 
+                        <asp:Label runat="server" ID="lblSuccess" CssClass="text-success"></asp:Label>
+                    </div>
+                <br />
+                </div>
             <div runat="server" id="divChangeUsername" class="hidden">
                 <div class="col">
                     <div class="row">
@@ -46,6 +55,7 @@
 
                     <div class="row">
                         <asp:Label runat="server" ID="lblUsernameError" CssClass="text-danger font-weight-bold"></asp:Label>
+                        <br />
                     </div>
 
                     <div class="row">
@@ -68,16 +78,25 @@
                 <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lblCurrentPassword" for="<%= txtCurrentPassword.ClientID %>"> Current Password </asp:Label>
-                        <asp:TextBox runat="server" CssClass="form-control" ID="txtCurrentPassword" ReadOnly="true"> </asp:TextBox>
+                        <asp:TextBox runat="server" CssClass="form-control" ID="txtCurrentPassword" ReadOnly="true" type="password"> </asp:TextBox>
                     </div>
                     <br />
                     <div class="row">
                         <asp:Label runat="server" ID="lblPasswordError" CssClass="text-danger font-weight-bold"></asp:Label>
+                        <br />
                     </div>
                     <div class="row">
                         <asp:Label runat="server" ID="lblNewPassword" for="<%= txtNewPassword.ClientID %>"> New Password </asp:Label>
                         <span class="required">*</span>
-                        <asp:TextBox runat="server" CssClass="form-control" ID="txtNewPassword"> </asp:TextBox>
+                        <asp:TextBox runat="server" CssClass="form-control" ID="txtNewPassword" type="password"> </asp:TextBox>
+                    </div>
+                    <div class="row">
+                        <small id="passwordHelpBlock" class="form-text text-muted">Your password must be 8-20 characters long, 
+                            contain letters and numbers, and must not contain spaces or emoji.</small>
+                    </div>
+                    <div class="row">
+                        <label for="<%= txtConfirmPassword.ClientID %>" >Confirm Password</label>
+                        <asp:TextBox type="password" CssClass="form-control" ID="txtConfirmPassword" placeholder="Confirm Password" runat="server" />
                     </div>
                     <br />
 
@@ -89,47 +108,52 @@
             </div>
             <div runat="server" id="divOPTOut" class="hidden">
                 <div class="col">
+                    <div runat="server" class="row"> 
+                        <asp:Label runat="server" ID="lblSearchUpdate" CssClass="text-success"></asp:Label>
+                    </div>
+                    <br />
+                </div>
+                <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lOptOut"> Hide my profile from other users</asp:Label>
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <asp:RadioButton runat="server" ID="rbYes" Text="Yes" />&nbsp;&nbsp;
-                        <asp:RadioButton runat="server" ID="rbNo" Text="No" Checked="true" />
+                        <asp:RadioButton runat="server" ID="rbYes" Text="Yes" GroupName="rbOptOut" />&nbsp;&nbsp;
+                        <asp:RadioButton runat="server" ID="rbNo" Text="No" GroupName="rbOptOut" />
+                    </div>
+                    <div class="row">
+                        <asp:Button runat="server" id="btnSaveOptOut" Text="Save" OnClick="btnSaveOptOut_Click" CssClass="btn btn-secondary" />
                     </div>
                 </div>
             </div>
 
             <div runat="server" id="divBlockedUsers" class="hidden row">
-                <asp:Repeater runat="server" ID="rptBlockedUsers">
+                <asp:DataList runat="server" ID="dlBlockedUsers">
                     <ItemTemplate>
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-header">
-                                    <asp:Label ID="lblName" runat="server" Text='<%#Eval("") %>'></asp:Label>
+                        <div class="col-sm-3">
+                            <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command">
+                                <div class="card my-2 " >
+                                <div runat="server" >
+                                    <img class="card-img-top img-thumbnail" src='<%#Eval("imageSRC") %>'> </img>
                                 </div>
-                                <div class="card=body">
-                                    <asp:Label ID="lblTagline" runat="server" Text='<%#Eval("") %>'></asp:Label>
+                                
+                                <div class="card-body">
+                                    <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
+                                    <br />
+                                    <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
-                                <div class="card-footer">
-                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn" />
+                                <div class="card-footer text-center">
+                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn btn-dark" />
                                 </div>
                             </div>
+                            </asp:LinkButton>
                         </div>
                     </ItemTemplate>
-                </asp:Repeater>
+                </asp:DataList>
 
-                <div class="col ">
-                    <div runat="server" class="row">
-                        <div class="card w-50">
-                            <asp:Image runat="server" CssClass="card-img-top img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
-                            <div class="card-body ">
-                                <h5 class="card-title text-capitalize">Sam Smith, 25</h5>
-                                <p class="card-text">This is the tagline</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
             </div>
             <div runat="server" id="divAddress" class="hidden">
+                
                 <div class="col">
                     <div runat="server" class="row">
                         <div class="col-9">
@@ -184,7 +208,7 @@
                                 <asp:ListItem Value="OH">Ohio</asp:ListItem>
                                 <asp:ListItem Value="OK">Oklahoma</asp:ListItem>
                                 <asp:ListItem Value="OR">Oregon</asp:ListItem>
-                                <asp:ListItem Value="PA" Selected="True">Pennsylvania</asp:ListItem>
+                                <asp:ListItem Value="PA" >Pennsylvania</asp:ListItem>
                                 <asp:ListItem Value="RI">Rhode Island</asp:ListItem>
                                 <asp:ListItem Value="SC">South Carolina</asp:ListItem>
                                 <asp:ListItem Value="SD">South Dakota</asp:ListItem>
@@ -200,7 +224,7 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-3">
-                            <asp:Label runat="server" ID="lblZip" for="<%= txtZip.ClientID %>"> State </asp:Label>
+                            <asp:Label runat="server" ID="lblZip" for="<%= txtZip.ClientID %>"> Zip Code </asp:Label>
                             <asp:TextBox runat="server" CssClass="form-control" ID="txtZip" ReadOnly="true" Text="19115"> </asp:TextBox>
                         </div>
                     </div>
@@ -212,10 +236,31 @@
                     </div>
                 </div>
             </div>
+
+            <div class="col">
+                <div class="row">
+                         <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
+                     </div>
+            </div>
+            <div id="divSecurityQuestions" class="hidden" runat="server">
+                <div class="col">
+                     
+                    <div class="row">
+                        <asp:Label runat="server" ID="lblSecurityQuestion"></asp:Label>
+                        <asp:TextBox runat="server" CssClass="form-control" ID="txtSecurityQuestion"></asp:TextBox>
+                    </div>
+                    <br />
+                    <div class="row">
+                        <asp:Button runat="server" ID="btnSecurity" Text="Check" CssClass="btn btn-secondary" OnClick="btnSecurity_Click" />
+                    </div>
+                </div>
+
+            </div>
         </div>
 
     </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+
 </asp:Content>

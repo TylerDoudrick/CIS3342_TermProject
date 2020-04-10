@@ -1,9 +1,11 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="MemberProfile.aspx.cs" Inherits="TermProject.MemberProfile" %>
 
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
 </asp:Content>
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
+
     <br />
     <div>
         <div class="row justify-content-center my-5">
@@ -11,14 +13,14 @@
                 <asp:Image runat="server" CssClass="img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
             </div>
             <div class="col-4 ">
-                <h5 class="text-info font-weight-bold ">John Johnson, 25</h5>
+                <h5 class="text-info font-weight-bold" runat="server" id="name">John Johnson, 25</h5>
                 <asp:Label runat="server" ID="lblLocation"> Philadelphia, PA</asp:Label>
                 <br />
                 <asp:Label runat="server" ID="lblTagline"> This is John's Tagline</asp:Label>
             </div>
             <div class="col-2">
                 <div class="row">
-                    <asp:Button runat="server" ID="btnLike" CssClass="btn btn-primary w-75" Text="Like" OnClick="btnLike_Click" />
+                    <asp:Button runat="server" ID="btnLike" CssClass="btn btn-primary w-75" Text="Like" OnClick="btnLike_Click" data-toggle="modal" data-target="#modalSuccess"  />
                 </div>
                 <br />
                 <div class="row">
@@ -113,19 +115,21 @@ Wisi scripserit qui et, te zril consul forensibus duo, ne sed facilisi legendos 
     <hr />
 
     <div runat="server" id="divFavThings" class="hidden">
-        <h5 class="text-info font-weight-bold ">Favorite Things</h5>
-        <div class="row justify-content-center my-5">
+        <div class="row my-5 w-50">
+            <h5 class="text-info font-weight-bold ">Favorite Things</h5>
+        </div>
+        <div class="row justify-content-center my-5 w-100">
             <asp:Label runat="server" for="<%= lblInterests.ClientID %>" CssClass="font-weight-bold"> Interests </asp:Label>
             &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblInterests"> Photography ,Swimming, Sports</asp:Label>
 
         </div>
-        <div class="row justify-content-center my-5">
+        <div class="row justify-content-center my-5 w-100">
             <asp:Label runat="server" for="<%= lblLikes.ClientID %>" CssClass="font-weight-bold"> Likes </asp:Label>
             &nbsp; &nbsp;
-            <asp:Label runat="server" ID="lblLikes"> Photography , Travelling, Video Games , Fantasy Football </asp:Label>
+            <asp:Label runat="server" ID="lblLikes"> Photography , Video Games , Fantasy Football </asp:Label>
         </div>
-        <div class="row justify-content-center my-5">
+        <div class="row justify-content-center my-5 w-100">
             <asp:Label runat="server" for="<%= lblDislikes.ClientID %>" CssClass="font-weight-bold"> Dislikes </asp:Label>
             &nbsp; &nbsp;
             <asp:Label runat="server" ID="lblDislikes"> Meditation, Philosophy</asp:Label>
@@ -136,4 +140,7 @@ Wisi scripserit qui et, te zril consul forensibus duo, ne sed facilisi legendos 
 
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+    <script lang="javascript" type="text/javascript">
+
+    </script>
 </asp:Content>

@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Mail;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -18,10 +19,10 @@ namespace TermProject
 {
     public partial class LogIn : System.Web.UI.Page
     {
+        string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         DBConnect dbConnection = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
-        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -29,6 +30,7 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
+
             string username = txtLogInUsername.Text;
             string password = txtLogInPassword.Text;
 
@@ -80,6 +82,7 @@ namespace TermProject
                     if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
                     {
                         Session["UserID"] = drUserRecord["userID"].ToString();
+                        getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
                         Response.Redirect("Dashboard.aspx");
                     }
                     else
@@ -110,47 +113,45 @@ namespace TermProject
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
             Response.Redirect("Dashboard.aspx");
-               /*
-               // validation login
-                WebRequest request = WebRequest.Create(profileWebAPI + "checkLogin/"+email+"/"+password);
-                WebResponse response = request.GetResponse();
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();  response.Close();
-                JavaScriptSerializer js = new JavaScriptSerializer();
-                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-                if (ds.Tables[0].Rows.Count == 1)
-                {
-                    Session["LoggedIn"] = "true";
-                    Session["email"] = ds.Tables[0].Rows[0]["emailAddress"].ToString();
-                    Response.Redirect("Dashboard.aspx");
-
-                    // get preferences
-                    int userID = Convert.ToInt32(ds.Tables[0].Rows[0]["userID"].ToString());
-                    request = WebRequest.Create(interactionsWebAPI + "getPreferences/" + userID);
-                    response = request.GetResponse();
-                    theDataStream = response.GetResponseStream();
-                    reader = new StreamReader(theDataStream);
-                    data = reader.ReadToEnd();
-                    reader.Close(); response.Close();
-                    ds = JsonConvert.DeserializeObject<DataSet>(data);
-
-                    List<int> memberLikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberLikes"].ToString());
-                    List<int> memberDislikes = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberDislikes"].ToString());
-                    List<int> memberBlocks = js.Deserialize<List<int>>(ds.Tables[0].Rows[0]["memberBlocks"].ToString());
-
-                    Session["memberLikes"] = memberLikes;
-                    Session["memberDislikes"] = memberDislikes;
-                    Session["memberBlocks"] = memberBlocks;
-                }
-                else
-                { 
-                    // invalid login
-
-                }
-            }
-            */
         }
+
+        protected void getPrefs(int userID)
+        {
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetPreferences";
+
+            SqlParameter uid = new SqlParameter("@userID", userID)
+            {
+                Direction = ParameterDirection.Input,
+                SqlDbType = SqlDbType.VarChar
+            };
+
+            commandObj.Parameters.Add(uid);
+
+            DBConnect OBJ = new DBConnect();
+            DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow test = ds.Tables[0].Rows[0];
+                //Response.Write(test["memberLikes"]);
+                Byte[] testarray = (Byte[])test["memberLikes"];
+                MemoryStream memorystreamd = new MemoryStream(testarray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                List<int> memberLikes = bfd.Deserialize(memorystreamd) as List<int>;
+
+                Byte[] test2 = (Byte[])ds.Tables[0].Rows[0][1];
+                MemoryStream m2 = new MemoryStream(test2);
+                BinaryFormatter bfd2 = new BinaryFormatter();
+                List<int> memberDislikes = bfd2.Deserialize(m2) as List<int>;
+
+                Byte[] test3 = (Byte[])ds.Tables[0].Rows[0][1];
+                MemoryStream m3 = new MemoryStream(test3);
+                BinaryFormatter bfd3 = new BinaryFormatter();
+                List<int> memberBlocks = bfd3.Deserialize(m3) as List<int>;
+                Session["memberLikes"] = memberLikes;
+                Session["memberDislikes"] = memberDislikes;
+                Session["memberBlocks"] = memberBlocks;
+            } // end if
+        } // end method
     }
 }

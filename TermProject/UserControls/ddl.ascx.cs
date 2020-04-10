@@ -13,8 +13,8 @@ namespace TermProject.UserControls
 {
     public partial class ddl : System.Web.UI.UserControl
     {
-        string interactionsWebAPI = "https://localhost:44375/api/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/profile/";
+        string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
+        string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
 
         protected void Page_Load(object sender, EventArgs e)
         {

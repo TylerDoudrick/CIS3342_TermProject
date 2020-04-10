@@ -58,6 +58,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.LinkButton lbAddress;
         
         /// <summary>
+        /// lblSuccess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSuccess;
+        
+        /// <summary>
         /// divChangeUsername control.
         /// </summary>
         /// <remarks>
@@ -175,6 +184,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtNewPassword;
         
         /// <summary>
+        /// txtConfirmPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtConfirmPassword;
+        
+        /// <summary>
         /// btnUpdatePassword control.
         /// </summary>
         /// <remarks>
@@ -191,6 +209,15 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divOPTOut;
+        
+        /// <summary>
+        /// lblSearchUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSearchUpdate;
         
         /// <summary>
         /// lOptOut control.
@@ -220,6 +247,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.RadioButton rbNo;
         
         /// <summary>
+        /// btnSaveOptOut control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSaveOptOut;
+        
+        /// <summary>
         /// divBlockedUsers control.
         /// </summary>
         /// <remarks>
@@ -229,13 +265,13 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBlockedUsers;
         
         /// <summary>
-        /// rptBlockedUsers control.
+        /// dlBlockedUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptBlockedUsers;
+        protected global::System.Web.UI.WebControls.DataList dlBlockedUsers;
         
         /// <summary>
         /// divAddress control.
@@ -335,5 +371,50 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnSave;
+        
+        /// <summary>
+        /// lblError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
+        
+        /// <summary>
+        /// divSecurityQuestions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSecurityQuestions;
+        
+        /// <summary>
+        /// lblSecurityQuestion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSecurityQuestion;
+        
+        /// <summary>
+        /// txtSecurityQuestion control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSecurityQuestion;
+        
+        /// <summary>
+        /// btnSecurity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSecurity;
     }
 }

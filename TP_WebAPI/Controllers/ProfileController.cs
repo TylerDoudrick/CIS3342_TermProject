@@ -6,15 +6,17 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Models;
 using System.Data;
 using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
-    [Route("api/profile/")]
+    [Route("api/datingservice/profile/")]
     [ApiController]
     public class ProfileController : ControllerBase
     {
+
         [HttpGet("searchCriteria")]
         public DataSet GetSearchCriteria()
         { // returns tables associated with the search criteria
@@ -53,6 +55,33 @@ namespace TP_WebAPI.Controllers
             return myDS;
         }
 
+        [HttpPut("updateAddress")]
+        public void UpdateAddress([FromBody] UserAddress ua)
+        {
+            DBConnect obj = new DBConnect();
+            SqlCommand objUpdateAdd = new SqlCommand();
+            objUpdateAdd.CommandType = CommandType.StoredProcedure;
+            objUpdateAdd.CommandText = "TP_UpdateAddress";
+            objUpdateAdd.Parameters.AddWithValue("@userID", ua.id);
+            objUpdateAdd.Parameters.AddWithValue("@stAddress", ua.billingAddress);
+            objUpdateAdd.Parameters.AddWithValue("@city", ua.city);
+            objUpdateAdd.Parameters.AddWithValue("@state", ua.state);
+            objUpdateAdd.Parameters.AddWithValue("@zip", ua.zipCode);
+            obj.DoUpdateUsingCmdObj(objUpdateAdd, out string erro);
+        }
+
+        [HttpGet("GetSettings/{userID}")]
+        public DataSet GetSettings(int userID)
+        {
+            DBConnect obj = new DBConnect();
+            SqlCommand objGetAddress = new SqlCommand();
+            objGetAddress.CommandType = CommandType.StoredProcedure;
+            objGetAddress.CommandText = "TP_GetSettings";
+            objGetAddress.Parameters.AddWithValue("@userID", userID);
+            DataSet dsAddress = obj.GetDataSetUsingCmdObj(objGetAddress);
+            return dsAddress;
+        }
+        
         [HttpPost("update/tagline/{id}")]
         public string UpdateTagLine(string id, [FromBody] IDictionary<string, string> newValues)
         {
