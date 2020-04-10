@@ -211,6 +211,15 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divOPTOut;
         
         /// <summary>
+        /// lblSearchUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblSearchUpdate;
+        
+        /// <summary>
         /// lOptOut control.
         /// </summary>
         /// <remarks>
@@ -256,13 +265,13 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divBlockedUsers;
         
         /// <summary>
-        /// rptBlockedUsers control.
+        /// dlBlockedUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptBlockedUsers;
+        protected global::System.Web.UI.WebControls.DataList dlBlockedUsers;
         
         /// <summary>
         /// divAddress control.

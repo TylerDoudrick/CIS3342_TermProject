@@ -12,9 +12,10 @@
             height: auto;
             width: 100%;
         }
-
         .card {
             border: 1px solid black;
+            width: 16em;
+            height:auto;
         }
 
     </style>
@@ -42,6 +43,7 @@
                     <div runat="server" class="row"> 
                         <asp:Label runat="server" ID="lblSuccess" CssClass="text-success"></asp:Label>
                     </div>
+                <br />
                 </div>
             <div runat="server" id="divChangeUsername" class="hidden">
                 <div class="col">
@@ -53,6 +55,7 @@
 
                     <div class="row">
                         <asp:Label runat="server" ID="lblUsernameError" CssClass="text-danger font-weight-bold"></asp:Label>
+                        <br />
                     </div>
 
                     <div class="row">
@@ -80,6 +83,7 @@
                     <br />
                     <div class="row">
                         <asp:Label runat="server" ID="lblPasswordError" CssClass="text-danger font-weight-bold"></asp:Label>
+                        <br />
                     </div>
                     <div class="row">
                         <asp:Label runat="server" ID="lblNewPassword" for="<%= txtNewPassword.ClientID %>"> New Password </asp:Label>
@@ -104,6 +108,12 @@
             </div>
             <div runat="server" id="divOPTOut" class="hidden">
                 <div class="col">
+                    <div runat="server" class="row"> 
+                        <asp:Label runat="server" ID="lblSearchUpdate" CssClass="text-success"></asp:Label>
+                    </div>
+                    <br />
+                </div>
+                <div class="col">
                     <div class="row">
                         <asp:Label runat="server" ID="lOptOut"> Hide my profile from other users</asp:Label>
                         &nbsp;&nbsp;&nbsp;&nbsp;
@@ -117,23 +127,28 @@
             </div>
 
             <div runat="server" id="divBlockedUsers" class="hidden row">
-                <asp:Repeater runat="server" ID="rptBlockedUsers">
+                <asp:DataList runat="server" ID="dlBlockedUsers">
                     <ItemTemplate>
-                        <div class="col">
-                            <div class="card">
-                                <div class="card-header">
-                                    <asp:Label ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
+                        <div class="col-sm-3">
+                            <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command">
+                                <div class="card my-2 " >
+                                <div runat="server" >
+                                    <img class="card-img-top img-thumbnail" src='<%#Eval("imageSRC") %>'> </img>
                                 </div>
-                                <div class="card=body">
-                                    <asp:Label ID="lblTagline" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
+                                
+                                <div class="card-body">
+                                    <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
+                                    <br />
+                                    <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
-                                <div class="card-footer">
-                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn" />
+                                <div class="card-footer text-center">
+                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn btn-dark" />
                                 </div>
                             </div>
+                            </asp:LinkButton>
                         </div>
                     </ItemTemplate>
-                </asp:Repeater>
+                </asp:DataList>
 
                 
             </div>
@@ -193,7 +208,7 @@
                                 <asp:ListItem Value="OH">Ohio</asp:ListItem>
                                 <asp:ListItem Value="OK">Oklahoma</asp:ListItem>
                                 <asp:ListItem Value="OR">Oregon</asp:ListItem>
-                                <asp:ListItem Value="PA" Selected="True">Pennsylvania</asp:ListItem>
+                                <asp:ListItem Value="PA" >Pennsylvania</asp:ListItem>
                                 <asp:ListItem Value="RI">Rhode Island</asp:ListItem>
                                 <asp:ListItem Value="SC">South Carolina</asp:ListItem>
                                 <asp:ListItem Value="SD">South Dakota</asp:ListItem>
@@ -209,7 +224,7 @@
                             </asp:DropDownList>
                         </div>
                         <div class="col-3">
-                            <asp:Label runat="server" ID="lblZip" for="<%= txtZip.ClientID %>"> State </asp:Label>
+                            <asp:Label runat="server" ID="lblZip" for="<%= txtZip.ClientID %>"> Zip Code </asp:Label>
                             <asp:TextBox runat="server" CssClass="form-control" ID="txtZip" ReadOnly="true" Text="19115"> </asp:TextBox>
                         </div>
                     </div>

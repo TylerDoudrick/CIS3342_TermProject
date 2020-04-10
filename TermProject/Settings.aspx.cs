@@ -22,10 +22,11 @@ namespace TermProject
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         int userID;
+        List<int> memberBlocks = new List<int>();
         DBConnect obj = new DBConnect(); SqlCommand objCMD = new SqlCommand();
         protected void Page_Load(object sender, EventArgs e)
         {
-            lblSuccess.Text = ""; lblError.Text = "";
+            lblSuccess.Text = ""; lblError.Text = ""; lblSearchUpdate.Text = "";
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
 
             else
@@ -55,22 +56,8 @@ namespace TermProject
                 }
                 else rbYes.Checked = true;
 
-                List<int> memberBlocks = (List<int>) Session["memberBlocks"]; // get blocks list from session
-                List<User> blckUsersBinding = new List<User>();
-                foreach ( int i in memberBlocks)
-                {
-                    objCMD.CommandType = CommandType.StoredProcedure;
-                    objCMD.CommandText = "TP_GetUser";
-                    objCMD.Parameters.AddWithValue("@userID", userID);
-                    DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
-                    User u = new User();
-                    u.name = (dsUser.Tables[0].Rows[0]["firstName"].ToString() + " "  + dsUser.Tables[0].Rows[0]["lastName"].ToString());
-                    u.tagline = dsUser.Tables[0].Rows[0]["tagline"].ToString();
-                    blckUsersBinding.Add(u);
-                }
-                rptBlockedUsers.DataSource = blckUsersBinding;
-                rptBlockedUsers.DataBind();
-
+                memberBlocks = (List<int>) Session["memberBlocks"]; // get blocks list from                
+                bindDL(memberBlocks);
                 if (!IsPostBack)
                 {
                     Session["remain"] = 1;
@@ -144,7 +131,6 @@ namespace TermProject
             Session["remain"] = 1;
             if (txtNewUsername.Text=="")
             {
-                lblUsernameError.Text = "Please enter your new username.";
                 txtNewUsername.CssClass += " is-invalid";
                 return;
             } // end check
@@ -172,6 +158,7 @@ namespace TermProject
                 {
                     ScriptManager.RegisterClientScriptBlock(this, GetType(),"alertMessage", @"alert('Successfully updated username ')", true);
                     txtCurrentUsername.Text = txtNewUsername.Text;
+                    txtNewUsername.CssClass = txtNewUsername.CssClass.Replace("is-invalid", "").Trim();
                 }
                 txtNewUsername.Text = "";
             }
@@ -189,7 +176,6 @@ namespace TermProject
             } // end check
             if (txtNewPassword.Text != txtConfirmPassword.Text)
             {
-                lblPasswordError.Text = "Passwords don't match.";
                 txtConfirmPassword.CssClass += " is-invalid";
                 txtConfirmPassword.Text = ""; return;
             }
@@ -208,6 +194,7 @@ namespace TermProject
                 if (String.IsNullOrEmpty(error))
                 {
                     txtConfirmPassword.Text = ""; txtNewPassword.Text = "";
+                    txtNewPassword.CssClass = txtNewPassword.CssClass.Replace("is-invalid", "").Trim();
                     ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", @"alert('Successfully updated password')", true);
                 }
             }
@@ -259,7 +246,7 @@ namespace TermProject
                 trigger = true;
                 txtCity.CssClass += " is-invalid";
             }
-            if(txtZip.Text.Length <= 0 || !regexZip.IsMatch(txtZip.Text))
+            if(txtZip.Text.Length <= 0 || !regexZip.IsMatch(txtZip.Text.Trim()))
             {
                 trigger = true;
                 txtZip.CssClass += " is-invalid";
@@ -360,9 +347,64 @@ namespace TermProject
             obj.DoUpdateUsingCmdObj(objUpdateVisiblity, out string error);
             if (String.IsNullOrEmpty(error))
             {
-                ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", @"alert('Successfully updated profile visibility. 
-                    Your profile will not longer show up on the site. You can change this preference at any time.')", true);
+                lblSearchUpdate.Text = "Profile preferences have been updated. You can change these settings at any time.";
             }
+        }
+        
+
+        protected void Unnamed_Command(object sender, CommandEventArgs e)
+        { // will remove user from the blocked list
+            int unblockUserID = Convert.ToInt32(e.CommandName);
+            memberBlocks.Remove(unblockUserID); // remove the user's id from the blocked list
+
+            // serialize list
+            BinaryFormatter bf = new BinaryFormatter(); MemoryStream mStream = new MemoryStream();
+            Byte[] mBlocks;
+            bf.Serialize(mStream, memberBlocks); mBlocks = mStream.ToArray();
+
+            // update the db
+            SqlCommand objUpdatePref = new SqlCommand();
+            objUpdatePref.CommandType = CommandType.StoredProcedure;
+            objUpdatePref.CommandText = "TP_UpdatePreferences";
+            objUpdatePref.Parameters.AddWithValue("@userID", userID);
+            objUpdatePref.Parameters.AddWithValue("@blocks", mBlocks );
+            obj.DoUpdateUsingCmdObj(objUpdatePref, out string error);
+
+            if (String.IsNullOrEmpty(error))
+            {
+                Session["memberBlocks"] = memberBlocks;
+                bindDL(memberBlocks); // rebind the datalist
+            }
+        }
+
+        protected void bindDL(List<int> users)
+        {
+            List<User> blckUsersBinding = new List<User>();
+
+            foreach (int i in memberBlocks)
+            {
+                objCMD.Parameters.Clear();
+                objCMD.CommandType = CommandType.StoredProcedure;
+                objCMD.CommandText = "TP_GetUser";
+                objCMD.Parameters.AddWithValue("@userID", i);
+                DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
+
+                // deserialize the img URL
+                Byte[] imgArray = (Byte[])dsUser.Tables[0].Rows[0]["profileImage"];
+                MemoryStream memorystreamd = new MemoryStream(imgArray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                string url = (bfd.Deserialize(memorystreamd)).ToString();
+
+                User u = new User();
+                u.userID = i;
+                u.name = (dsUser.Tables[0].Rows[0]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[0]["lastName"].ToString());
+                u.tagline = dsUser.Tables[0].Rows[0]["tagline"].ToString();
+                u.imageSRC = url;
+                blckUsersBinding.Add(u);
+            }
+            dlBlockedUsers.DataSource = blckUsersBinding;
+            dlBlockedUsers.DataBind();
+            dlBlockedUsers.RepeatColumns = 3; dlBlockedUsers.RepeatDirection = RepeatDirection.Horizontal;
         }
     } // end class
 } // end namesapce

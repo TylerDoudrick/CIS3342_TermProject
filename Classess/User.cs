@@ -8,7 +8,10 @@ namespace Classess
 {
     public class User
     {
+        public int userID { get; set; }
         public string name { get;set;}
         public string tagline { get; set; }
+
+        public string imageSRC { get; set; }
     }
 }
