@@ -2,42 +2,22 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <script>
-    var ttr = 10;
+        var ttr = 10;
 
-    function redirectCountdown() {
-        ttr = ttr - 1;
-        if (ttr <= 0) {
-            window.location.replace("Registration.aspx");
-        }else {
-            document.getElementById("countdown").innerHTML = ttr;
-            setTimeout("redirectCountdown()", 1000);
+        function redirectCountdown() {
+            ttr = ttr - 1;
+            if (ttr <= 0) {
+                window.location.replace("Registration.aspx");
+            } else {
+                document.getElementById("countdown").innerHTML = ttr;
+                setTimeout("redirectCountdown()", 1000);
+            }
         }
-    }
 
-</script>
+    </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
-    <!-- Modal -->
-    <div class="modal fade" id="modalForgotPassword" tabindex="-1" role="dialog" aria-labelledby="modalForgotPasswordLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalForgotPasswordLabel">Forgot Password?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Enter your email address. If it's on file, you'll receive an email with a password recovery link.
-          <asp:TextBox runat="server" CssClass="form-control"></asp:TextBox>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Submit</button>
-                </div>
-            </div>
-        </div>
-    </div>
+
     <div class="row justify-content-center my-5" id="divCreateAccount" runat="server">
         <div class="col-4">
             <div class="card p-3">
@@ -168,6 +148,36 @@
                             <asp:TextBox type="text" CssClass="form-control" ID="txtZip" placeholder="ZIP Code" runat="server" />
                         </div>
                     </div>
+                    <hr />
+                    <h5 class="text-center my-3">Security Questions</h5>
+                    <p>Please select three security questions and answer them. They will be used if you forget your password.</p>
+                    <div class="form-group">
+                        <label for="<%= ddlSecurityQOne.ClientID %>">First Security Question:</label>
+                        <asp:DropDownList ID="ddlSecurityQOne" runat="server" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                    <div class="form-group">
+                        <label for="<%= txtSecurityQOne.ClientID %>">Answer:</label>
+
+                        <asp:TextBox ID="txtSecurityQOne" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label for="<%= ddlSecurityQTwo.ClientID %>">Second Security Question:</label>
+                        <asp:DropDownList ID="ddlSecurityQTwo" runat="server" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                    <div class="form-group">
+                        <label for="<%= txtSecurityQTwo.ClientID %>">Answer:</label>
+
+                        <asp:TextBox ID="txtSecurityQTwo" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
+                    <div class="form-group">
+                        <label for="<%= ddlSecurityQThree.ClientID %>">Third Security Question:</label>
+                        <asp:DropDownList ID="ddlSecurityQThree" runat="server" CssClass="form-control"></asp:DropDownList>
+                    </div>
+                    <div class="form-group">
+                        <label for="<%= txtSecurityQThree.ClientID %>">Answer:</label>
+
+                        <asp:TextBox ID="txtSecurityQThree" runat="server" CssClass="form-control"></asp:TextBox>
+                    </div>
                     <asp:Button CssClass="btn btn-primary" Text="Create Account" runat="server" ID="btnCreateAccount" OnClick="btnCreateAccount_Click" />
                     <hr class="py-2" />
                     <div>
@@ -184,8 +194,9 @@
                 <h5 class="card-title text-center">Validate Account</h5>
                 <div class="card-body">
                     <p>
-                        Good news! You're account has been validated because we don't know if we can do validation!</p>
-                       <p> You'll be redirected to account creation in... <span id="countdown"></span></p>
+                        Good news! You're account has been validated because we don't know if we can do validation!
+                    </p>
+                    <p>You'll be redirected to account creation in... <span id="countdown"></span></p>
                 </div>
             </div>
 
@@ -193,5 +204,4 @@
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
-
 </asp:Content>

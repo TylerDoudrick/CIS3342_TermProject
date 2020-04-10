@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="TermProject.Profile" MaintainScrollPositionOnPostBack = "true"%>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Profile.aspx.cs" Inherits="TermProject.Profile" MaintainScrollPositionOnPostback="true" %>
 
 <%@ Register Src="~/UserControls/ddl.ascx" TagPrefix="uc1" TagName="ddl" %>
 
@@ -23,14 +23,20 @@
             <asp:Image runat="server" CssClass="img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
         </div>
         <div class="col-4">
-            <h5 class="text-info font-weight-bold ">Sam Smith, 25</h5>
+            <asp:Label class="text-info font-weight-bold" ID="lblName" runat="server">Sam Smith, 25</asp:Label>
             <div class="my-2">
                 <asp:Label runat="server" ID="lblLocation"> Philadelphia, PA</asp:Label>
             </div>
-            <asp:TextBox runat="server" ID="txtTagline" ReadOnly="true" Text="This is the Tagline" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+            <span class="h3 text-right" id="btnEditTagLine"><i class="fas fa-pen-square"></i></span>
+
+            <asp:TextBox runat="server" ID="txtTagline" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
+
         </div>
 
-
+    </div>
+    <div class="row justify-content-center hidden" id="divEditTagLineControls">
+        <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " OnClick="btnEditTagLineSubmit_Click" />
+        <button type="button" class="btn btn-secondary h-50" id="btnEditTagLineCancel">Cancel</button>
     </div>
 
     <hr class="w-75 mx-auto" />
@@ -52,7 +58,7 @@
 
                 <div class="col -8">
                     <div class="input-group" id="txtFullNumber">
-                        <asp:TextBox runat="server" ID="txtPhoneNumber" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                        <asp:TextBox runat="server" ID="txtPhoneNumber" CssClass="form-control"></asp:TextBox>
                     </div>
                 </div>
             </div>
@@ -60,7 +66,7 @@
                 <asp:Label runat="server" ID="lblEmail" for="<%= txtEmail.ClientID %>" CssClass="col-4 my-auto">Email</asp:Label>
 
                 <div class="col -8">
-                    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control" ReadOnly="true"></asp:TextBox>
+                    <asp:TextBox runat="server" ID="txtEmail" CssClass="form-control"></asp:TextBox>
                 </div>
             </div>
         </div>
@@ -85,7 +91,7 @@
         <div class="col-md-10">
             <asp:Label runat="server" ID="lblBio"> Bio </asp:Label>
 
-            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
 
@@ -93,15 +99,15 @@
         <div class="col-2">
             <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
 
-                <asp:DropDownList ID="ddlSeeking" runat="server" CssClass="form-control" Enabled="false">
-                    <asp:ListItem Value="Female">Female</asp:ListItem>
-                    <asp:ListItem Value="Male">Male</asp:ListItem>
-                    <asp:ListItem Value="Both">Both</asp:ListItem>
-                </asp:DropDownList>
+            <asp:DropDownList ID="ddlSeeking" runat="server" CssClass="form-control" Enabled="false">
+                <asp:ListItem Value="Female">Female</asp:ListItem>
+                <asp:ListItem Value="Male">Male</asp:ListItem>
+                <asp:ListItem Value="Both">Both</asp:ListItem>
+            </asp:DropDownList>
         </div>
         <div class="col-2">
             <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
-            <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control" ReadOnly="true"> </asp:TextBox>
+            <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control"> </asp:TextBox>
         </div>
         <div class="col-2">
             <asp:Label runat="server" ID="lblWantChildren"> Do you want kids? </asp:Label>
@@ -214,76 +220,76 @@
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavSongs" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavSongs" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSayings">Favorite Sayings</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavSayings" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavSayings" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavRestaurants">Favorite Restaurants</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavRestaurants" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavRestaurants" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavMovies">Favorite Movies</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavMovies" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavMovies" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavBooks">Favorite Books</asp:Label>
-            <asp:TextBox runat="server" ID="txtFavBooks" CssClass="form-control" TextMode="MultiLine" ReadOnly="true"></asp:TextBox>
+            <asp:TextBox runat="server" ID="txtFavBooks" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
 
         </div>
     </div>
-        <div class="row justify-content-center hidden" id="divEditAboutYouControls">
-        <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50" OnClick="btnEditMiscSubmit_Click" />
+    <div class="row justify-content-center hidden" id="divEditAboutYouControls">
+        <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50" OnClick="btnEditAboutYouSubmit_Click" />
         <button type="button" class="btn btn-secondary h-50" id="btnEditAboutYouCancel">Cancel</button>
     </div>
 
-        <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
+    <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col text-right">
             <div class="font-weight-bold text-info h5 my-auto">Your Details</div>
         </div>
         <div class="col my-auto mx-2 text-right">
-            <asp:LinkButton CssClass="h3" id="btnEditYourDetails" runat="server" OnClick="btnEditYourDetails_Click"><i class="fas fa-pen-square"></i></asp:LinkButton>
+            <asp:LinkButton CssClass="h3" ID="btnEditYourDetails" runat="server" OnClick="btnEditYourDetails_Click"><i class="fas fa-pen-square"></i></asp:LinkButton>
         </div>
     </div>
 
-    <uc1:ddl runat="server" ID="ddl"/>
+    <uc1:ddl runat="server" ID="ddl" />
 
 
     <div runat="server" id="lblYourDetails">
         <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
             <div class="col">
-                <label class="w-100 border-bottom  d-block">Religion</label>
-                <asp:Label runat="server" ID="lblReligion" CssClass="selectpicker col-10"></asp:Label>
+                <label class="w-100 border-bottom">Religion</label>
+                <asp:Label runat="server" ID="lblReligion" CssClass="col-10"></asp:Label>
 
             </div>
             <div class="col">
-                <label class="w-100 border-bottom  d-block">Commitment</label>
-                <asp:Label runat="server" ID="lblCommittment" CssClass="selectpicker col-10"></asp:Label>
+                <label class="w-100 border-bottom">Commitment</label>
+                <asp:Label runat="server" ID="lblCommittment" CssClass="col-10"></asp:Label>
             </div>
             <div class="col">
-                <label class="w-100 border-bottom  d-block">Interests</label>
-                <asp:Label runat="server" ID="lblInterests" CssClass="selectpicker col-10"></asp:Label>
+                <label class="w-100 border-bottom">Interests</label>
+                <asp:Label runat="server" ID="lblInterests" CssClass="col-10"></asp:Label>
             </div>
 
         </div>
         <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
             <div class="col">
-                <label class="w-100 border-bottom  d-block">Likes</label>
-                <asp:Label runat="server" ID="lblLikes" CssClass="selectpicker col-7"></asp:Label>
+                <label class="w-100 border-bottom">Likes</label>
+                <asp:Label runat="server" ID="lblLikes" CssClass="col-7"></asp:Label>
             </div>
             <div class="col">
-                <label class="w-100 border-bottom  d-block">Dislikes</label>
-                <asp:Label runat="server" ID="lblDislikes" CssClass="selectpicker col-7"></asp:Label>
+                <label class="w-100 border-bottom">Dislikes</label>
+                <asp:Label runat="server" ID="lblDislikes" CssClass="col-7"></asp:Label>
             </div>
         </div>
     </div>
-            <div class="row justify-content-center" id="divEditYourDetailsControls" runat="server">
+    <div class="row justify-content-center" id="divEditYourDetailsControls" runat="server">
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50" OnClick="btnEditYourDetailsSubmit_Click" />
-        <asp:Button type="button" class="btn btn-secondary h-50" id="btnEditYourDetailsCancel" runat="server" Text="Cancel" OnClick="btnEditYourDetailsCancel_Click"></asp:Button>
+        <asp:Button type="button" class="btn btn-secondary h-50" ID="btnEditYourDetailsCancel" runat="server" Text="Cancel" OnClick="btnEditYourDetailsCancel_Click"></asp:Button>
     </div>
 </asp:Content>
 
@@ -296,8 +302,21 @@
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkProfile").addClass("active");
 
+            $("#btnEditTagLine").click(function () {
+                $(".fa-pen-square").each(function () { $(this).hide() });
+                curentVals = {};
+                HideAll();
+                currentVals["txtTagLine"] = $("#<%= txtTagline.ClientID %>").val();
+                $("#<%= txtTagline.ClientID %>").attr('readonly', false);
+                $("#divEditTagLineControls").removeClass('hidden');
+            });
 
+            $("#btnEditTagLineCancel").click(function () {
+                $(".fa-pen-square").each(function () { $(this).show() });
 
+                $("#<%= txtTagline.ClientID %>").val(currentVals["txtTagLine"]);
+                HideAll();
+            });
             //Contact Information
             $("#btnEditContact").click(function () {
                 $(".fa-pen-square").each(function () { $(this).hide() });
@@ -378,11 +397,7 @@
                 $("#<%= txtFavMovies.ClientID %>").attr('readonly', false);
                 $("#<%= txtFavBooks.ClientID %>").attr('readonly', false);
                 $("#divEditAboutYouControls").removeClass('hidden');
-                $(".lblReligion").addClass('d-none');
-                $(".lblCommitment").addClass('d-none');
-                $(".lblInterests").addClass('d-none');
-                $(".lblLikes").addClass('d-none');
-                $(".lblDislikes").addClass('d-none');
+
             });
 
             $("#btnEditAboutYouCancel").click(function () {
@@ -398,6 +413,10 @@
             });
             //Is when when any cancel button is hit to ensure proper functionality.
             function HideAll() {
+
+                $("#<%= txtTagline.ClientID %>").attr('readonly', true);
+                $("#divEditTagLineControls").addClass('hidden');
+
 
                 $("#<%= txtPhoneNumber.ClientID %>").attr('readonly', true);
                 $("#<%= txtEmail.ClientID %>").attr('readonly', true);
