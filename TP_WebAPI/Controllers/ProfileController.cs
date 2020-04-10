@@ -6,8 +6,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MusicStoreLibrary;
 using Models;
+using System.Data;
+using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
@@ -42,6 +43,17 @@ namespace TP_WebAPI.Controllers
             DataSet myDS = obj.GetDataSetUsingCmdObj(objLogin);
             return myDS;
         }
+        [HttpGet("{id}")]
+       public DataSet grabPublicProfile(string id)
+        {
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_LookupPersonalProfile";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+            return myDS;
+        }
 
         [HttpPut("updateAddress")]
         public void UpdateAddress([FromBody] UserAddress ua)
@@ -55,7 +67,7 @@ namespace TP_WebAPI.Controllers
             objUpdateAdd.Parameters.AddWithValue("@city", ua.city);
             objUpdateAdd.Parameters.AddWithValue("@state", ua.state);
             objUpdateAdd.Parameters.AddWithValue("@zip", ua.zipCode);
-            obj.DoUpdateUsingCmdObj(objUpdateAdd);
+            obj.DoUpdateUsingCmdObj(objUpdateAdd, out string erro);
         }
 
         [HttpGet("GetSettings/{userID}")]
@@ -69,7 +81,7 @@ namespace TP_WebAPI.Controllers
             DataSet dsAddress = obj.GetDataSetUsingCmdObj(objGetAddress);
             return dsAddress;
         }
-
+        
     }
 
 }

@@ -32,6 +32,7 @@ namespace TermProject.UserControls
 
             lbReligion.DataSource = ds.Tables[0];
             lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
+            lbReligion.SelectionMode = ListSelectionMode.Multiple;
             lbReligion.DataBind();
 
             lbCommittment.DataSource = ds.Tables[1];
@@ -40,14 +41,17 @@ namespace TermProject.UserControls
 
             lbInterests.DataSource = ds.Tables[2];
             lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
+            lbInterests.SelectionMode = ListSelectionMode.Multiple;
             lbInterests.DataBind();
 
             lbLikes.DataSource = ds.Tables[3];
             lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
+            lbLikes.SelectionMode = ListSelectionMode.Multiple;
             lbLikes.DataBind();
 
             lbDislikes.DataSource = ds.Tables[4];
             lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
+            lbDislikes.SelectionMode = ListSelectionMode.Multiple;
             lbDislikes.DataBind();
         }
 

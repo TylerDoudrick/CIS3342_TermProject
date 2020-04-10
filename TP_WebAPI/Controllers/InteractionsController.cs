@@ -6,8 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using MusicStoreLibrary;
 using Models;
+using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
@@ -27,7 +27,8 @@ namespace TP_WebAPI.Controllers
             objInsertPref.Parameters.AddWithValue("@likes", p.mLikes);
             objInsertPref.Parameters.AddWithValue("@dislikes", p.mDislikes);
             objInsertPref.Parameters.AddWithValue("@blocks", p.mBlocks);
-            int result = objDB.DoUpdateUsingCmdObj(objInsertPref);
+            int result = objDB.DoUpdateUsingCmdObj(objInsertPref, out string error);
+  
             return result;
         }
 
@@ -52,7 +53,8 @@ namespace TP_WebAPI.Controllers
             objUpdatePref.Parameters.AddWithValue("@likes", p.mLikes);
             objUpdatePref.Parameters.AddWithValue("@dislikes", p.mDislikes);
             objUpdatePref.Parameters.AddWithValue("@blocks", p.mBlocks);
-            int result = objDB.DoUpdateUsingCmdObj(objUpdatePref);
+            int result = objDB.DoUpdateUsingCmdObj(objUpdatePref, out string error);
+ 
             return result;
         }
 

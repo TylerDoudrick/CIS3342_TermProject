@@ -6,6 +6,7 @@
             <asp:Label runat="server" ID="lblReligion" CssClass="w-100 border-bottom  d-block"> Religion</asp:Label><br />
             <asp:ListBox runat="server" ID="lbReligion" CssClass="form-control w-100 " SelectionMode="Single"></asp:ListBox>
 
+
         </div>
         <div class="col-2">
             <asp:Label runat="server" ID="lblCommitment" CssClass="w-100 border-bottom d-block"> Commitment</asp:Label><br />
@@ -24,7 +25,6 @@
             <asp:ListBox runat="server" ID="lbDislikes" CssClass="form-control" SelectionMode="Multiple"></asp:ListBox>
         </div>
     </div>
-
 </asp:Panel>
 
 
