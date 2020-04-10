@@ -41,8 +41,18 @@ namespace TP_WebAPI.Controllers
             DataSet myDS = obj.GetDataSetUsingCmdObj(objLogin);
             return myDS;
         }
+        [HttpGet("{id}")]
+       public DataSet grabPublicProfile(string id)
+        {
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_LookupPersonalProfile";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+            return myDS;
+        }
 
-       
     }
 
 }

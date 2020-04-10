@@ -94,22 +94,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblSeekingGender;
         
         /// <summary>
-        /// chkSeekingFemale control.
+        /// ddlSeeking control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkSeekingFemale;
-        
-        /// <summary>
-        /// chkSeekingMale control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkSeekingMale;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSeeking;
         
         /// <summary>
         /// lblNumKids control.
@@ -130,22 +121,22 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtNumKids;
         
         /// <summary>
-        /// lblWantKids control.
+        /// lblWantChildren control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblWantKids;
+        protected global::System.Web.UI.WebControls.Label lblWantChildren;
         
         /// <summary>
-        /// ddlWantKids control.
+        /// ddlWantChildren control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlWantKids;
+        protected global::System.Web.UI.WebControls.DropDownList ddlWantChildren;
         
         /// <summary>
         /// lblOccupation control.
@@ -265,6 +256,15 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtFavBooks;
         
         /// <summary>
+        /// btnEditYourDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.LinkButton btnEditYourDetails;
+        
+        /// <summary>
         /// ddl control.
         /// </summary>
         /// <remarks>
@@ -272,6 +272,15 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::TermProject.UserControls.ddl ddl;
+        
+        /// <summary>
+        /// lblYourDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblYourDetails;
         
         /// <summary>
         /// lblReligion control.
@@ -317,5 +326,23 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lblDislikes;
+        
+        /// <summary>
+        /// divEditYourDetailsControls control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divEditYourDetailsControls;
+        
+        /// <summary>
+        /// btnEditYourDetailsCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEditYourDetailsCancel;
     }
 }
