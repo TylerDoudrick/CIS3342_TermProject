@@ -18,41 +18,44 @@ namespace TermProject.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
+                WebResponse response = request.GetResponse();
+                // Read the data from the Web Response, which requires working with streams.
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                String data = reader.ReadToEnd();
+                reader.Close();
+                response.Close();
+                //JavaScriptSerializer js = new JavaScriptSerializer();
+                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
 
-            WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
-            WebResponse response = request.GetResponse();
-            // Read the data from the Web Response, which requires working with streams.
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            String data = reader.ReadToEnd();
-            reader.Close();
-            response.Close();
-            //JavaScriptSerializer js = new JavaScriptSerializer();
-            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+                lbReligion.DataSource = ds.Tables[0];
+                lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
+                lbReligion.SelectionMode = ListSelectionMode.Multiple;
+                lbReligion.DataBind();
 
-            lbReligion.DataSource = ds.Tables[0];
-            lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
-            lbReligion.SelectionMode = ListSelectionMode.Multiple;
-            lbReligion.DataBind();
+                lbCommittment.DataSource = ds.Tables[1];
+                lbCommittment.DataTextField = "CommitmentType"; lbCommittment.DataValueField = "CommitmentID";
+                lbCommittment.SelectionMode = ListSelectionMode.Multiple;
+                lbCommittment.DataBind();
 
-            lbCommittment.DataSource = ds.Tables[1];
-            lbCommittment.DataTextField = "CommitmentType"; lbCommittment.DataValueField = "CommitmentID";
-            lbCommittment.DataBind();
+                lbInterests.DataSource = ds.Tables[2];
+                lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
+                lbInterests.SelectionMode = ListSelectionMode.Multiple;
+                lbInterests.DataBind();
 
-            lbInterests.DataSource = ds.Tables[2];
-            lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
-            lbInterests.SelectionMode = ListSelectionMode.Multiple;
-            lbInterests.DataBind();
+                lbLikes.DataSource = ds.Tables[3];
+                lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
+                lbLikes.SelectionMode = ListSelectionMode.Multiple;
+                lbLikes.DataBind();
 
-            lbLikes.DataSource = ds.Tables[3];
-            lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
-            lbLikes.SelectionMode = ListSelectionMode.Multiple;
-            lbLikes.DataBind();
-
-            lbDislikes.DataSource = ds.Tables[4];
-            lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
-            lbDislikes.SelectionMode = ListSelectionMode.Multiple;
-            lbDislikes.DataBind();
+                lbDislikes.DataSource = ds.Tables[4];
+                lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
+                lbDislikes.SelectionMode = ListSelectionMode.Multiple;
+                lbDislikes.DataBind();
+            }
         }
 
         public void DisableControl()
@@ -104,6 +107,7 @@ namespace TermProject.UserControls
         {
             get { return this.lbReligion; }
         }
+
 
         public ListBox LBCommitment
         {

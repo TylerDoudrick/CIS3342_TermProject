@@ -121,6 +121,60 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtZip;
         
         /// <summary>
+        /// ddlSecurityQOne control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSecurityQOne;
+        
+        /// <summary>
+        /// txtSecurityQOne control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSecurityQOne;
+        
+        /// <summary>
+        /// ddlSecurityQTwo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSecurityQTwo;
+        
+        /// <summary>
+        /// txtSecurityQTwo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSecurityQTwo;
+        
+        /// <summary>
+        /// ddlSecurityQThree control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlSecurityQThree;
+        
+        /// <summary>
+        /// txtSecurityQThree control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtSecurityQThree;
+        
+        /// <summary>
         /// btnCreateAccount control.
         /// </summary>
         /// <remarks>
