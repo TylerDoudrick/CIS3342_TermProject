@@ -29,15 +29,15 @@ namespace TP_WebAPI.Controllers
             return ds;
         }
 
-        [HttpGet("checkLogin/{username}/{password}")]
-        public DataSet checkLogin(string username, string password)
+        [HttpGet("checkLogin/{username}/{trueword}")]
+        public DataSet checkLogin(string username, string trueword)
         {
             DBConnect obj = new DBConnect();
             SqlCommand objLogin = new SqlCommand();
             objLogin.CommandType = CommandType.StoredProcedure;
             objLogin.CommandText = "TP_CheckLogin";
             objLogin.Parameters.AddWithValue("@username", username);
-            objLogin.Parameters.AddWithValue("@password", password);
+            objLogin.Parameters.AddWithValue("@trueword", trueword);
             SqlParameter returnP = new SqlParameter("@count", DbType.Int32);
             returnP.Direction = ParameterDirection.ReturnValue;
             objLogin.Parameters.Add(returnP);
@@ -103,7 +103,7 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                return "pass";
+                return "true";
             }
         }
         [HttpPost("update/contact/{id}")]
@@ -128,7 +128,7 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                return "pass";
+                return "true";
             }
         }
 
@@ -160,7 +160,7 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                return "pass";
+                return "true";
             }
         }
 
@@ -192,7 +192,7 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                return "pass";
+                return "true";
             }
         }
 
@@ -326,7 +326,7 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                return "pass";
+                return "true";
             }
         }
     }

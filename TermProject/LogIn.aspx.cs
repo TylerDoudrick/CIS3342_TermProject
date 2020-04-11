@@ -83,7 +83,29 @@ namespace TermProject
                     {
                         Session["UserID"] = drUserRecord["userID"].ToString();
                         getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
-                        Response.Redirect("Dashboard.aspx");
+
+                        switch (Request.QueryString["target"])
+                        {
+
+                            case "Dates":
+                                Response.Redirect("Dates.aspx");
+                                break;
+                            case "LikeandPass":
+                                Response.Redirect("LikeandPass.aspx");
+                                break;
+                            case "Messages":
+                                Response.Redirect("Messages.aspx");
+                                break;
+                            case "Profile":
+                                Response.Redirect("Profile.aspx");
+                                break;
+                            case "Settings":
+                                Response.Redirect("Settings.aspx");
+                                break;
+                            default:
+                                Response.Redirect("Dashboard.aspx");
+                                break;
+                        }
                     }
                     else
                     {
@@ -105,7 +127,11 @@ namespace TermProject
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
-            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); Session["memberBlocks"] = memberBlocks;
+           
+            List<int> memberBlocks = new List<int>();
+            memberBlocks.Add(3);
+            Session["memberBlocks"] = memberBlocks;
+
             Response.Redirect("Dashboard.aspx");
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
@@ -113,7 +139,11 @@ namespace TermProject
             Session["FirstName"] = "Thomas";
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
-            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); Session["memberBlocks"] = memberBlocks;
+
+            List<int> memberBlocks = new List<int>();
+            memberBlocks.Add(3);
+            Session["memberBlocks"] = memberBlocks;
+
             Response.Redirect("Dashboard.aspx");
             
         }
