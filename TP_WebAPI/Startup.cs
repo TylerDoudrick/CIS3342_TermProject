@@ -26,6 +26,13 @@ namespace TP_WebAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowOrigin",
+                    builder => builder.AllowAnyOrigin());
+                    
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -39,7 +46,7 @@ namespace TP_WebAPI
             {
                 app.UseHsts();
             }
-
+            app.UseCors();
             app.UseHttpsRedirection();
             app.UseMvc();
         }

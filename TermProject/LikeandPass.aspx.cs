@@ -14,9 +14,8 @@ namespace TermProject
         int userID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=LikeandPass");
             else userID = Convert.ToInt32(Session["userID"].ToString());
-
         }
     }
 }

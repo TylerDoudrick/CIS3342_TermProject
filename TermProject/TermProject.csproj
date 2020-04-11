@@ -48,6 +48,9 @@
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.2.0.1\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.12.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -58,6 +61,7 @@
       <HintPath>..\packages\RestSharp.Newtonsoft.Json.1.5.1\lib\net452\RestSharp.Serializers.Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -103,7 +107,10 @@
     <Content Include="Search.aspx" />
     <Content Include="Settings.aspx" />
     <Content Include="styles\styles.css" />
+    <Content Include="Test.aspx" />
     <Content Include="UserControls\ddl.ascx" />
+    <Content Include="UserControls\js\notifierWorker.js" />
+    <Content Include="UserControls\Notifier.ascx" />
     <Content Include="Verification.aspx" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -216,12 +223,26 @@
     <Compile Include="Settings.aspx.designer.cs">
       <DependentUpon>Settings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Test.aspx.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Test.aspx.designer.cs">
+      <DependentUpon>Test.aspx</DependentUpon>
+    </Compile>
     <Compile Include="UserControls\ddl.ascx.cs">
       <DependentUpon>ddl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="UserControls\ddl.ascx.designer.cs">
       <DependentUpon>ddl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserControls\Notifier.ascx.cs">
+      <DependentUpon>Notifier.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserControls\Notifier.ascx.designer.cs">
+      <DependentUpon>Notifier.ascx</DependentUpon>
     </Compile>
     <Compile Include="Verification.aspx.cs">
       <DependentUpon>Verification.aspx</DependentUpon>

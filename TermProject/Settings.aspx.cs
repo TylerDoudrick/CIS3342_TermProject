@@ -27,7 +27,7 @@ namespace TermProject
         protected void Page_Load(object sender, EventArgs e)
         {
             lblSuccess.Text = ""; lblError.Text = ""; lblSearchUpdate.Text = "";
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Settings");
 
             else
             {
