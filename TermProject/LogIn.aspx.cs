@@ -105,6 +105,7 @@ namespace TermProject
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
+            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); Session["memberBlocks"] = memberBlocks;
             Response.Redirect("Dashboard.aspx");
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
@@ -112,7 +113,9 @@ namespace TermProject
             Session["FirstName"] = "Thomas";
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
+            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); Session["memberBlocks"] = memberBlocks;
             Response.Redirect("Dashboard.aspx");
+            
         }
 
         protected void getPrefs(int userID)
