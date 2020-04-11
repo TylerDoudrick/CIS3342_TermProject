@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using System.Data;
 using TermProject;
+using Classess;
 
 namespace TP_WebAPI.Controllers
 {
@@ -33,7 +34,7 @@ namespace TP_WebAPI.Controllers
         {
             DBConnect obj = new DBConnect();
             SqlCommand objLogin = new SqlCommand();
-            objLogin.CommandType= CommandType.StoredProcedure;
+            objLogin.CommandType = CommandType.StoredProcedure;
             objLogin.CommandText = "TP_CheckLogin";
             objLogin.Parameters.AddWithValue("@username", username);
             objLogin.Parameters.AddWithValue("@trueword", trueword);
@@ -44,7 +45,7 @@ namespace TP_WebAPI.Controllers
             return myDS;
         }
         [HttpGet("{id}")]
-       public DataSet grabPublicProfile(string id)
+        public DataSet grabPublicProfile(string id)
         {
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
@@ -81,7 +82,7 @@ namespace TP_WebAPI.Controllers
             DataSet dsAddress = obj.GetDataSetUsingCmdObj(objGetAddress);
             return dsAddress;
         }
-        
+
         [HttpPost("update/tagline/{id}")]
         public string UpdateTagLine(string id, [FromBody] IDictionary<string, string> newValues)
         {
@@ -132,7 +133,7 @@ namespace TP_WebAPI.Controllers
         }
 
         [HttpPost("update/basic/{id}")]
-        public string UpdateBasicInformation(string id, [FromBody] IDictionary<string,string> newValues)
+        public string UpdateBasicInformation(string id, [FromBody] IDictionary<string, string> newValues)
         {
             string bio = newValues["bio"];
             string numChildren = newValues["numChildren"];
@@ -151,9 +152,9 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.AddWithValue("@wantChildren", wantChildren);
             commandObj.Parameters.AddWithValue("@occupation", occupation);
             commandObj.Parameters.AddWithValue("@seeking", seeking);
-            
+
             //return myDS;
-            if(databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
             {
                 return exception;
             }
@@ -194,6 +195,52 @@ namespace TP_WebAPI.Controllers
                 return "true";
             }
         }
+
+        [HttpPost("insert/registrationInfo")]
+        public string InsertRegistrationInfo([FromBody] RegistrationObj r)
+        { // inserts registration info
+            DBConnect obj = new DBConnect();
+            SqlCommand objReg = new SqlCommand();
+            objReg.CommandType = CommandType.StoredProcedure;
+            objReg.CommandText = "TP_InsertRegistration";
+
+            objReg.Parameters.AddWithValue("@userID", r.id);
+            objReg.Parameters.AddWithValue("@photo", r.photo);
+            objReg.Parameters.AddWithValue("@phone", r.phone);
+            // if there are valid values for height and weight, add them to the command
+            if (r.height!=0)
+            {
+                objReg.Parameters.AddWithValue("@height", r.height); 
+            }
+            if (r.weight !=0)
+            {
+                objReg.Parameters.AddWithValue("@weight", r.weight);
+            }
+            objReg.Parameters.AddWithValue("@numChildren", r.numChildren);
+            objReg.Parameters.AddWithValue("@wantKids", r.wantKids);
+            objReg.Parameters.AddWithValue("@bio", r.bio);
+            objReg.Parameters.AddWithValue("@movies", r.movies);
+            objReg.Parameters.AddWithValue("@sayings", r.sayings);
+            objReg.Parameters.AddWithValue("@restaurants", r.restaurants);
+            objReg.Parameters.AddWithValue("@books", r.books);
+            objReg.Parameters.AddWithValue("@songs", r.songs);
+            objReg.Parameters.AddWithValue("@birthday", r.birthday);
+            objReg.Parameters.AddWithValue("@gender", r.gender);
+            objReg.Parameters.AddWithValue("@occupation", r.occupation);
+            objReg.Parameters.AddWithValue("@seekingGender", r.seekingGender);
+            objReg.Parameters.AddWithValue("@tagline", r.tagline);
+
+            if (obj.DoUpdateUsingCmdObj(objReg, out string exception) == -2)
+            {
+                return exception;
+            }
+            else
+            {
+                return "pass";
+            }
+        }
+
+
         [HttpPost("update/details/{id}")]
         public string UpdateDetails(string id, [FromBody] IDictionary<string, List<string>> newValues)
         {

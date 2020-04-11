@@ -220,22 +220,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblSeekingGender;
         
         /// <summary>
-        /// chkSeekingFemale control.
+        /// ddlSeeking control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkSeekingFemale;
-        
-        /// <summary>
-        /// chkSeekingMale control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBox chkSeekingMale;
+        protected global::System.Web.UI.WebControls.DropDownList ddlSeeking;
         
         /// <summary>
         /// lblNumKids control.
@@ -265,22 +256,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Label lblWantKids;
         
         /// <summary>
-        /// rWantKidsYes control.
+        /// ddlWantChildren control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rWantKidsYes;
-        
-        /// <summary>
-        /// rWantKidsNo control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RadioButton rWantKidsNo;
+        protected global::System.Web.UI.WebControls.DropDownList ddlWantChildren;
         
         /// <summary>
         /// lblFavSongs control.
