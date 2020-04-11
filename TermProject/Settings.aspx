@@ -163,9 +163,10 @@
                     </div>
                     <br />
                     <div runat="server" class="row">
-                        <div runat="server" class="col-3">
+                        <div runat="server" class="col-3 ">
                             <asp:Label runat="server" ID="lblCity" for="<%= txtCity.ClientID %>"> City </asp:Label>
                             <asp:TextBox runat="server" CssClass="form-control" ID="txtCity" ReadOnly="true" Text="Philadelphia"> </asp:TextBox>
+                        	<div id="suggestion"></div>
                         </div>
                         <div class="col-3">
                             <asp:Label runat="server" ID="lblState" for="<%= txtState.ClientID %>"> State </asp:Label>
@@ -262,5 +263,29 @@
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+    <script>
+        // city link: "https://secure.geobytes.com/AutoCompleteCity?key=7c756203dbb38590a66e01a5a3e1ad96&callback=?&q="
+ 
+        $("#txtCity").autocomplete({
 
+    //       source: function( request, response ) {
+    //    $.ajax({
+    //      url: "http://gd.geobytes.com/AutoCompleteCity",
+    //      dataType: "json",
+    //      data: {
+    //        filter: "US",
+    //          q: request.term,
+    //        template: "<geobytes city>"
+    //      },
+    //      success: function( data ) {
+    //        console.log(data);
+    //        response( data );
+    //      }
+    //    });
+    //  },
+    //  minLength: 2
+    //}
+    //});
+  });
+    </script>
 </asp:Content>

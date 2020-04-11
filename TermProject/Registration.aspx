@@ -50,11 +50,11 @@
                 <asp:TextBox runat="server" ID="txtNumber3" CssClass="form-control" MaxLength="4"></asp:TextBox>
             </div>
         </div>
-        <div class="col-1">
+        <div class="col-2">
             <asp:Label runat="server" ID="lblGender">Gender</asp:Label>
             <span class="required">*</span>
             <asp:DropDownList runat="server" ID="ddlGender" CssClass="form-control">
-                <asp:ListItem Value="-1"> Select.. </asp:ListItem>
+                <asp:ListItem Value="-1"> Select Gender.. </asp:ListItem>
                 <asp:ListItem Value="female"> Female </asp:ListItem>
                 <asp:ListItem Value="male"> Male</asp:ListItem>
             </asp:DropDownList>
@@ -189,26 +189,28 @@
         <div class="col-2">
             <asp:Label runat="server" ID="lblSeekingGender"> Seeking Gender</asp:Label>
             <span class="required">*</span>
-            <div class="form-group align-items-end ">
-                <asp:CheckBox runat="server" ID="chkSeekingFemale" Text="Female" />
-                &nbsp;&nbsp;
-                <asp:CheckBox runat="server" ID="chkSeekingMale" Text="Male" />
-            </div>
+            <asp:DropDownList ID="ddlSeeking" runat="server" CssClass="form-control">
+                <asp:ListItem Value="-1">Select Seeking Gender..</asp:ListItem>
+                <asp:ListItem Value="Female">Female</asp:ListItem>
+                <asp:ListItem Value="Male">Male</asp:ListItem>
+                <asp:ListItem Value="Both">Both</asp:ListItem>
+            </asp:DropDownList>
         </div>
         <div class="col-1">
             <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
             <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control"> </asp:TextBox>
 
         </div>&nbsp; &nbsp;
-        <div class="col-3">
+        <div class="col-1">
             <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
-            <div class="form-group">
-                <asp:RadioButton runat="server" ID="rWantKidsYes" Text="Yes" />&nbsp;&nbsp; &nbsp;
-                <asp:RadioButton runat="server" ID="rWantKidsNo" Text="No" />
-            </div>
+            <asp:DropDownList ID="ddlWantChildren" runat="server" CssClass="form-control">
+                <asp:ListItem Value="-1">Select Choice..</asp:ListItem>
+                <asp:ListItem Value="1">Yes</asp:ListItem>
+                <asp:ListItem Value="0">No</asp:ListItem>
+            </asp:DropDownList>
         </div>
     </div>
-    <hr /> <hr /> <br />
+    <hr /> <br />
     <h5 class="text-info font-weight-bold"> Miscellenous </h5>
     <div class="row justify-content-center my-5">
         <div class="col-4">
