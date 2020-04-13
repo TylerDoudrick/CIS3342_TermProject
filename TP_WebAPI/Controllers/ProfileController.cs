@@ -57,17 +57,23 @@ namespace TP_WebAPI.Controllers
         }
 
         [HttpPut("updateAddress")]
-        public void UpdateAddress([FromBody] UserAddress ua)
+        public void UpdateAddress( [FromBody] IDictionary<string, string> newValues)
         {
+            int userID = Convert.ToInt16(newValues["id"]);
+            int zipCode = Convert.ToInt16(newValues["zipCode"]);
+            string billingAddress = (newValues["billingAddress"]);
+            string city = newValues["city"];
+            string state = newValues["state"];
+
             DBConnect obj = new DBConnect();
             SqlCommand objUpdateAdd = new SqlCommand();
             objUpdateAdd.CommandType = CommandType.StoredProcedure;
             objUpdateAdd.CommandText = "TP_UpdateAddress";
-            objUpdateAdd.Parameters.AddWithValue("@userID", ua.id);
-            objUpdateAdd.Parameters.AddWithValue("@stAddress", ua.billingAddress);
-            objUpdateAdd.Parameters.AddWithValue("@city", ua.city);
-            objUpdateAdd.Parameters.AddWithValue("@state", ua.state);
-            objUpdateAdd.Parameters.AddWithValue("@zip", ua.zipCode);
+            objUpdateAdd.Parameters.AddWithValue("@userID", userID);
+            objUpdateAdd.Parameters.AddWithValue("@stAddress", billingAddress);
+            objUpdateAdd.Parameters.AddWithValue("@city", city);
+            objUpdateAdd.Parameters.AddWithValue("@state", state);
+            objUpdateAdd.Parameters.AddWithValue("@zip", zipCode);
             obj.DoUpdateUsingCmdObj(objUpdateAdd, out string erro);
         }
 

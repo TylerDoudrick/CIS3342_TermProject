@@ -124,6 +124,7 @@ namespace TermProject
         public DataSet GetDataSetUsingCmdObj(SqlCommand theCommand)
         {
             theCommand.Connection = myConnectionSql;
+            theCommand.CommandTimeout = 100;
             SqlDataAdapter myDataAdapter = new SqlDataAdapter(theCommand);
             DataSet myDataSet = new DataSet();
             myDataAdapter.Fill(myDataSet);

@@ -57,7 +57,7 @@ namespace TermProject
                 else rbYes.Checked = true;
 
                 memberBlocks = (List<int>) Session["memberBlocks"]; // get blocks list from                
-                bindDL(memberBlocks);
+                bindDL();
                 if (!IsPostBack)
                 {
                     Session["remain"] = 1;
@@ -261,9 +261,15 @@ namespace TermProject
             }
             else
             {
-                
-                UserAddress a = new UserAddress();
-                a.id = userID; a.billingAddress = txtStAddresses.Text; a.city = txtCity.Text; a.state = ddlState.SelectedValue; a.zipCode = Convert.ToInt32(txtZip.Text);
+                IDictionary<string, string> a = new Dictionary<string, string>
+                {
+                    ["id"] = userID.ToString(),
+                    ["billingAddress"] = txtStAddresses.Text,
+                    ["city"] = txtCity.Text,
+                    ["state"] = ddlState.SelectedValue,
+                    ["zipCode"] = txtZip.Text
+                };
+
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string jsonA = js.Serialize(a);
 
@@ -373,35 +379,69 @@ namespace TermProject
             if (String.IsNullOrEmpty(error))
             {
                 Session["memberBlocks"] = memberBlocks;
-                bindDL(memberBlocks); // rebind the datalist
+                bindDL(); // rebind the datalist
             }
         }
 
-        protected void bindDL(List<int> users)
+        protected void bindDL()
         {
             List<User> blckUsersBinding = new List<User>();
 
-            foreach (int i in memberBlocks)
+            DataTable dtBlocks = new DataTable();
+            dtBlocks.Columns.Add("UserId", typeof(int));
+            foreach (int id in memberBlocks)
             {
-                objCMD.Parameters.Clear();
-                objCMD.CommandType = CommandType.StoredProcedure;
-                objCMD.CommandText = "TP_GetUser";
-                objCMD.Parameters.AddWithValue("@userID", i);
-                DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
-
-                // deserialize the img URL
-                Byte[] imgArray = (Byte[])dsUser.Tables[0].Rows[0]["profileImage"];
-                MemoryStream memorystreamd = new MemoryStream(imgArray);
-                BinaryFormatter bfd = new BinaryFormatter();
-                string url = (bfd.Deserialize(memorystreamd)).ToString();
-
-                User u = new User();
-                u.userID = i;
-                u.name = (dsUser.Tables[0].Rows[0]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[0]["lastName"].ToString());
-                u.tagline = dsUser.Tables[0].Rows[0]["tagline"].ToString();
-                u.imageSRC = url;
-                blckUsersBinding.Add(u);
+                DataRow dr = dtBlocks.NewRow();
+                dr["UserId"] = id;
+                dtBlocks.Rows.Add(dr);
             }
+            objCMD.Parameters.Clear();
+            objCMD.CommandType = CommandType.StoredProcedure;
+            objCMD.CommandText = "TP_GetUser";
+            objCMD.Parameters.AddWithValue("@UserList", dtBlocks);
+            DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
+            DataTable dt = dsUser.Tables[0];
+   /*         for (int row =0; row<dt.Rows.Count; row++)
+            {
+                int id = Convert.ToInt32(dt.Rows[row]["userID"]);
+                if (memberBlocks.Contains(id))
+                { // if this member is blocked
+                    // deserialize the img URL
+                    Byte[] imgArray = (Byte[])dsUser.Tables[0].Rows[row]["profileImage"];
+                    MemoryStream memorystreamd = new MemoryStream(imgArray);
+                    BinaryFormatter bfd = new BinaryFormatter();
+                    string url = (bfd.Deserialize(memorystreamd)).ToString();
+
+                    User u = new User();
+                    u.userID = id;
+                    u.name = (dsUser.Tables[0].Rows[row]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[row]["lastName"].ToString());
+                    u.tagline = dsUser.Tables[0].Rows[row]["tagline"].ToString();
+                    u.imageSRC = url;
+                    blckUsersBinding.Add(u);
+                }
+            }*/
+
+            /*    foreach (int i in memberBlocks)
+                {
+                    objCMD.Parameters.Clear();
+                    objCMD.CommandType = CommandType.StoredProcedure;
+                    objCMD.CommandText = "TP_GetUser";
+                    objCMD.Parameters.AddWithValue("@userID", i);
+                    DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
+
+                    // deserialize the img URL
+                    Byte[] imgArray = (Byte[])dsUser.Tables[0].Rows[0]["profileImage"];
+                    MemoryStream memorystreamd = new MemoryStream(imgArray);
+                    BinaryFormatter bfd = new BinaryFormatter();
+                    string url = (bfd.Deserialize(memorystreamd)).ToString();
+
+                    User u = new User();
+                    u.userID = i;
+                    u.name = (dsUser.Tables[0].Rows[0]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[0]["lastName"].ToString());
+                    u.tagline = dsUser.Tables[0].Rows[0]["tagline"].ToString();
+                    u.imageSRC = url;
+                    blckUsersBinding.Add(u);
+                }*/
             dlBlockedUsers.DataSource = blckUsersBinding;
             dlBlockedUsers.DataBind();
             dlBlockedUsers.RepeatColumns = 3; dlBlockedUsers.RepeatDirection = RepeatDirection.Horizontal;

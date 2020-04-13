@@ -43,6 +43,21 @@ namespace TP_WebAPI.Controllers
             return result;
         }
 
+        [HttpPut("blockUser")]
+        public int BlockUser([FromBody] IDictionary<string, string> newValues)
+        { // removes all interactions between 2 users when blocked
+            int userID = Convert.ToInt16(newValues["userID"]);
+            int memID = Convert.ToInt16(newValues["memID"]);
+
+            SqlCommand objBlock = new SqlCommand();
+            objBlock.CommandType = CommandType.StoredProcedure;
+            objBlock.CommandText = "TP_Block";
+            objBlock.Parameters.AddWithValue("@userID", userID);
+            objBlock.Parameters.AddWithValue("@memID", memID);
+            int result = objDB.DoUpdateUsingCmdObj(objBlock, out string error);
+            return result;
+        }
+
         [HttpPut("updatePreferences")]
         public int UpdatePreferences([FromBody] Preferences p)
         { // updates preferences for user

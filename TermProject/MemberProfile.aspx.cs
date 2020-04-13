@@ -18,11 +18,13 @@ namespace TermProject
     public partial class MemberProfile : System.Web.UI.Page
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
-        int memberUserID=9; int userID=2; string memberName = "";
+        int memberUserID; int userID; string memberName = "";
         protected void Page_Load(object sender, EventArgs e)
         {
             if (Session["UserID"] != null)
-            { 
+            {
+                userID = Convert.ToInt32(Session["userID"].ToString());
+
                 divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
                 divFavThings.Attributes.Add("style", "display:flex"); // show fav things
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDateRequest.Enabled = true;
@@ -33,7 +35,7 @@ namespace TermProject
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDateRequest.Enabled = false;
             }
-            memberUserID = 2; // this is the user id of the person who's profile we're viewing
+            memberUserID = Convert.ToInt32(Request.QueryString["memberID"]); // this is the user id of the person who's profile we're viewing
         } // end page load
 
         protected void btnLike_Click(object sender, EventArgs e)
@@ -62,6 +64,32 @@ namespace TermProject
             Session["memberBlocks"] = memberBlocks;
             string message = "You have blocked " + memberName;
             UpdatePreferences(message);
+
+            IDictionary<string, string> newValues = new Dictionary<string, string>
+            {
+                ["userID"] = userID.ToString(),
+                ["memID"] = memberUserID.ToString()
+            };
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            String jsonValues = js.Serialize(newValues);
+
+            // remove messages, dates between the two
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "blockUser");
+            request.Method = "PUT";
+            request.ContentType = "application/json";
+
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(jsonValues);
+            writer.Flush();
+            writer.Close();
+
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close();
+            
         } // end btn block event handler
 
         protected void btnDateRequest_Click(object sender, EventArgs e)

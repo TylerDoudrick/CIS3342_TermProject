@@ -15,7 +15,7 @@
     </div>
     <br />
     <asp:Label runat="server" ID="lblError" CssClass="text-danger font-weight-bold"></asp:Label>
-    <h5 class="text-info font-weight-bold">Bio</h5>
+    <h5 class="text-info font-weight-bold text-center">Bio</h5>
     <div class="row justify-content-center my-5">
         <div class="col-md-10">
             <asp:Label runat="server" ID="lblTagline"> Tagline </asp:Label>
@@ -30,8 +30,11 @@
             <asp:TextBox runat="server" ID="txtBio" CssClass="form-control" TextMode="MultiLine"></asp:TextBox>
         </div>
     </div>
-    <hr /><br />
-    <h5 class="text-info font-weight-bold">Basic Info</h5>
+    <hr />
+    <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
+         <div class="font-weight-bold text-info h5 my-auto">Basic Information</div>
+    </div>
+   
     <div class="row justify-content-center my-5">
         <div class="col-2">
             <asp:Label runat="server" ID="lblPhoneNumber"> Phone Number</asp:Label>
@@ -196,12 +199,12 @@
                 <asp:ListItem Value="Both">Both</asp:ListItem>
             </asp:DropDownList>
         </div>
-        <div class="col-1">
+        <div class="col-2">
             <asp:Label runat="server" ID="lblNumKids"> Number of Kids</asp:Label>
             <asp:TextBox runat="server" ID="txtNumKids" CssClass="form-control"> </asp:TextBox>
 
         </div>&nbsp; &nbsp;
-        <div class="col-1">
+        <div class="col-2">
             <asp:Label runat="server" ID="lblWantKids"> Do you want kids? </asp:Label>
             <asp:DropDownList ID="ddlWantChildren" runat="server" CssClass="form-control">
                 <asp:ListItem Value="-1">Select Choice..</asp:ListItem>
@@ -210,8 +213,14 @@
             </asp:DropDownList>
         </div>
     </div>
-    <hr /> <br />
-    <h5 class="text-info font-weight-bold"> Miscellenous </h5>
+    <hr /> 
+
+   <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
+        <div class="col text-center">
+            <div class="font-weight-bold text-info h5 my-auto">About You</div>
+        </div>
+       </div>
+
     <div class="row justify-content-center my-5">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>

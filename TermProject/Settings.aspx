@@ -3,17 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
         
-
-        .required {
-            color: red;
-        }
-
         .card-img-top {
             height: auto;
             width: 100%;
         }
         .card {
-            border: 1px solid black;
             width: 16em;
             height:auto;
         }
@@ -133,7 +127,7 @@
                             <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command">
                                 <div class="card my-2 " >
                                 <div runat="server" >
-                                    <img class="card-img-top img-thumbnail" src='<%#Eval("imageSRC") %>'> </img>
+                                    <img class="card-img-top" src='<%#Eval("imageSRC") %>'> </img>
                                 </div>
                                 
                                 <div class="card-body">
