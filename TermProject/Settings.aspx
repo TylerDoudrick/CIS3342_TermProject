@@ -124,7 +124,6 @@
                 <asp:DataList runat="server" ID="dlBlockedUsers">
                     <ItemTemplate>
                         <div class="col-sm-3">
-                            <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command">
                                 <div class="card my-2 " >
                                 <div runat="server" >
                                     <img class="card-img-top" src='<%#Eval("imageSRC") %>'> </img>
@@ -136,10 +135,9 @@
                                     <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <asp:Button runat="server" ID="btnUnblock" Text="Unblock" CssClass="btn btn-dark" />
+                            <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command"> Unblock</asp:LinkButton>
                                 </div>
                             </div>
-                            </asp:LinkButton>
                         </div>
                     </ItemTemplate>
                 </asp:DataList>

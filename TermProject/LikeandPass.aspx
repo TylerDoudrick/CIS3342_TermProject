@@ -30,7 +30,7 @@
                                     <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer text-center">
-                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary" ID="lbUnlike" OnCommand="lbUnlike_Command"> Unlike</asp:LinkButton>
+                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary w-100" ID="lbUnlike" OnCommand="lbUnlike_Command"> Unlike</asp:LinkButton>
                                 </div>
                             </div>
                         </div>
@@ -66,8 +66,8 @@
                                     <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer">
-                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary w-100 mb-1"> Like </asp:LinkButton>
-                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-warning w-100"> Remove from Pass </asp:LinkButton>
+                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary w-100 mb-1" ID="lbLikeFromPass" OnCommand="lbLikeFromPass_Command"> Like </asp:LinkButton>
+                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-warning w-100" ID="removePass" OnCommand="removePass_Command"> Remove from Pass </asp:LinkButton>
                                 </div>
                             </div>
                         </div>
