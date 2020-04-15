@@ -13,13 +13,31 @@ namespace TermProject {
     public partial class MemberProfile {
         
         /// <summary>
-        /// name control.
+        /// txtMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl name;
+        protected global::System.Web.UI.WebControls.TextBox txtMessage;
+        
+        /// <summary>
+        /// btnSendMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnSendMessage;
+        
+        /// <summary>
+        /// lblName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblName;
         
         /// <summary>
         /// lblLocation control.
@@ -67,13 +85,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Button btnBlock;
         
         /// <summary>
-        /// btnDateRequest control.
+        /// btnDateReq control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDateRequest;
+        protected global::System.Web.UI.HtmlControls.HtmlButton btnDateReq;
         
         /// <summary>
         /// lblPhoneNumber control.

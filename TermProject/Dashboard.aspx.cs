@@ -34,5 +34,9 @@ namespace TermProject
             Response.Redirect("MemberProfile.aspx?memberID=" + uID);
         }
 
+        protected void Unnamed_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("MemberProfile.aspx?memberID=5");
+        }
     }
 }

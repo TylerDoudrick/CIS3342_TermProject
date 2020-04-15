@@ -8,6 +8,7 @@
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
+    <asp:Button runat="server" Text="clickme" OnClick="Unnamed_Click"/>
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col-6 h-100">
             <div class="card text-center h-100">

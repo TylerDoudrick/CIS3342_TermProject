@@ -73,5 +73,82 @@ namespace TP_WebAPI.Controllers
             return result;
         }
 
+
+        [HttpPost("addDateReq")]
+        public DataSet AddDateReq([FromBody] IDictionary<string, string> vals)
+        { // adds a date request to the db
+            int sendingID = Convert.ToInt16(vals["sendingID"]); 
+            int recID = Convert.ToInt16(vals["recID"]);
+            string message = vals["message"];
+            DateTime now = DateTime.Now;
+
+            SqlCommand objDateReq = new SqlCommand();
+            objDateReq.CommandType = CommandType.StoredProcedure;
+            objDateReq.CommandText = "TP_SendDateRequest";
+            objDateReq.Parameters.AddWithValue("@userID", sendingID);
+            objDateReq.Parameters.AddWithValue("@memID", recID);
+            objDateReq.Parameters.AddWithValue("@now", now);
+            objDateReq.Parameters.AddWithValue("@message", message);
+            DataSet result = objDB.GetDataSetUsingCmdObj(objDateReq);
+            return result;
+        } // end add date req
+
+        [HttpGet("getAllDates/{userID}")]
+        public DataSet GetAllDates(int userID)
+        { // gets all dating reqs
+            SqlCommand objGetDates = new SqlCommand();
+            objGetDates.CommandType = CommandType.StoredProcedure;
+            objGetDates.CommandText = "TP_GetAllDates";
+            objGetDates.Parameters.AddWithValue("@userID", userID);
+            DataSet result = objDB.GetDataSetUsingCmdObj(objGetDates);
+            return result;
+        } // end get all dates
+
+        [HttpPut("deleteDateReq")]
+        public int DeleteDateRequest([FromBody] IDictionary<string, string> vals)
+        { // deletes a dating request
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recievingID = Convert.ToInt16(vals["recID"]);
+
+            SqlCommand objDelReq = new SqlCommand();
+            objDelReq.CommandType = CommandType.StoredProcedure;
+            objDelReq.CommandText = "TP_DeleteDateReq";
+            objDelReq.Parameters.AddWithValue("@sendingID", sendingID);
+            objDelReq.Parameters.AddWithValue("@recID", recievingID);
+            int res = objDB.DoUpdateUsingCmdObj(objDelReq, out string err);
+            return res;
+        } // end delete date req
+
+        [HttpPut("acceptReq")]
+        public int AccceptReq([FromBody] IDictionary<string, string> vals)
+        {
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recievingID = Convert.ToInt16(vals["recID"]);
+
+            SqlCommand objAcceptReq = new SqlCommand();
+            objAcceptReq.CommandType = CommandType.StoredProcedure;
+            objAcceptReq.CommandText = "TP_AcceptReq";
+            objAcceptReq.Parameters.AddWithValue("@sendingID", sendingID);
+            objAcceptReq.Parameters.AddWithValue("@recID", recievingID);
+
+            int res = objDB.DoUpdateUsingCmdObj(objAcceptReq, out string err);
+            return res;
+        } // end accept req
+
+        [HttpPut("denyReq")]
+        public int DenyReq([FromBody] IDictionary<string, string> vals)
+        {
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recievingID = Convert.ToInt16(vals["recID"]);
+
+            SqlCommand objDenyReq = new SqlCommand();
+            objDenyReq.CommandType = CommandType.StoredProcedure;
+            objDenyReq.CommandText = "TP_AcceptReq";
+            objDenyReq.Parameters.AddWithValue("@senderID", sendingID);
+            objDenyReq.Parameters.AddWithValue("@recID", recievingID);
+
+            int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
+            return res;
+        }
     }
 }
