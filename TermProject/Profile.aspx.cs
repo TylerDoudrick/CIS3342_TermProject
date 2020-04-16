@@ -11,6 +11,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Collections;
 using System.Web.Script.Serialization;
+using System.Text.RegularExpressions;
 
 namespace TermProject
 {
@@ -22,7 +23,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Profile");
             if (!IsPostBack)
             {
                 ddl.Visible = false;
@@ -45,7 +46,7 @@ namespace TermProject
 
                 grabPersonalProfile();
             }
-           
+
         } // end pageload
 
         protected void grabPersonalProfile()
@@ -70,8 +71,6 @@ namespace TermProject
                 else
                 {
                     ddl = new UserControls.ddl();
-                    //                userID profileID   birthday gender  occupation seekingGender   tagline profileID   phoneNumber height  weight numChildren wantChildren bio favMovies favSayings  favRestaurants favBooks    favSongs
-                    //1   1   1998 - 02 - 05  Male Student Female The best in the city    1   215 - 888 - 9632    70  154 0   1   You know who else likes food and travel? Everyone else.	Bad Boys, Return of the Jedi YOLO    Outback Steakhouse  Blowout, Rogue Lawyer   Circles, Heartless
                     DataRow profile = result.Tables[0].Rows[0];
                     DataTable religion = result.Tables[1];
                     DataTable commitments = result.Tables[2];
@@ -156,6 +155,17 @@ namespace TermProject
                 //Response.Write(data);
             }
         }
+
+        protected void showSuccessToast()
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+        }
+
+        protected void showFailureToast()
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showFailed();", true);
+
+        }
         protected void btnEditTagLineSubmit_Click(object sender, EventArgs e)
         {
             string tagLine = txtTagline.Text;
@@ -190,7 +200,16 @@ namespace TermProject
                 reader.Close();
                 response.Close();
 
-                Response.Write(data);
+                if (data == "true")
+                {
+                    Response.Write(data);
+
+                    showSuccessToast();
+                }
+                else
+                {
+                    showFailureToast();
+                }
             }
 
             catch (Exception ex)
@@ -204,45 +223,61 @@ namespace TermProject
             string phone = txtPhoneNumber.Text;
             string email = txtEmail.Text;
 
-            IDictionary<string, string> newValues = new Dictionary<string, string>
+            Regex regexPhone = new Regex(@"^[2-9]\d{2}-\d{3}-\d{4}$");
+            Regex regexEmail = new Regex(@"^([\w\d\-\.]+)@{1}(([\w\d\-]{1,67})|([\w\d\-]+\.[\w\d\-]{1,67}))\.(([a-zA-Z\d]{2,4})(\.[a-zA-Z\d]{2})?)$");
+
+            if (regexPhone.IsMatch(phone) && regexEmail.IsMatch(email))
             {
-                ["phone"] = phone,
-                ["email"] = email
-            };
+                IDictionary<string, string> newValues = new Dictionary<string, string>
+                {
+                    ["phone"] = phone,
+                    ["email"] = email
+                };
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
+                JavaScriptSerializer js = new JavaScriptSerializer();
 
-            String jsonValues = js.Serialize(newValues);
+                String jsonValues = js.Serialize(newValues);
 
-            try
+                try
 
-            {
+                {
 
-                WebRequest request = WebRequest.Create(profileWebAPI + "update/contact/" + Session["UserID"].ToString());
+                    WebRequest request = WebRequest.Create(profileWebAPI + "update/contact/" + Session["UserID"].ToString());
 
-                request.Method = "POST";
-                request.ContentType = "application/json";
+                    request.Method = "POST";
+                    request.ContentType = "application/json";
 
-                StreamWriter writer = new StreamWriter(request.GetRequestStream());
-                writer.Write(jsonValues);
-                writer.Flush();
-                writer.Close();
+                    StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                    writer.Write(jsonValues);
+                    writer.Flush();
+                    writer.Close();
 
-                WebResponse response = request.GetResponse();
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
+                    WebResponse response = request.GetResponse();
+                    Stream theDataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(theDataStream);
+                    String data = reader.ReadToEnd();
+                    reader.Close();
+                    response.Close();
 
-                Response.Write(data);
+                    if (data == "true")
+                    {
+                        showSuccessToast();
+                    }
+                    else
+                    {
+                        showFailureToast();
+                    }
+                }
+
+                catch (Exception ex)
+                {
+                    Response.Write("Error: " + ex.Message);
+                }
             }
-
-            catch (Exception ex)
+            else
             {
-                Response.Write("Error: " + ex.Message);
+                showFailureToast();
             }
-
         }
         protected void btnEditBasicSubmit_Click(object sender, EventArgs e)
         {
@@ -251,6 +286,10 @@ namespace TermProject
             string seeking = ddlSeeking.SelectedValue;
             string wantChildren = ddlWantChildren.SelectedValue;
             string occupation = ddlOccupation.SelectedItem.Text;
+
+            if(Int32.TryParse(numChildren, out int numChildrenParsed) && (seeking == "Male" || seeking == "Female" || seeking == "Both") &&
+                Int32.TryParse(wantChildren, out int wantChildrenParsed) && (wantChildrenParsed == 0||wantChildrenParsed == 1))
+            {
 
             // Create an object of the Customer class which is avaialable through the web service reference and WSDL
 
@@ -292,14 +331,27 @@ namespace TermProject
                 reader.Close();
                 response.Close();
 
-                Response.Write(data);
-
+                if (data == "true")
+                {
+                    showSuccessToast();
+                }
+                else
+                {
+                    showFailureToast();
+                }
             }
 
             catch (Exception ex)
             {
                 Response.Write("Error: " + ex.Message);
             }
+            }
+            else
+            {
+                showFailureToast();
+            }
+            
+
         }
         protected void btnEditAboutYouSubmit_Click(object sender, EventArgs e)
         {
@@ -347,7 +399,14 @@ namespace TermProject
                 reader.Close();
                 response.Close();
 
-                Response.Write(data);
+                if (data == "true")
+                {
+                    showSuccessToast();
+                }
+                else
+                {
+                    showFailureToast();
+                }
             }
 
             catch (Exception ex)
@@ -497,7 +556,14 @@ namespace TermProject
                 String data = reader.ReadToEnd();
                 reader.Close();
                 response.Close();
-
+                if (data == "true")
+                {
+                    showSuccessToast();
+                }
+                else
+                {
+                    showFailureToast();
+                }
             }
 
             catch (Exception ex)

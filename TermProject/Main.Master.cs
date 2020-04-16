@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using TermProject.UserControls;
 
 namespace TermProject
 {
@@ -18,6 +19,9 @@ namespace TermProject
             }
             else
             {
+                NotifierPlaceholder.Visible = true;
+                Notifier NotifierControl = (Notifier)Page.LoadControl("~/UserControls/Notifier.ascx");
+                NotifierPlaceholder.Controls.Add(NotifierControl);
                 navLoggedIn.Visible = true;
                 navLoggedOut.Visible = false;
                 lblLoggedIn.Text = "Signed in as " + Session["FirstName"] + " " + Session["LastName"];

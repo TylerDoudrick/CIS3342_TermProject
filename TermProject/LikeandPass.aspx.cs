@@ -25,6 +25,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
             else
@@ -208,6 +209,10 @@ namespace TermProject
                 Boolean l = false; Boolean d = true;
                 bind(l, d);
             } // end if
+
+            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=LikeandPass");
+            else userID = Convert.ToInt32(Session["userID"].ToString());
+
         }
     } // end class
 } // end namespace

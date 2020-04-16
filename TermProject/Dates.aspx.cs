@@ -21,6 +21,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
             else
             {
@@ -283,6 +284,9 @@ namespace TermProject
             string test = lvPlannedDates.Items[rowIndex].ToString();
             Boolean p = false; Boolean a = false; Boolean s = false; Boolean d = true;
             bind(p, a, s, d);
+
+            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Dates");
+
         }
     } // end class
 } // end namespace
