@@ -77,7 +77,8 @@ namespace TP_WebAPI.Controllers
         [HttpPost("addDateReq")]
         public DataSet AddDateReq([FromBody] IDictionary<string, string> vals)
         { // adds a date request to the db
-            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int sendingID = Convert.ToInt16(vals["sendingID"]); 
+
             int recID = Convert.ToInt16(vals["recID"]);
             string message = vals["message"];
             DateTime now = DateTime.Now;
@@ -154,7 +155,7 @@ namespace TP_WebAPI.Controllers
         [HttpGet("getAcceptedDates/{userID}")]
         public DataSet GetAcceptedReqs(int userID)
         {
-            SqlCommand objAccepted = new SqlCommand();
+            SqlCommand objAccepted =new SqlCommand();
 
             objAccepted.CommandType = CommandType.StoredProcedure;
             objAccepted.CommandText = "TP_GetAcceptedDates";

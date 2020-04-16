@@ -57,7 +57,7 @@ namespace TermProject
                 else rbYes.Checked = true;
 
                 memberBlocks = (List<int>) Session["memberBlocks"]; // get blocks list from                
-                bindDL(memberBlocks);
+                bindDL();
                 if (!IsPostBack)
                 {
                     Session["remain"] = 1;
@@ -261,9 +261,15 @@ namespace TermProject
             }
             else
             {
-                
-                UserAddress a = new UserAddress();
-                a.id = userID; a.billingAddress = txtStAddresses.Text; a.city = txtCity.Text; a.state = ddlState.SelectedValue; a.zipCode = Convert.ToInt32(txtZip.Text);
+                IDictionary<string, string> a = new Dictionary<string, string>
+                {
+                    ["id"] = userID.ToString(),
+                    ["billingAddress"] = txtStAddresses.Text,
+                    ["city"] = txtCity.Text,
+                    ["state"] = ddlState.SelectedValue,
+                    ["zipCode"] = txtZip.Text
+                };
+
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string jsonA = js.Serialize(a);
 
@@ -356,6 +362,7 @@ namespace TermProject
         { // will remove user from the blocked list
             int unblockUserID = Convert.ToInt32(e.CommandName);
             memberBlocks.Remove(unblockUserID); // remove the user's id from the blocked list
+            Session["memberBlocks"] = memberBlocks;
 
             // serialize list
             BinaryFormatter bf = new BinaryFormatter(); MemoryStream mStream = new MemoryStream();
@@ -372,36 +379,45 @@ namespace TermProject
 
             if (String.IsNullOrEmpty(error))
             {
-                Session["memberBlocks"] = memberBlocks;
-                bindDL(memberBlocks); // rebind the datalist
+                bindDL(); // rebind the datalist
             }
         }
 
-        protected void bindDL(List<int> users)
+        protected void bindDL()
         {
             List<User> blckUsersBinding = new List<User>();
 
-            foreach (int i in memberBlocks)
+            DataTable dtBlocks = new DataTable();
+            dtBlocks.Columns.Add("UserId", typeof(int));
+            foreach (int id in memberBlocks)
             {
-                objCMD.Parameters.Clear();
-                objCMD.CommandType = CommandType.StoredProcedure;
-                objCMD.CommandText = "TP_GetUser";
-                objCMD.Parameters.AddWithValue("@userID", i);
-                DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
+                DataRow dr = dtBlocks.NewRow();
+                dr["UserId"] = id;
+                dtBlocks.Rows.Add(dr);
+            }
+            // call stored procedure
+            objCMD.Parameters.Clear();
+            objCMD.CommandType = CommandType.StoredProcedure;
+            objCMD.CommandText = "TP_GetUsersFromList";
+            objCMD.Parameters.AddWithValue("@UserList", dtBlocks);
+            DataSet dsUser = obj.GetDataSetUsingCmdObj(objCMD);
+            DataTable dt = dsUser.Tables[0];
 
-                // deserialize the img URL
-                Byte[] imgArray = (Byte[])dsUser.Tables[0].Rows[0]["profileImage"];
+            for (int row = 0; row < dt.Rows.Count; row++)
+            { // loop through dataset, deserialize img, create user object --> add to array that will be bound to datalist
+                Byte[] imgArray = (Byte[])dt.Rows[row]["profileImage"];
                 MemoryStream memorystreamd = new MemoryStream(imgArray);
                 BinaryFormatter bfd = new BinaryFormatter();
                 string url = (bfd.Deserialize(memorystreamd)).ToString();
 
                 User u = new User();
-                u.userID = i;
-                u.name = (dsUser.Tables[0].Rows[0]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[0]["lastName"].ToString());
-                u.tagline = dsUser.Tables[0].Rows[0]["tagline"].ToString();
+                u.userID = Convert.ToInt16(dt.Rows[row]["userID"]);
+                u.name = (dt.Rows[row]["firstName"].ToString() + " " + dt.Rows[row]["lastName"].ToString());
+                u.tagline = dt.Rows[row]["tagline"].ToString();
                 u.imageSRC = url;
                 blckUsersBinding.Add(u);
             }
+
             dlBlockedUsers.DataSource = blckUsersBinding;
             dlBlockedUsers.DataBind();
             dlBlockedUsers.RepeatColumns = 3; dlBlockedUsers.RepeatDirection = RepeatDirection.Horizontal;

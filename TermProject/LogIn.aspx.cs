@@ -127,9 +127,12 @@ namespace TermProject
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
-           
-            List<int> memberBlocks = new List<int>();
-            memberBlocks.Add(3);
+
+
+            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(5); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
+            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); memberDislikes.Add(4); Session["memberDislikes"] = memberDislikes;
+            List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
+            
             Session["memberBlocks"] = memberBlocks;
 
             Response.Redirect("Dashboard.aspx");
@@ -140,8 +143,12 @@ namespace TermProject
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
 
-            List<int> memberBlocks = new List<int>();
-            memberBlocks.Add(3);
+            List<int> memberLieks = new List<int>();
+            memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8); 
+            Session["memberLikes"] = memberLieks;
+            List<int> memberDislikes = new List<int>(); memberDislikes.Add(4); memberDislikes.Add(6);  memberDislikes.Add(2); Session["memberDislikes"] = memberDislikes;
+            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); memberBlocks.Add(5); Session["memberBlocks"] = memberBlocks;
+
             Session["memberBlocks"] = memberBlocks;
 
             Response.Redirect("Dashboard.aspx");

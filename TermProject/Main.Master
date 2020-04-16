@@ -126,6 +126,9 @@
                 <li class="nav-item" id="navlinkMessages">
                     <a class="nav-link" href="Messages.aspx"><i class="fas fa-envelope"></i>Messages </a>
                 </li>
+                 <li class="nav-item" id="navlinkPref">
+                    <a class="nav-link" href="LikeandPass.aspx"><i class="fas fa-hourglass-half"></i>Like/Pass </a>
+                </li>
                 <li class="nav-item" id="navlinkSearch">
                     <a class="nav-link" href="Search.aspx"><i class="fas fa-search"></i>Search </a>
                 </li>

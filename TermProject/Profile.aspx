@@ -121,7 +121,7 @@
         <asp:Button runat="server" Text="Update" CssClass="btn btn-success mr-2 h-50 " OnClick="btnEditContactSubmit_Click" />
         <button type="button" class="btn btn-secondary h-50" id="btnEditContactCancel">Cancel</button>
     </div>
-
+    <hr />
     <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
         <div class="col text-right">
             <div class="font-weight-bold text-info h5 my-auto">Basic Information</div>

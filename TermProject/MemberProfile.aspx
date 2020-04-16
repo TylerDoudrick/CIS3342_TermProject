@@ -6,6 +6,34 @@
 
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
 
+        <!-- Modal -->
+    <div class="modal fade" id="modalSendMessage" tabindex="-1" role="dialog" aria-labelledby="modalSendMessageLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalSendMessageLabel">Send Message</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    
+                    <div class="form-group">
+                        <label for="<%= txtMessage.ClientID %>">Message</label>
+                        <asp:TextBox type="text" CssClass="form-control" ID="txtMessage" TextMode="MultiLine" placeholder="Message..." runat="server" />
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <asp:button CssClass="btn btn-primary" id="btnSendMessage" Text="Send Date Request" runat="server" OnClick="btnDateRequest_Click" />
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <br />
     <div>
         <div class="row justify-content-center my-5">
@@ -13,7 +41,7 @@
                 <asp:Image runat="server" CssClass="img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
             </div>
             <div class="col-4 ">
-                <h5 class="text-info font-weight-bold" runat="server" id="name">John Johnson, 25</h5>
+                <h5 class="text-info font-weight-bold" runat="server" id="lblName">John Johnson, 25</h5>
                 <asp:Label runat="server" ID="lblLocation"> Philadelphia, PA</asp:Label>
                 <br />
                 <asp:Label runat="server" ID="lblTagline"> This is John's Tagline</asp:Label>
@@ -32,7 +60,7 @@
                 </div>
                 <br />
                 <div class="row">
-                    <asp:Button runat="server" ID="btnDateRequest" CssClass="btn btn-primary w-75" Text="Date Request" OnClick="btnDateRequest_Click" />
+                    <button runat="server" id="btnDateReq" type="button" class="btn btn-primary w-75" data-toggle="modal" data-target="#modalSendMessage">Send Date Request</button>
                 </div>
             </div>
         </div>
