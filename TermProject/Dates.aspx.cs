@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 
 namespace TermProject
@@ -23,9 +24,13 @@ namespace TermProject
             if (Session["UserID"] == null) Response.Redirect("Default.aspx");
             else
             {
-                userID = Convert.ToInt32(Session["UserID"]);
-                Boolean p = true; Boolean a = true; Boolean s = true; Boolean d = true;
-                bind(p, a ,s ,d );
+                userID = Convert.ToInt32(Session["UserID"].ToString());
+
+                if (!IsPostBack)
+                {
+                    Boolean p = true; Boolean a = true; Boolean s = true; Boolean d = true;
+                    bind(p, a, s, d);
+                }             
             }
 
         } // end page load
@@ -50,8 +55,30 @@ namespace TermProject
 
                 DataTable approveDT = dsPending.Tables[1];
                 rptAcceptReqs.DataSource = approveDT; rptAcceptReqs.DataBind();
+                
             }
+            if (Sch || dates)
+            { // display the dates that need to be scheduled
+                request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+                response = request.GetResponse();
+                theDataStream = response.GetResponseStream();
+                reader = new StreamReader(theDataStream);
+                data = reader.ReadToEnd();
+                reader.Close(); response.Close();
 
+                js = new JavaScriptSerializer();
+                DataSet dsAccepted = JsonConvert.DeserializeObject<DataSet>(data);
+                DataTable a = dsAccepted.Tables[0];
+
+                lvSchedule.DataSource = a;
+                //String[] names = new String[2];  names[0] = "userID"; names[1] = "userName";
+                //  lvSchedule.DataKeyNames = names;
+                lvSchedule.DataBind();
+
+                DataTable scheduledDates = dsAccepted.Tables[1];
+                String[] keys = new string[1]; keys[0] = "userName";
+                lvPlannedDates.DataSource = scheduledDates; lvPlannedDates.DataBind();
+            }
 
         }
 
@@ -81,7 +108,7 @@ namespace TermProject
 
             sendReq(newValues , "acceptReq");
         
-            Boolean p = false; Boolean a = true; Boolean s = false; Boolean d = false;
+            Boolean p = true; Boolean a = true; Boolean s = true; Boolean d = false;
             bind(p, a, s, d); // rebind that repeater
         }
 
@@ -138,6 +165,124 @@ namespace TermProject
         {// takes you to that person's profile
             int memID = Convert.ToInt32(e.CommandName);
             Response.Redirect("MemberProfile.aspx?memberID=" + memID);
+        }
+                
+        protected void btnShowDate_Command(object sender, CommandEventArgs e)
+        {
+            divDates.Attributes.Add("style", "display:flex");
+            int memID = Convert.ToInt32(e.CommandName);
+            string name = "";
+            Session["memID"] = memID;          
+        }
+
+        protected void Unnamed_Click(object sender, EventArgs e)
+        { // hides the set up date card
+            divDates.Attributes.Add("style","display:none");
+        }
+
+
+        protected void btnSave_Click(object sender, EventArgs e)
+        { // saves the 
+            int memberID = Convert.ToInt16(Session["memID"]);
+            string dt = txtWhen.Text;
+            string location = txtLocation.Text;
+            string desc = txtDesc.Text;
+
+            // remove validation class 
+            txtWhen.CssClass = txtWhen.CssClass.Replace("is-invalid", "").Trim();
+            txtLocation.CssClass = txtLocation.CssClass.Replace("is-invalid", "").Trim();
+            txtDesc.CssClass = txtDesc.CssClass.Replace("is-invalid", "").Trim();
+
+            // validate
+            Boolean trigger=false;
+            if (dt == "")
+            {
+                trigger = true;
+                txtWhen.CssClass += " is-invalid";
+            }
+            if (location=="")
+            {
+                trigger = true;
+                txtLocation.CssClass += " is-invalid"; 
+            }
+            if (desc=="")
+            {
+                trigger = true;
+                txtDesc.CssClass += " is-invalid";
+            }
+
+            if (!trigger)
+            { // if everything is entered - update the db
+                IDictionary<string, string> newValues = new Dictionary<string, string>
+                {
+                    ["sendingID"] = userID.ToString(),
+                    ["recID"] = memberID.ToString(),
+                    ["dt"] = dt,
+                    ["location"] = location,
+                    ["desc"] = desc
+                };
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                string values = js.Serialize(newValues);
+
+                WebRequest request = WebRequest.Create(interactionsWebAPI + "insertDate/");
+                request.Method = "POST";
+                request.ContentLength = values.Length;
+                request.ContentType = "application/json";
+
+                StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(values);
+                writer.Flush();
+                writer.Close();
+
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                String data = reader.ReadToEnd();
+                reader.Close();
+                response.Close();
+
+                Boolean p = false; Boolean a = false; Boolean s = true; Boolean d = true;
+                bind(p, a, s, d); // rebind that repeater
+
+                divDates.Attributes.Add("style", "display:none");
+
+            }
+
+        } // end save button click
+
+        protected void lbSaveChanges_Command(object sender, CommandEventArgs e)
+        { // save changes to the plans
+            int memberID = Convert.ToInt16(e.CommandName);
+            Boolean trigger = false;
+
+            if (!trigger)
+            {
+                // sendReq(newVals, "updateDate");
+            }
+
+        }
+
+        protected void lvPlannedDates_ItemEditing(object sender, ListViewEditEventArgs e)
+        {
+            lvPlannedDates.EditIndex = e.NewEditIndex;
+            Boolean p = false; Boolean a = false; Boolean s = false; Boolean d = true;
+            bind(p, a, s, d);
+        }
+
+        protected void lvPlannedDates_ItemCanceling(object sender, ListViewCancelEventArgs e)
+        {
+            lvPlannedDates.EditIndex = -1;
+            Boolean p = false; Boolean a = false; Boolean s = false; Boolean d = true;
+            bind(p, a, s, d);
+        }
+
+        protected void lvPlannedDates_ItemUpdating(object sender, ListViewUpdateEventArgs e)
+        {
+            int rowIndex = e.ItemIndex;
+            string test = lvPlannedDates.Items[rowIndex].ToString();
+            Boolean p = false; Boolean a = false; Boolean s = false; Boolean d = true;
+            bind(p, a, s, d);
         }
     } // end class
 } // end namespace

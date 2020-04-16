@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Dates.aspx.cs" Inherits="TermProject.Dates" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Main.Master" AutoEventWireup="true" CodeBehind="Dates.aspx.cs" Inherits="TermProject.Dates" MaintainScrollPositionOnPostback="true" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
 
@@ -128,33 +128,182 @@
         </div>
     </div>
 
-        <div runat="server" id="divScheduleDates" class="justify-content-center align-items-center w-75 my-5 mx-auto">
-        <br />
-        <div class="col-12">
-            <div class="card-body p-0">
-                <asp:Repeater runat="server" ID="rptSchedule">
-                    <ItemTemplate>
-                        <div class="card w-100 rounded">
-                            <div class="card-body px-5 py-3">
-                                <div class="d-flex flex-row justify-content-between">
-                                    <!-- Name and time goes here-->
-                                    <div>
-                                        <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
-                                        | 
-                                        <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
-                                    </div>
-                                </div>
-                                <div class="font-italic">
-                                    STATUS: Accepted
-                                </div>
-                            </div>
+    <div class="row justify-content-center my-5 hidden" id="divDates" runat="server">
+        <div class="col-4">
+            <div class="card p-3">
+                <h5 class="card-title text-center">Set Up Date</h5>
+                <div class="card-body">
+                    <div class="form-group row">
+                        <div class="col-4">
+                            <asp:Label runat="server" CssClass="col-form-label my-1 d-flex align-items-end" for="<%= txtWhen.ClientID %>"> When</asp:Label>
                         </div>
-                    </ItemTemplate>
-                </asp:Repeater>
+                        <div>
+                            <asp:TextBox runat="server" ID="txtWhen" TextMode="DateTimeLocal" CssClass="form-control" placeholder="04/21/2020 3:00pm"></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <asp:Label runat="server" CssClass="col-form-label my-1 d-flex align-items-end" for="<%= txtLocation.ClientID %>"> Location </asp:Label>
+                        </div>
+                        <div>
+                            <asp:TextBox runat="server" ID="txtLocation" CssClass="form-control" placeholder="Location..."></asp:TextBox>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <div class="col-4">
+                            <asp:Label runat="server" CssClass="col-form-label my-1 d-flex align-items-end" for="<%= txtDesc.ClientID %>"> Description</asp:Label>
+                        </div>
+                        <div>
+                            <asp:TextBox runat="server" ID="txtDesc" TextMode="MultiLine" CssClass="form-control" placeholder="Description..."></asp:TextBox>
+                        </div>
+                    </div>
+
+                    <div class="form-group row justify-content-center">
+               <!--          <button type="button" runat="server" ID="cancel" Text="cancel"> Cancel</button> -->
+                       <asp:button runat="server" class="btn btn-secondary mr-2" Text="Cancel" OnClick="Unnamed_Click" />
+                        <asp:Button runat="server" ID="btnSave" type="button" class="btn btn-primary" Text="Save" OnClick="btnSave_Click" />
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
+
+    <div runat="server" id="divScheduleDates" class="justify-content-center align-items-center w-75 my-5 mx-auto">
+        <br />
+        <div class="col-12" runat="server">
+            <div class="card-body p-0" runat="server">
+                <asp:ListView runat="server" ID="lvSchedule">
+                    <ItemTemplate>
+                        <div class="card w-100 rounded" runat="server">
+                            <div class="card-body px-5 py-3" runat="server">
+                                <div class="d-flex flex-row justify-content-between" runat="server">
+                                    <!-- Name and time goes here-->
+                                    <div runat="server">
+                                        <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
+                                        | 
+                                        <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
+                                    </div>
+                                    <div class="font-italic" runat="server">
+                                        STATUS: Accepted
+                                    </div>
+                                </div>
+
+                                <div runat="server">
+                                    <asp:LinkButton runat="server" ID="btnShowDate" type="button" CssClass="btn btn-primary" Text="Schedule Date" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="btnShowDate_Command"></asp:LinkButton>
+                                </div>
+
+
+
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                </asp:ListView>
+            </div>
+        </div>
+
+    </div>
+
+     <div runat="server" id="div1" class="justify-content-center align-items-center w-75 my-5 mx-auto">
+        <br />
+        <div class="col-12" runat="server">
+            <div class="card-body p-0" runat="server">
+                <asp:ListView runat="server" ID="lvPlannedDates" OnItemEditing="lvPlannedDates_ItemEditing" OnItemCanceling="lvPlannedDates_ItemCanceling" OnItemUpdating="lvPlannedDates_ItemUpdating">
+                    <ItemTemplate>
+                        <div class="card w-100 rounded" runat="server">
+                            <div class="card-body px-5 py-3" runat="server">
+                                <div class="d-flex flex-row justify-content-between" runat="server">
+                                    <!-- Name and time goes here-->
+                                    <div runat="server">
+                                        <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
+                                        | 
+                                        <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
+                                    </div>
+                                    <div class="font-italic" runat="server">
+                                        STATUS: Planned Date
+                                    </div>
+                                </div>
+                                <div runat="server" class="row my-2">
+                                    <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label d-flex align-items-end" for="<%= txtWhenEdit.ClientID %>"> When</asp:Label>
+                                    </div>
+                                    <div class="col-3">
+                                    <asp:TextBox runat="server" ReadOnly="true"  Text='<%#Eval("dt") %>' CssClass="form-control" > </asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div runat="server" class="row my-2">
+                                     <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label d-flex align-items-end" for="<%= txtLocationEdit.ClientID %>"> Location </asp:Label>
+                                     </div>
+                                     <div class="col-4">
+                                    <asp:TextBox runat="server" ReadOnly="true"  Text='<%#Eval("location") %>' CssClass="form-control" > </asp:TextBox>
+                                     </div>
+                                </div>
+                                 <div runat="server" class="row my-2">
+                                     <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label  d-flex align-items-end" for="<%= txtDescEdit.ClientID %>"> Description</asp:Label>
+                                     </div>
+                                     <div class="col-6">
+                                    <asp:TextBox runat="server" ReadOnly="true" TextMode="MultiLine" Text='<%#Eval("description") %>' CssClass="form-control" > </asp:TextBox>
+                                     </div>
+                                     <div class="col-2">
+                                                       <asp:LinkButton ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
+                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                         <div class="card w-100 rounded" runat="server">
+                            <div class="card-body px-5 py-3" runat="server">
+                                <div class="d-flex flex-row justify-content-between" runat="server">
+                                    <!-- Name and time goes here-->
+                                    <div runat="server">
+                                        <asp:Label CssClass="font-weight-bold " ID="lblName" runat="server" Text='<%#Bind("userName") %>'></asp:Label>
+                                        | 
+                                        <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
+                                    </div>
+                                    <div class="font-italic" runat="server">
+                                        STATUS: Planned Date
+                                    </div>
+                                </div>
+                                <div runat="server" class="row my-2">
+                                    <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label d-flex align-items-end" for="<%= txtWhenEdit.ClientID %>"> When</asp:Label>
+                                    </div>
+                                    <div class="col-3">
+                                    <asp:TextBox runat="server" ReadOnly="false"  ID="txtWhenEdit" Text='<%#Bind("dt") %>' CssClass="form-control" > </asp:TextBox>
+                                    </div>
+                                </div>
+                                 <div runat="server" class="row my-2">
+                                     <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label d-flex align-items-end" for="<%= txtLocationEdit.ClientID %>"> Location </asp:Label>
+                                     </div>
+                                     <div class="col-4">
+                                    <asp:TextBox runat="server" ReadOnly="false" ID="txtLocationEdit" Text='<%#Bind("location") %>' CssClass="form-control" > </asp:TextBox>
+                                     </div>
+                                </div>
+                                 <div runat="server" class="row my-2">
+                                     <div class="col-1">
+                                    <asp:Label runat="server" CssClass="col-form-label  d-flex align-items-end" for="<%= txtDescEdit.ClientID %>"> Description</asp:Label>
+                                     </div>
+                                     <div class="col-6">
+                                    <asp:TextBox runat="server" ReadOnly="false"  TextMode="MultiLine" ID="txtDescEdit" Text='<%#Eval("description") %>' CssClass="form-control" > </asp:TextBox>
+                                     </div>
+                                     <div class="col-2">
+                                         <asp:LinkButton runat="server" ID="lbSaveChanges" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbSaveChanges_Command"></asp:LinkButton>
+                                     </div>
+                                </div>
+                                <asp:LinkButton ID="UpdateButton" runat="server" CommandName="Update" Text="Update" />
+              <asp:LinkButton ID="CancelButton" runat="server" CommandName="Cancel" Text="Cancel" />
+                            </div>
+                        </div>
+                    </EditItemTemplate>
+                </asp:ListView>
+            </div>
+        </div>
+         </div>
 </asp:Content>
 
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
@@ -162,10 +311,12 @@
         $(document).ready(function () {
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkDates").addClass("active");
+            
 
+            $("cancel").click(function () {
+                alert("ssegd");
+                $("#divDates").addClass('hidden');
+            });
         });
-
-
-
     </script>
 </asp:Content>

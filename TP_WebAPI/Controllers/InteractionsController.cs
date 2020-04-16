@@ -150,5 +150,62 @@ namespace TP_WebAPI.Controllers
             int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
             return res;
         }
+
+        [HttpGet("getAcceptedDates/{userID}")]
+        public DataSet GetAcceptedReqs(int userID)
+        {
+            SqlCommand objAccepted =new SqlCommand();
+
+            objAccepted.CommandType = CommandType.StoredProcedure;
+            objAccepted.CommandText = "TP_GetAcceptedDates";
+            objAccepted.Parameters.AddWithValue("@userID", userID);
+
+            DataSet res = objDB.GetDataSetUsingCmdObj(objAccepted);
+            return res;
+        } // end getacceptedreqs
+
+        [HttpPost("insertDate")]
+        public int InsertDate([FromBody] IDictionary<string, string> vals)
+        { // this inserts a date to the db
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recID = Convert.ToInt16(vals["recID"]);
+            DateTime dt = Convert.ToDateTime(vals["dt"]);
+            string location = vals["location"];
+            string desc = vals["desc"];
+
+            SqlCommand objInsertDt = new SqlCommand();
+            objInsertDt.CommandType = CommandType.StoredProcedure;
+            objInsertDt.CommandText = "TP_InsertDateDetails";
+            objInsertDt.Parameters.AddWithValue("@sendingID", sendingID);
+            objInsertDt.Parameters.AddWithValue("@recID", recID);
+            objInsertDt.Parameters.AddWithValue("@dt", dt);
+            objInsertDt.Parameters.AddWithValue("@location", location);
+            objInsertDt.Parameters.AddWithValue("@description", desc);
+
+            int res = objDB.DoUpdateUsingCmdObj(objInsertDt, out string err);
+            return res;
+        } // end insert date
+
+        [HttpPut("updateDate/")]
+        public int UpdateDate([FromBody] IDictionary<string, string> vals)
+        { // updates date details when the user edits it
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recID = Convert.ToInt16(vals["recID"]);
+            DateTime dt = Convert.ToDateTime(vals["dt"]);
+            string location = vals["location"];
+            string desc = vals["desc"];
+
+            SqlCommand objUpdateDate = new SqlCommand();
+            objUpdateDate.CommandType = CommandType.StoredProcedure;
+            objUpdateDate.CommandText = "TP_UpdateDate";
+            objUpdateDate.Parameters.AddWithValue("@sendingID", sendingID);
+            objUpdateDate.Parameters.AddWithValue("@recID", recID);
+            objUpdateDate.Parameters.AddWithValue("@dt", dt);
+            objUpdateDate.Parameters.AddWithValue("@location", location);
+            objUpdateDate.Parameters.AddWithValue("@description", desc);
+
+            int res = objDB.DoUpdateUsingCmdObj(objUpdateDate, out string err);
+            return res;
+        } // end update date
     }
 }
