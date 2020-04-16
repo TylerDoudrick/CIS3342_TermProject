@@ -31,9 +31,9 @@ namespace TermProject
                 {
                     Boolean p = true; Boolean a = true; Boolean s = true; Boolean d = true;
                     bind(p, a, s, d);
-                }             
-            }
 
+                }
+            }
         } // end page load
 
         protected void bind(Boolean pend, Boolean approve, Boolean Sch, Boolean dates)
@@ -56,8 +56,8 @@ namespace TermProject
 
                 DataTable approveDT = dsPending.Tables[1];
                 rptAcceptReqs.DataSource = approveDT; rptAcceptReqs.DataBind();
-                
             }
+            
             if (Sch || dates)
             { // display the dates that need to be scheduled
                 request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
@@ -93,7 +93,7 @@ namespace TermProject
             };
 
             sendReq(newValues, "deleteDateReq");
-       
+
             Boolean p = true; Boolean a = false; Boolean s = false; Boolean d = false;
             bind(p, a, s, d); // rebind that repeater
         }
@@ -107,8 +107,8 @@ namespace TermProject
                 ["recID"] = userID.ToString(),
             };
 
-            sendReq(newValues , "acceptReq");
-        
+            sendReq(newValues, "acceptReq");
+
             Boolean p = true; Boolean a = true; Boolean s = true; Boolean d = false;
             bind(p, a, s, d); // rebind that repeater
         }
@@ -167,13 +167,14 @@ namespace TermProject
             int memID = Convert.ToInt32(e.CommandName);
             Response.Redirect("MemberProfile.aspx?memberID=" + memID);
         }
-                
+
         protected void btnShowDate_Command(object sender, CommandEventArgs e)
         {
             divDates.Attributes.Add("style", "display:flex");
             int memID = Convert.ToInt32(e.CommandName);
             string name = "";
             Session["memID"] = memID;          
+
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
@@ -196,17 +197,20 @@ namespace TermProject
 
             // validate
             Boolean trigger=false;
+
             if (dt == "")
             {
                 trigger = true;
                 txtWhen.CssClass += " is-invalid";
             }
+
             if (location=="")
             {
                 trigger = true;
                 txtLocation.CssClass += " is-invalid"; 
             }
-            if (desc=="")
+            if (desc == "")
+
             {
                 trigger = true;
                 txtDesc.CssClass += " is-invalid";
@@ -285,7 +289,7 @@ namespace TermProject
             Boolean p = false; Boolean a = false; Boolean s = false; Boolean d = true;
             bind(p, a, s, d);
 
-            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Dates");
+         //   if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Dates");
 
         }
     } // end class

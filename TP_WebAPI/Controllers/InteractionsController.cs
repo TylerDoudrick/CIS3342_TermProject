@@ -28,7 +28,7 @@ namespace TP_WebAPI.Controllers
             objInsertPref.Parameters.AddWithValue("@dislikes", p.mDislikes);
             objInsertPref.Parameters.AddWithValue("@blocks", p.mBlocks);
             int result = objDB.DoUpdateUsingCmdObj(objInsertPref, out string error);
-  
+
             return result;
         }
 
@@ -69,7 +69,7 @@ namespace TP_WebAPI.Controllers
             objUpdatePref.Parameters.AddWithValue("@dislikes", p.mDislikes);
             objUpdatePref.Parameters.AddWithValue("@blocks", p.mBlocks);
             int result = objDB.DoUpdateUsingCmdObj(objUpdatePref, out string error);
- 
+
             return result;
         }
 
@@ -78,6 +78,7 @@ namespace TP_WebAPI.Controllers
         public DataSet AddDateReq([FromBody] IDictionary<string, string> vals)
         { // adds a date request to the db
             int sendingID = Convert.ToInt16(vals["sendingID"]); 
+
             int recID = Convert.ToInt16(vals["recID"]);
             string message = vals["message"];
             DateTime now = DateTime.Now;

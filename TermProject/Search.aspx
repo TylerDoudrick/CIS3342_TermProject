@@ -12,7 +12,7 @@
 
     <div runat="server" class="row justify-content-center align-items-center" id="divSearch">
         <div>
-            <asp:Button runat="server" ID="btnSearch" Text="Search" CssClass="btn btn-info" OnClick="btnSearch_Click" />
+            <button type="button" id="btnSearch" class="btn btn-info">Search<i class="fas fa-search pl-2"></i></button>
         </div>
     </div>
 
@@ -32,36 +32,31 @@
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkSearch").addClass("active");
 
-            $('[id*=lbInterests]').multiselect
-                ({
-                    includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 interest...',
-                    maxHeight: 200
+
+            $("#btnSearch").click(function () {
+                var searchOptions = {
+                    "Religions": $('.ddlReligion').selectpicker('val').toString(),
+                    "Commitments": $('.ddlCommitment').selectpicker('val').toString(),
+                    "Interests": $('.ddlInterests').selectpicker('val').toString(),
+                    "Likes": $('.ddlLikes').selectpicker('val').toString(),
+                    "Dislikes": $('.ddlDislikes').selectpicker('val').toString()
+                };
+                console.log(JSON.stringify(searchOptions));
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'https://localhost:44375/api/datingservice/search/',
+                    accepts: 'application/json',
+                    contentType: 'application/json',
+                    data: JSON.stringify(searchOptions),
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        console.log(errorThrown);
+                    },
+                    success: function (result) {
+                        console.log(result);
+                    }
                 });
-            $('[id*=lbLikes]').multiselect
-                ({
-                    includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 like...',
-                    maxHeight: 200
-                });
-            $('[id*=lbDislikes]').multiselect
-                ({
-                    includeSelectAllOption: false,
-                    nonSelectedText: 'Select atleast 1 dislike...',
-                    maxHeight: 200
-                });
-            $('[id*=lbCommittment]').multiselect
-                ({
-                    includeSelectAllOption: false,
-                    nonSelectedText: 'Select commitment type...',
-                    maxHeight: 200
-                });
-            $('[id*=lbReligion]').multiselect
-                ({
-                    includeSelectAllOption: false,
-                    nonSelectedText: 'Select a religion...',
-                    maxHeight: 200
-                });
+            });
 
 
         });

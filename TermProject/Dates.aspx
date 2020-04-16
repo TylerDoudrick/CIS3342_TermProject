@@ -237,7 +237,8 @@
                                     <asp:Label runat="server" CssClass="col-form-label d-flex align-items-end" for="<%= txtLocationEdit.ClientID %>"> Location </asp:Label>
                                      </div>
                                      <div class="col-4">
-                                    <asp:Label runat="server" ReadOnly="true"  Text='<%#Eval("location") %>' CssClass="form-control" > </asp:Label>
+                                         <asp:Label runat="server" ReadOnly="true"  Text='<%#Eval("location") %>' CssClass="form-control" > </asp:Label>
+
                                      </div>
                                 </div>
                                  <div runat="server" class="row my-2">
@@ -246,6 +247,7 @@
                                      </div>
                                      <div class="col-6">
                                     <asp:Label runat="server" ReadOnly="true" TextMode="MultiLine" Text='<%#Eval("description") %>' CssClass="form-control" > </asp:Label>
+
                                      </div>
                                      <div class="col-2">
                                                        <asp:LinkButton ID="EditButton" runat="server" CommandName="Edit" Text="Edit" />
