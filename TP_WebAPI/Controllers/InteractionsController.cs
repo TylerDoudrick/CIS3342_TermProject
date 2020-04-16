@@ -15,6 +15,9 @@ namespace TP_WebAPI.Controllers
     [ApiController]
     public class InteractionsController : ControllerBase
     {
+        //
+        //"for any and all interactions so updating the liked lists, pass list, blocked lists, dates, and messages"
+        //
         DBConnect objDB = new DBConnect();
 
         [HttpPost("insertPreferences/")]

@@ -9,7 +9,12 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
 
     <uc1:ddl runat="server" ID="ddl" />
+    <div class="row">
+        <p>age range</p>
+        <p>want kids</p>
+        <p>Has kids</p>
 
+    </div>
     <div runat="server" class="row justify-content-center align-items-center" id="divSearch">
         <div>
             <button type="button" id="btnSearch" class="btn btn-info">Search<i class="fas fa-search pl-2"></i></button>
