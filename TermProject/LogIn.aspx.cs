@@ -132,9 +132,7 @@ namespace TermProject
             List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(5); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
             List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); memberDislikes.Add(4); Session["memberDislikes"] = memberDislikes;
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
-
-            List<int> memberBlocks = new List<int>();
-            memberBlocks.Add(3);
+            
             Session["memberBlocks"] = memberBlocks;
 
             Response.Redirect("Dashboard.aspx");
@@ -150,8 +148,7 @@ namespace TermProject
             Session["memberLikes"] = memberLieks;
             List<int> memberDislikes = new List<int>(); memberDislikes.Add(4); memberDislikes.Add(6);  memberDislikes.Add(2); Session["memberDislikes"] = memberDislikes;
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); memberBlocks.Add(5); Session["memberBlocks"] = memberBlocks;
-            List<int> memberBlocks = new List<int>();
-            memberBlocks.Add(3);
+
             Session["memberBlocks"] = memberBlocks;
 
             Response.Redirect("Dashboard.aspx");

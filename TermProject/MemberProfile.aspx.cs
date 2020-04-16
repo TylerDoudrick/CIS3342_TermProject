@@ -46,53 +46,64 @@ namespace TermProject
         {
             List<int> memberLikes = (List<int>)Session["memberLikes"];
 
-            memberLikes.Add(memberUserID);
-            Session["memberLikes"] = memberLikes;
-            string message = "You have liked " + lblName.InnerText;
-            UpdatePreferences(message);
+            if (!(memberLikes.Contains(memberUserID)))
+            {
+                memberLikes.Add(memberUserID);
+                Session["memberLikes"] = memberLikes;
+                string message = "You have liked " + lblName.InnerText;
+                UpdatePreferences();
+            }
+           
         } // end btn like event handler
 
         protected void btnPass_Click(object sender, EventArgs e)
         {
             List<int> memberDislikes = (List<int>)Session["memberDislikes"];
-            memberDislikes.Add(memberUserID);
-            Session["memberDislikes"] = memberDislikes;
-            string message = "You have passed on " + lblName.InnerText;
-            UpdatePreferences(message);
+            if (!(memberDislikes.Contains(memberUserID)))
+            {
+                memberDislikes.Add(memberUserID);
+                Session["memberDislikes"] = memberDislikes;
+                string message = "You have passed on " + lblName.InnerText;
+                UpdatePreferences();
+            }
+           
         } // end btn pass event handler
 
         protected void btnBlock_Click(object sender, EventArgs e)
         {
             List<int> memberBlocks = (List<int>)Session["memberBlocks"];
-            memberBlocks.Add(memberUserID);
-            Session["memberBlocks"] = memberBlocks;
-            string message = "You have blocked " + lblName.InnerText;
-            UpdatePreferences(message);
-
-            IDictionary<string, string> newValues = new Dictionary<string, string>
+            if (!(memberBlocks.Contains(memberUserID)))
             {
-                ["userID"] = userID.ToString(),
-                ["memID"] = memberUserID.ToString()
-            };
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            String jsonValues = js.Serialize(newValues);
+                memberBlocks.Add(memberUserID);
+                Session["memberBlocks"] = memberBlocks;
+                string message = "You have blocked " + lblName.InnerText;
 
-            // remove messages, dates between the two
-            WebRequest request = WebRequest.Create(interactionsWebAPI + "blockUser");
-            request.Method = "PUT";
-            request.ContentType = "application/json";
+                IDictionary<string, string> newValues = new Dictionary<string, string>
+                {
+                    ["userID"] = userID.ToString(),
+                    ["memID"] = memberUserID.ToString()
+                };
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                String jsonValues = js.Serialize(newValues);
 
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(jsonValues);
-            writer.Flush();
-            writer.Close();
+                // remove messages, dates between the two
+                WebRequest request = WebRequest.Create(interactionsWebAPI + "blockUser");
+                request.Method = "PUT";
+                request.ContentType = "application/json";
 
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            String data = reader.ReadToEnd();
-            reader.Close();
-            response.Close();
+                StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                writer.Write(jsonValues);
+                writer.Flush();
+                writer.Close();
+
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                String data = reader.ReadToEnd();
+                reader.Close();
+                response.Close();
+            }
+          
 
         } // end btn block event handler
 
@@ -159,7 +170,7 @@ namespace TermProject
             
         } // end date request eventhandler
 
-        protected void UpdatePreferences(string message)
+        protected void UpdatePreferences()
         {
             List<int> memberLikes = (List<int>)Session["memberLikes"]; List<int> memberDislikes = (List<int>)Session["memberDislikes"]; List<int> memberBlocks = (List<int>)Session["memberBlocks"];
             BinaryFormatter bf = new BinaryFormatter();
@@ -198,8 +209,8 @@ namespace TermProject
             response.Close();
 
             // redirect to dashboard
-            string script = "window.onload = function(){ alert('" + message + "'); window.location = '" + url + "'; }";
-            ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);
+          //  string script = "window.onload = function(){ alert('" + message + "'); window.location = '" + url + "'; }";
+            //ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);
         }
     } // end class
 } // end namespace
