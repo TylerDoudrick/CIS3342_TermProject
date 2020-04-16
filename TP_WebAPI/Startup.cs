@@ -30,8 +30,7 @@ namespace TP_WebAPI
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
-                    builder => builder.AllowAnyOrigin());
-                    
+                    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
         }
 
