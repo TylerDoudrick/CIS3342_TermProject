@@ -70,7 +70,36 @@
     <script src="https://kit.fontawesome.com/3bdb92a208.js"></script>
         <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+        <script>
+        function showToast(type, title, message) {
+            //Function to show a convenient toast message
+            //types are:
+            //          success
+            //          info
+            //          warning
+            //          error
+            //
 
+            toastr.options = {
+                "closeButton": true,
+                "debug": false,
+                "newestOnTop": false,
+                "progressBar": true,
+                "positionClass": "toast-bottom-center",
+                "preventDuplicates": false,
+                "onclick": null,
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "4000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            }
+            toastr[type](message, title);
+        }
+    </script>
     <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>
 </head>
