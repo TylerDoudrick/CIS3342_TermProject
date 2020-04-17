@@ -85,6 +85,15 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divReqsToApprove;
         
         /// <summary>
+        /// divPending control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divPending;
+        
+        /// <summary>
         /// rptAcceptReqs control.
         /// </summary>
         /// <remarks>
@@ -94,13 +103,31 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.Repeater rptAcceptReqs;
         
         /// <summary>
-        /// divDates control.
+        /// divIgnoredDates control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divDates;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divIgnoredDates;
+        
+        /// <summary>
+        /// rptIgnoredReqs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater rptIgnoredReqs;
+        
+        /// <summary>
+        /// modalScheduleDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl modalScheduleDate;
         
         /// <summary>
         /// txtWhen control.
@@ -166,13 +193,13 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.ListView lvSchedule;
         
         /// <summary>
-        /// div1 control.
+        /// divplanneddates control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl div1;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divplanneddates;
         
         /// <summary>
         /// lvPlannedDates control.

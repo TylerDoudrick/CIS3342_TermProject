@@ -144,7 +144,7 @@ namespace TP_WebAPI.Controllers
 
             SqlCommand objDenyReq = new SqlCommand();
             objDenyReq.CommandType = CommandType.StoredProcedure;
-            objDenyReq.CommandText = "TP_AcceptReq";
+            objDenyReq.CommandText = "TP_DenyReq";
             objDenyReq.Parameters.AddWithValue("@senderID", sendingID);
             objDenyReq.Parameters.AddWithValue("@recID", recievingID);
 
@@ -208,5 +208,21 @@ namespace TP_WebAPI.Controllers
             int res = objDB.DoUpdateUsingCmdObj(objUpdateDate, out string err);
             return res;
         } // end update date
+
+        [HttpPut("ignoreReq")]
+        public int IgnoreRequest([FromBody] IDictionary<string, string> vals)
+        { // this ignores a request
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            int recID = Convert.ToInt16(vals["recID"]);
+
+            SqlCommand objIgnoreReq = new SqlCommand();
+            objIgnoreReq.CommandType = CommandType.StoredProcedure;
+            objIgnoreReq.CommandText = "TP_IgnoreReq";
+            objIgnoreReq.Parameters.AddWithValue("@senderID", sendingID);
+            objIgnoreReq.Parameters.AddWithValue("@recID", recID);
+
+            int res = objDB.DoUpdateUsingCmdObj(objIgnoreReq, out string err);
+            return res;
+        } // end ignore request
     }
 }

@@ -53,7 +53,11 @@ namespace TermProject
                 string message = "You have liked " + lblName.InnerText;
                 UpdatePreferences();
             }
-           
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+
         } // end btn like event handler
 
         protected void btnPass_Click(object sender, EventArgs e)
@@ -66,7 +70,13 @@ namespace TermProject
                 string message = "You have passed on " + lblName.InnerText;
                 UpdatePreferences();
             }
-           
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+
+
+
         } // end btn pass event handler
 
         protected void btnBlock_Click(object sender, EventArgs e)
@@ -102,8 +112,15 @@ namespace TermProject
                 String data = reader.ReadToEnd();
                 reader.Close();
                 response.Close();
+
+                ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+
             }
-          
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+
 
         } // end btn block event handler
 
@@ -159,9 +176,11 @@ namespace TermProject
                  smtp.Send(msg); */
 
                 // redirect to dashboard
-                string success = "Successfully sent a date request to " + lblName.InnerText;
-                string script = "window.onload = function(){ alert('" + success + "'); window.location = '" + url + "'; }";
-                ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);
+                /*   string success = "Successfully sent a date request to " + lblName.InnerText;
+                   string script = "window.onload = function(){ alert('" + success + "'); window.location = '" + url + "'; }";
+                   ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);*/
+                ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+
             }
             catch
             {
@@ -207,9 +226,10 @@ namespace TermProject
             String data = reader.ReadToEnd();
             reader.Close();
             response.Close();
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
 
             // redirect to dashboard
-          //  string script = "window.onload = function(){ alert('" + message + "'); window.location = '" + url + "'; }";
+            //  string script = "window.onload = function(){ alert('" + message + "'); window.location = '" + url + "'; }";
             //ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);
         }
     } // end class
