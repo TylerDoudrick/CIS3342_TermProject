@@ -189,7 +189,7 @@
     </div>
 
 
-    <div class="modal fade" id="modalScheduleDate" tabindex="-1" role="dialog" aria-labelledby="modalScheduleDateLabel" aria-hidden="true">
+    <div class="modal " id="modalScheduleDate" tabindex="-1" role="dialog" aria-labelledby="modalScheduleDateLabel" aria-hidden="true">
         <div class=" modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -203,6 +203,14 @@
                 </div>
 
                 <div class="modal-body">
+                    <div class="form-group row justify-content-around">
+                        <div class="col-4">
+                            <asp:Label runat="server" CssClass="col-form-label my-1 d-flex align-items-end font-weight-bold" for="<%= lblNameDate.ClientID %>"> Date With: </asp:Label>
+                        </div>
+                        <div class="col-7">
+                            <asp:Label runat="server" ID="lblNameDate" CssClass="text-info col-form-label my-1 d-flex align-items-end font-weight-bold" ></asp:Label>
+                        </div>
+                    </div>
                     <div class="form-group row justify-content-around">
                         <div class="col-4">
                             <asp:Label runat="server" CssClass="col-form-label my-1 d-flex align-items-end" for="<%= txtWhen.ClientID %>"> When</asp:Label>

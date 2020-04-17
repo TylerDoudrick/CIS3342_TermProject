@@ -55,7 +55,7 @@ namespace TermProject
             }
             else
             {
-                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showError();", true);
             }
 
         } // end btn like event handler
