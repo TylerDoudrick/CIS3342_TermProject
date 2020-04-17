@@ -28,13 +28,13 @@ namespace TermProject
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            string p = photoUpload.FileName;
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
             lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
             lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
             ddl.RemoveColor();
             Boolean check =validateForm(); // call method to validate input
-
             if (!check)
             { // if everything was entered correctly, transfer to participant profile
                 Boolean opt = AddRecords();

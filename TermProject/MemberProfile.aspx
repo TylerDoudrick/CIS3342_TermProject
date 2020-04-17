@@ -68,10 +68,10 @@
 
     <hr />
 
-    <div runat="server" class="hidden">
-        <div class="row">
-            <h5 class="text-info font-weight-bold">Contact Information</h5>
-        </div>
+    <div runat="server" class="hidden" id="divContactInfo">
+        <div class="col text-center">
+            <div class="font-weight-bold text-info h5 my-auto">Contact Information</div>
+        </div>  
         <div class="row justify-content-center my-5">
             <div class="col-4">
 

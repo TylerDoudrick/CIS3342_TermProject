@@ -80,13 +80,13 @@ namespace TermProject
 
                     byte[] salt = (byte[])drUserRecord["salt"];
                     byte[] hashedPassword = (byte[])drUserRecord["password"];
-                    
+
 
                     if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
                     {
                         Session["UserID"] = drUserRecord["userID"].ToString();
                         getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
-
+                        GetAcceptedDates(Convert.ToInt32(drUserRecord["userID"]));
                         // store the seeking gender in session
                         string seeking = dsUser.Tables[1].Rows[0][0].ToString();
                         Session["seeking"] = seeking;
@@ -140,7 +140,8 @@ namespace TermProject
             List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(5); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
             List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); memberDislikes.Add(4); Session["memberDislikes"] = memberDislikes;
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
-            
+            GetAcceptedDates(2);
+
             Session["memberBlocks"] = memberBlocks;
             Session["seeking"] = "Male";
             //Response.Redirect("Dashboard.aspx");
@@ -175,10 +176,12 @@ namespace TermProject
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
             Session["seeking"] = "Female";
+
+            GetAcceptedDates(1);
             List<int> memberLieks = new List<int>();
-            memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8); 
+            memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8);
             Session["memberLikes"] = memberLieks;
-            List<int> memberDislikes = new List<int>(); memberDislikes.Add(4); memberDislikes.Add(6);  memberDislikes.Add(2); Session["memberDislikes"] = memberDislikes;
+            List<int> memberDislikes = new List<int>(); memberDislikes.Add(4); memberDislikes.Add(6); memberDislikes.Add(2); Session["memberDislikes"] = memberDislikes;
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); memberBlocks.Add(5); Session["memberBlocks"] = memberBlocks;
 
             Session["memberBlocks"] = memberBlocks;
@@ -246,5 +249,33 @@ namespace TermProject
                 Session["memberBlocks"] = memberBlocks;
             } // end if
         } // end method
+
+        protected void GetAcceptedDates(int userID)
+        { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+            DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
+
+            List<int> acceptedDates = new List<int>();
+
+            for (int i=0;i<one.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(one.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            for ( int i =0; i < two.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(two.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            Session["acceptedDates"] = acceptedDates;
+        } // end get accepted dates
     }
 }
