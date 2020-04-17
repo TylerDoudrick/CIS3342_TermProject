@@ -97,8 +97,8 @@
         </div>
     </div>
 
-      <!-- Modal -->
-    <div class="modal fade" id="modalReply" tabindex="-1" role="dialog" >
+    <!-- Modal -->
+    <div class="modal fade" id="modalReply" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -116,7 +116,7 @@
 
                     <div class="form-group">
                         <label for="txtMessage">Message</label>
-                        <textarea  class="form-control" id="txtReply" placeholder="Reply..."></textarea>
+                        <textarea class="form-control" id="txtReply" placeholder="Reply..."></textarea>
                     </div>
 
 
@@ -129,25 +129,26 @@
         </div>
     </div>
 
-    <div class="row justify-content-start align-items-center mt-5 mb-3 w-75 mx-auto">
-    </div>
 
 
 
     <div class="row justify-content-start align-items-center mt-5 mb-3 w-75 mx-auto">
         <div class="col">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="divMessageListControls">
-                <label class="btn theme-red">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="divInboxListControls">
+                <label class="btn theme-red" id="lblShowInbox">
+                    <input type="radio" name="options" id="btnShowInbox" autocomplete="off" checked>
                     Inbox
                 </label>
-                <label class="btn theme-white">
-                    <input type="radio" name="options" id="option2" autocomplete="off">
+                <label class="btn theme-white" id="lblShowOutbox">
+                    <input type="radio" name="options" id="btnShowOutbox" autocomplete="off">
                     Outbox
                 </label>
             </div>
             <div class="hidden" id="divMessageViewControls">
                 <button type="button" class="btn btn-secondary" id="btnReturnToInbox">Return to Inbox</button>
+            </div>
+            <div class="hidden" id="divOutgoingViewControls">
+                <button type="button" class="btn btn-secondary" id="btnReturnToOutbox">Return to Outbox</button>
             </div>
         </div>
         <div class="col text-right">
@@ -157,9 +158,14 @@
     </div>
     <div class="row justify-content-center align-items-center w-75 mx-auto">
         <div class="col">
-            <div class="card" id="divMessageList">
-                <h5 class="card-header">Messages</h5>
+            <div class="card" id="divInboxList">
+                <h5 class="card-header">Inbox</h5>
                 <div class="card-body p-0" id="divInbox">
+                </div>
+            </div>
+            <div class="card hidden" id="divOutboxList">
+                <h5 class="card-header">Outbox</h5>
+                <div class="card-body p-0" id="divOutbox">
                 </div>
             </div>
             <div class="card hidden" id="divViewMessage">
@@ -169,11 +175,11 @@
                         <div class="col-3">
                             <div class="card profilePhoto" style="width: 18rem;">
                                 <img class="card-img-top" id="imgSender" src="" />
-                                <div class="card-body">
-                                    <h5 class="card-title ">
+                                <div class="card- pt-3">
+                                    <h2 class="card-title text-center p-0">
                                         <span id="lblSender"></span>
 
-                                    </h5>
+                                    </h2>
 
                                 </div>
                             </div>
@@ -185,14 +191,14 @@
                                 <h5><span id="lblSentDate" class="font-weight-bold"></span></h5>
                             </div>
                             <div class="row">
-                                                            <div class="col">
-                                <div class="row">
-                                    <h5>Message:</h5>
+                                <div class="col">
+                                    <div class="row">
+                                        <h5>Message:</h5>
+                                    </div>
+                                    <div class="row h-100 w-75" style="min-height: 10em">
+                                        <div id="lblMessageBody" class="well form-control h-100" readonly></div>
+                                    </div>
                                 </div>
-                                <div class="row h-100 w-75">
-                                    <textarea id="lblMessageBody" class="form-control h-100" readonly></textarea>
-                                </div>
-                            </div>
                             </div>
 
                         </div>
@@ -209,6 +215,46 @@
                 </div>
 
             </div>
+            <div class="card hidden" id="divViewOutgoing">
+                <h5 class="card-header">View Sent Message</h5>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card profilePhoto" style="width: 18rem;">
+                                <img class="card-img-top" id="imgReceiver" src="" />
+                                <div class="card-body pt-3">
+                                    <h2 class="card-title text-center p-0">
+                                        <span id="lblReceiver"></span>
+
+                                    </h2>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col pt-2">
+                            <div class="row text-right justify-content-end px-2">
+                                <h5 class="font-weight-bold">Sent On: <span id="lblReceivedDate" class="font-weight-bold"></span></h5>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="row">
+                                        <h5>Message:</h5>
+                                    </div>
+                                    <div class="row h-100 w-75" style="min-height: 10em">
+                                        <div id="lblReceivedMessage" class="well form-control h-100" readonly></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </asp:Content>
@@ -218,27 +264,28 @@
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkMessages").addClass("active");
 
-            var data = {
+            var user = {
                 "id": "<%= Session["UserID"].ToString()%>"
 
             }
 
             var selected = {};
-            console.log(JSON.stringify(data));
-            $.ajax({
-                url: "https://localhost:44375/api/datingservice/interactions/GetUserInbox",
-                type: 'post',
-                contentType: 'application/json',
-                dataType: "json",
-                data: JSON.stringify(data),
-                error: function (xhr) {
-                    console.log(xhr.responseText);
-                },
-                success: function (data) {
-                    console.log(data);
-                    data.forEach(function (obj) {
-                        var container = document.createElement("div");
-                        var message = ` 
+
+            function grabInbox() {
+                $("#divInbox").empty();
+                $.ajax({
+                    url: "https://localhost:44375/api/datingservice/interactions/GetUserInbox",
+                    type: 'post',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    data: JSON.stringify(user),
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        data.forEach(function (obj) {
+                            var container = document.createElement("div");
+                            var message = ` 
                             <div class="card w-100 rounded-0 messageRow">
                                 <div class="row p-2">
                                     <div class="col-1">
@@ -257,39 +304,125 @@
                                 </div>
                             </div>`
 
-                        container.innerHTML = message;
-                        container.onclick = function () {
-                            $("#divMessageList").hide();
-                            $("#divMessageListControls").hide();
-                            $("#divMessageViewControls").removeClass("hidden");
-                            $("#divViewMessage").removeClass("hidden");
-                            $("#lblSender").text(obj.sendername);
-                            $("#lblSentDate").text(obj.timestamp);
-                            $("#lblMessageBody").text(obj.message);
-                            $("#imgSender").attr("src", obj.senderimage);
+                            container.innerHTML = message;
+                            container.onclick = function () {
+                                $("#divInboxList").hide();
+                                $("#divInboxListControls").hide();
+                                $("#divMessageViewControls").removeClass("hidden");
+                                $("#divViewMessage").removeClass("hidden");
+                                $("#lblSender").text(obj.sendername);
+                                $("#lblSentDate").text(obj.timestamp);
+                                $("#lblMessageBody").text(obj.message);
+                                $("#imgSender").attr("src", obj.senderimage);
 
-                            //Reply Modal Stuff
+                                //Reply Modal Stuff
 
-                            $("#lblReplyTo").text(obj.sendername);
+                                $("#lblReplyTo").text(obj.sendername);
 
-                            selected = obj;
-                        };
-                        $("#divInbox").append(container);
-                    });
+                                selected = obj;
+                            };
+                            $("#divInbox").append(container);
+                        });
 
-                }
+                    }
+                });
+            }
+            function grabOutbox() {
+                $("#divOutbox").empty();
+                $.ajax({
+                    url: "https://localhost:44375/api/datingservice/interactions/GetUserOutbox",
+                    type: 'post',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    data: JSON.stringify(user),
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        data.forEach(function (obj) {
+                            var container = document.createElement("div");
+                            var message = ` 
+                            <div class="card w-100 rounded-0 messageRow">
+                                <div class="row p-2">
+                                    <div class="col-1">
+                                        <img id="imgRecipient" class="card-img rounded-lg" src="`+ obj.receiverimage + `" />
+                                    </div>
+                                    <div class="col-11 d-flex justify-content-center align-items-center w-100">
+                                        <div class="d-flex align-items-around flex-column w-100">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h6 class="font-weight-bold">`+ obj.receivername + `</h6>
+                                <h6 class="text-muted">Sent On: `+ obj.timestamp + `</h6>
+                            </div>
+                            <div class="text-truncate text-muted">`+ obj.message + `</div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+
+                            container.innerHTML = message;
+                            container.onclick = function () {
+                                $("#divOutboxList").hide();
+                                $("#divInboxListControls").hide();
+                                $("#divOutgoingViewControls").removeClass("hidden");
+                                $("#divViewOutgoing").removeClass("hidden");
+                                $("#lblReceiver").text(obj.receivername);
+                                $("#lblReceivedDate").text(obj.timestamp);
+                                $("#lblReceivedMessage").text(obj.message);
+                                $("#imgReceiver").attr("src", obj.receiverimage);
+
+
+                            };
+                            $("#divOutbox").append(container);
+                        });
+
+                    }
+                });
+            }
+            grabInbox();
+            $("#btnShowOutbox").click(function () {
+                $("#lblShowOutbox").addClass('theme-red');
+                $("#lblShowOutbox").removeClass('theme-white');
+                $("#lblShowInbox").addClass('theme-white');
+                $("#lblShowInbox").removeClass('theme-red');
+                $("#divOutboxList").removeClass('hidden');
+                $("#divInboxList").addClass('hidden');
+                grabOutbox();
+            });
+
+            $("#btnShowInbox").click(function () {
+                $("#lblShowOutbox").removeClass('theme-red');
+                $("#lblShowOutbox").addClass('theme-white');
+                $("#lblShowInbox").removeClass('theme-white');
+                $("#lblShowInbox").addClass('theme-red');
+                $("#divOutboxList").addClass('hidden');
+                $("#divInboxList").removeClass('hidden');
+                grabInbox();
             });
 
             $("#btnReturnToInbox").click(function () {
-                 $("#divMessageList").show();
-                            $("#divMessageListControls").show();
-                            $("#divMessageViewControls").addClass("hidden");
-                            $("#divViewMessage").addClass("hidden");
-                            $("#lblSender").text("");
-                            $("#lblSentDate").text("");
-                            $("#lblMessageBody").text("");
-                            $("#imgSender").attr("src", "");
+                $("#divInboxList").show();
+                $("#divInboxListControls").show();
+                $("#divMessageViewControls").addClass("hidden");
+                $("#divViewMessage").addClass("hidden");
+                $("#lblSender").text("");
+                $("#lblSentDate").text("");
+                $("#lblMessageBody").text("");
+                $("#imgSender").attr("src", "");
             });
+
+            $("#btnReturnToOutbox").click(function () {
+                $("#divOutboxList").show();
+                $("#divInboxListControls").show();
+                $("#divOutgoingViewControls").addClass("hidden");
+                $("#divViewOutgoing").addClass("hidden");
+                $("#lblReceiver").text("");
+                $("#lblReceivedDate").text("");
+                $("#lblReceivedMessage").text("");
+                $("#imgReceiver").attr("src", "");
+            });
+
 
             $("#<%= ddlRecipient.ClientID%>").change(function () {
                 var data = {
@@ -352,8 +485,8 @@
                 }
             });
 
-             $("#btnSendReply").click(function () {
-                if ($("#txtReply").val() == "" ) {
+            $("#btnSendReply").click(function () {
+                if ($("#txtReply").val() == "") {
 
                 } else {
                     var data = {
