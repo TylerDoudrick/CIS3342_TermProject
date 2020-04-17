@@ -246,9 +246,9 @@ namespace TP_WebAPI.Controllers
 
         [EnableCors("AllowOrigin")]
         [HttpPost("GetUserInbox")]
-        public List<Message> GetUserInbox([FromBody] User user)
+        public List<IncomingMessage> GetUserInbox([FromBody] User user)
         {
-            List<Message> messages = new List<Message>();
+            List<IncomingMessage> messages = new List<IncomingMessage>();
             SqlCommand commandObj = new SqlCommand();
 
             commandObj.CommandType = CommandType.StoredProcedure;
@@ -265,7 +265,7 @@ namespace TP_WebAPI.Controllers
             {
                 foreach (DataRow row in res.Tables[0].Rows)
                 {
-                    Message temp = new Message();
+                    IncomingMessage temp = new IncomingMessage();
                     temp.senderid = row["senderID"].ToString();
                     temp.message = row["messageBody"].ToString();
                     DateTime sentOn = DateTime.Parse(row["timeStamp"].ToString());
@@ -282,6 +282,46 @@ namespace TP_WebAPI.Controllers
 
             return messages;
         }
+
+        [EnableCors("AllowOrigin")]
+        [HttpPost("GetUserOutbox")]
+        public List<OutgoingMessage> GetUserOutbox([FromBody] User user)
+        {
+            List<OutgoingMessage> messages = new List<OutgoingMessage>();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetUserOutbox";
+            commandObj.Parameters.AddWithValue("@UserID", user.id);
+
+            DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
+
+            if (res.Tables[0].Rows.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (DataRow row in res.Tables[0].Rows)
+                {
+                    OutgoingMessage temp = new OutgoingMessage();
+                    temp.receiverid = row["receiverID"].ToString();
+                    temp.message = row["messageBody"].ToString();
+                    DateTime sentOn = DateTime.Parse(row["timeStamp"].ToString());
+                    temp.timestamp = sentOn.ToString("dddd, MMMM dd'th' yyyy '@' hh:mm tt");
+                    temp.readreceipt = row["readReceipt"].ToString();
+                    temp.receivername = row["name"].ToString();
+                    Byte[] imgArray = (Byte[])row["profileImage"];
+                    MemoryStream memorystreamd = new MemoryStream(imgArray);
+                    BinaryFormatter bfd = new BinaryFormatter();
+                    temp.receiverimage = bfd.Deserialize(memorystreamd).ToString();
+                    messages.Add(temp);
+                }
+            }
+
+            return messages;
+        }
+
 
         [EnableCors("AllowOrigin")]
         [HttpPost("ProfileSnippet")]
@@ -319,7 +359,7 @@ namespace TP_WebAPI.Controllers
 
         [EnableCors("AllowOrigin")]
         [HttpPut("SendMessage")]
-        public Response SendMessage([FromBody] OutgoingMessage message)
+        public Response SendMessage([FromBody] SendingMessage message)
         {
             Response response = new Response();
             SqlCommand commandObj = new SqlCommand();
@@ -367,7 +407,7 @@ namespace TP_WebAPI.Controllers
             public string id {get;set; }
     }
 
-        public class OutgoingMessage
+        public class SendingMessage
         {
             public string senderid { get; set; }
             public string recipientid { get; set; }
@@ -375,7 +415,7 @@ namespace TP_WebAPI.Controllers
 
         }
 
-        public class Message
+        public class IncomingMessage
         {
             public string senderid { get; set; }
             public string sendername { get; set; }
@@ -386,6 +426,16 @@ namespace TP_WebAPI.Controllers
             public string readreceipt { get; set; }
         }
 
+        public class OutgoingMessage
+        {
+            public string receiverid { get; set; }
+            public string receivername { get; set; }
+            public string receiverimage { get; set; }
+            public string senderid { get; set; }
+            public string message { get; set; }
+            public string timestamp { get; set; }
+            public string readreceipt { get; set; }
+        }
         public class Recipient
         {
             public string userID { get; set; }
