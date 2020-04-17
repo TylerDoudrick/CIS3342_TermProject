@@ -156,7 +156,9 @@ namespace TermProject
                 }
                 else
                 {
-                    ScriptManager.RegisterClientScriptBlock(this, GetType(),"alertMessage", @"alert('Successfully updated username ')", true);
+                    ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+
+                    //   ScriptManager.RegisterClientScriptBlock(this, GetType(),"alertMessage", @"alert('Successfully updated username ')", true);
                     txtCurrentUsername.Text = txtNewUsername.Text;
                     txtNewUsername.CssClass = txtNewUsername.CssClass.Replace("is-invalid", "").Trim();
                 }
@@ -195,7 +197,9 @@ namespace TermProject
                 {
                     txtConfirmPassword.Text = ""; txtNewPassword.Text = "";
                     txtNewPassword.CssClass = txtNewPassword.CssClass.Replace("is-invalid", "").Trim();
-                    ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", @"alert('Successfully updated password')", true);
+                    ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+
+                    // ScriptManager.RegisterClientScriptBlock(this, GetType(), "alertMessage", @"alert('Successfully updated password')", true);
                 }
             }
         } // end update password btn click

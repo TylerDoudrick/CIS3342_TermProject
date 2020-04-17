@@ -36,9 +36,7 @@ namespace TermProject
 
         protected void Unnamed_Click(object sender, EventArgs e)
         {
-            Response.Redirect("MemberProfile.aspx?memberID=5");
-            if (Session["UserID"] == null) Response.Redirect("LogIn.aspx?target=Dashboard");
-            
+            Response.Redirect("MemberProfile.aspx?memberID=5");            
 
         }
     }

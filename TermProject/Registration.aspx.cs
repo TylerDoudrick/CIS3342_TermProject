@@ -58,6 +58,17 @@ namespace TermProject
 
         private Boolean validateForm()
         {
+            // clear all validation
+            txtTagline.CssClass = txtTagline.CssClass.Replace("is-invalid", "").Trim();
+            txtBio.CssClass = txtBio.CssClass.Replace("is-invalid", "").Trim();
+            ddlGender.CssClass = ddlGender.CssClass.Replace("is-invalid", "").Trim();
+            txtBirthday.CssClass = txtBirthday.CssClass.Replace("is-invalid", "").Trim();
+            ddlSeeking.CssClass = ddlSeeking.CssClass.Replace("is-invalid", "").Trim();
+            txtNumber1.CssClass = txtNumber1.CssClass.Replace("is-invalid", "").Trim();
+            txtNumber2.CssClass = txtNumber2.CssClass.Replace("is-invalid", "").Trim();
+            txtNumber3.CssClass = txtNumber3.CssClass.Replace("is-invalid", "").Trim();
+            ddlOccupation.CssClass = ddlOccupation.CssClass.Replace("is-invalid", "").Trim();
+
             Boolean check = false;
 
             foreach (ListItem item in ddl.LBReligion.Items)
@@ -121,42 +132,52 @@ namespace TermProject
             // validate other fields
             if (txtTagline.Text=="")
             {
-                check = true; lblTagline.Attributes.Add("style", "color:red");
+                check = true; txtTagline.CssClass += " is-invalid";
             }
             if (txtBio.Text== "" )
             {
-                check = true; lblBio.Attributes.Add("style", "color:red");
+                check = true; txtBio.CssClass += " is-invalid";
             }
             if (ddlGender.SelectedValue== "-1")
             {
-                check = true; lblGender.Attributes.Add("style", "color:red");
+                check = true; ddlGender.CssClass += " is-invalid";
             }
             if (txtBirthday.Text=="")
             {
-                check = true; lblBirthday.Attributes.Add("style", "color:red");
+                check = true; txtBirthday.CssClass += " is-invalid";
             }
             if (ddlSeeking.SelectedValue== "-1")
             {
-                check = true; lblSeekingGender.Attributes.Add("style", "color:red");
+                check = true; ddlSeeking.CssClass += " is-invalid";
             }
             if (txtNumber1.Text.Length!=3 || txtNumber2.Text.Length!=3 || txtNumber3.Text.Length!=4)
             { // if the lengths of each textbox aren't 3-3-4
-                check = true; lblPhoneNumber.Attributes.Add("style", "color:red");
+                check = true;
+                txtNumber1.CssClass += " is-invalid"; txtNumber2.CssClass += " is-invalid"; txtNumber3.CssClass += " is-invalid";
             }
             else
             { // else check to see if they're all ints
                 int n1; bool bN1 = Int32.TryParse(txtNumber1.Text, out n1);
                 int n2; bool bN2 = Int32.TryParse(txtNumber2.Text, out n2);
                 int n3; bool bN3 = Int32.TryParse(txtNumber3.Text, out n3);
-                if (!(bN1 && bN2 && bN3))
-                { // if any of the bools are false = invalid input
-                    check = true; lblPhoneNumber.Attributes.Add("style", "color:red");
-                    txtNumber1.Text= ""; txtNumber2.Text = ""; txtNumber3.Text = ""; // reset the values to empty strings
-                } // end inner if 
+                if (!bN1)
+                {
+                    txtNumber1.CssClass += " is-invalid";
+                    txtNumber1.Text = "";
+                }
+                if (!bN2)
+                {
+                    txtNumber2.CssClass += " is-invalid";
+                    txtNumber2.Text = "";
+                }
+                if (!bN3)
+                {
+                    txtNumber3.CssClass += " is-invalid"; txtNumber3.Text = "";
+                }              
             } // end outter else
             if (ddlOccupation.SelectedValue=="-1")
             {
-                check = true; lblOccupation.Attributes.Add("style", "color:red");
+                check = true; ddlOccupation.CssClass += " is-invalid";
             }
             return check;
         }

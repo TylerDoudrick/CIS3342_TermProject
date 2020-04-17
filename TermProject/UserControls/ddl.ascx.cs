@@ -78,29 +78,32 @@ namespace TermProject.UserControls
         
         public void RemoveColor()
         { // removes styling done for validation
-            lblReligion.Style.Remove("color"); lblCommitment.Style.Remove("color");
-            lblInterests.Style.Remove("color"); lblLikes.Style.Remove("color"); lblDislikes.Style.Remove("color");
+            LBReligion.CssClass = LBReligion.CssClass.Replace("is-invalid", "").Trim();
+            LBLikes.CssClass = LBLikes.CssClass.Replace("is-invalid", "").Trim();
+            LBInterest.CssClass = LBInterest.CssClass.Replace("is-invalid", "").Trim();
+            LBDislikes.CssClass = LBDislikes.CssClass.Replace("is-invalid", "").Trim();
+            LBCommitment.CssClass = LBCommitment.CssClass.Replace("is-invalid", "").Trim();
         }
 
         public void SetReligion()
         {
-            lblReligion.Attributes.Add("style", "color:red");
+            LBReligion.CssClass += " is-invalid";
         }
         public void SetInterests()
         {
-            lblInterests.Attributes.Add("style", "color:red");
+           LBInterest.CssClass += " is-invalid";
         }
         public void SetLikes()
         {
-            lblLikes.Attributes.Add("style", "color:red");
+           LBLikes.CssClass += " is-invalid";
         }
         public void SetDislikes()
         {
-            lblDislikes.Attributes.Add("style", "color:red");
+          lbDislikes.CssClass += " is-invalid";
         }
         public void SetCommitment()
         {
-            lblCommitment.Attributes.Add("style", "color:red");
+            LBCommitment.CssClass += " is-invalid";
         }
 
         public ListBox LBReligion
