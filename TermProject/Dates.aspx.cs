@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Classess;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -18,7 +19,6 @@ namespace TermProject
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         int userID;
-
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -73,19 +73,25 @@ namespace TermProject
 
                 js = new JavaScriptSerializer();
                 DataSet dsAccepted = JsonConvert.DeserializeObject<DataSet>(data);
-                DataTable a = dsAccepted.Tables[0];
+                List<User> datePeople = new List<User>();
 
+                DataTable a = dsAccepted.Tables[0];
+                for(int row = 0; row<a.Rows.Count;row++)
+                { // get all people with accepted requests into a list
+                    User an = new User();
+                    an.userID = Convert.ToInt16(a.Rows[row]["userID"]);
+                    an.name = a.Rows[row]["userName"].ToString();
+                    datePeople.Add(an);
+                    Session["people"] = datePeople;
+                }
                 lvSchedule.DataSource = a;
-                //String[] names = new String[2];  names[0] = "userID"; names[1] = "userName";
-                //  lvSchedule.DataKeyNames = names;
                 lvSchedule.DataBind();
 
                 DataTable scheduledDates = dsAccepted.Tables[1];
-                String[] keys = new string[1]; keys[0] = "userName";
+                //String[] keys = new string[1]; keys[0] = "userName";
                 lvPlannedDates.DataSource = scheduledDates; lvPlannedDates.DataBind();
-            }
-
-        }
+            } // end if 
+        } // end bind method
 
         protected void lblDeleteReq_Command(object sender, CommandEventArgs e)
         { // this will delete the date request
@@ -186,7 +192,9 @@ namespace TermProject
         {
            // divDates.Attributes.Add("style", "display:flex");
             int memID = Convert.ToInt32(e.CommandName);
-            string name = "";
+            List<User> d = (List<User>)Session["people"];
+            User person = (d.Find(x=> x.userID== memID));
+            lblNameDate.Text = person.name;
             Session["memID"] = memID;
             ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('#modalScheduleDate').modal('show');", true);
 
@@ -196,7 +204,6 @@ namespace TermProject
         { // hides the set up date card
             //divDates.Attributes.Add("style","display:none");
         }
-
 
         protected void btnSave_Click(object sender, EventArgs e)
         { // saves the 
@@ -267,6 +274,11 @@ namespace TermProject
                 bind(p, a, s, d); // rebind that repeater
 
                 //divDates.Attributes.Add("style", "display:none");
+
+            }
+            else
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('#modalScheduleDate').modal('show');", true);
 
             }
         } // end save button click

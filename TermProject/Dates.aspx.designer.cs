@@ -122,12 +122,14 @@ namespace TermProject {
         
         /// <summary>
         /// modalScheduleDate control.
+        /// lblNameDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl modalScheduleDate;
+        protected global::System.Web.UI.WebControls.Label lblNameDate;
         
         /// <summary>
         /// txtWhen control.
