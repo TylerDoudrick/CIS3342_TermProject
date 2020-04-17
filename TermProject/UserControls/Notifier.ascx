@@ -14,22 +14,26 @@
                     "closeButton": true,
                     "debug": false,
                     "newestOnTop": false,
-                    "progressBar": true,
+                    "progressBar": false,
                     "positionClass": "toast-bottom-right",
                     "preventDuplicates": true,
                     "onclick": null,
                     "showDuration": "300",
                     "hideDuration": "1000",
-                    "timeOut": "5000",
-                    "extendedTimeOut": "1000",
+                    "timeOut": "0",
+                    "extendedTimeOut": "0",
                     "showEasing": "swing",
                     "hideEasing": "linear",
                     "showMethod": "fadeIn",
                     "hideMethod": "fadeOut",
-                    "onclick": function () {window.location.replace("Dashboard.aspx");}
+                    "onclick": toastClick
                 }
                 toastr["info"]("You have new messages!", event.data)
+
+                    function toastClick(notificationID) {
+                        alert("Clicked Toast!");
                     }
+                }
             };
         } else {
             document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
