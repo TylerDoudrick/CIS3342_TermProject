@@ -75,9 +75,13 @@ namespace TermProject
                 if (dsUser.Tables[0].Rows.Count > 0)
                 {
                     DataRow drUserRecord = dsUser.Tables[0].Rows[0];
+
+                    string email = drUserRecord["emailAddress"].ToString();
+                    Session["email"] = email;
+
                     byte[] salt = (byte[])drUserRecord["salt"];
                     byte[] hashedPassword = (byte[])drUserRecord["password"];
-
+                    
 
                     if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
                     {
