@@ -18,6 +18,11 @@ namespace TermProject.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if(Session["UserID"] == null)
+            {
+                divInterests.Visible = false;
+                divLikesDislikes.Visible = false;
+            }
             if (!IsPostBack)
             {
                 WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");

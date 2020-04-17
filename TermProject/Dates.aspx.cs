@@ -22,7 +22,7 @@ namespace TermProject
         protected void Page_Load(object sender, EventArgs e)
         {
 
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("Login.aspx?target=Dates");
             else
             {
                 userID = Convert.ToInt32(Session["UserID"].ToString());

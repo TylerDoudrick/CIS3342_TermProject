@@ -19,6 +19,8 @@ namespace TP_WebAPI.Controllers
         //"for any and all interactions so updating the liked lists, pass list, blocked lists, dates, and messages"
         //
         DBConnect objDB = new DBConnect();
+        Notifier notifier = new Notifier();
+
 
         [HttpPost("insertPreferences/")]
         public int insertPreferences([FromBody] Preferences p)
@@ -78,7 +80,7 @@ namespace TP_WebAPI.Controllers
 
 
         [HttpPost("addDateReq")]
-        public DataSet AddDateReq([FromBody] IDictionary<string, string> vals)
+        public int AddDateReq([FromBody] IDictionary<string, string> vals)
         { // adds a date request to the db
             int sendingID = Convert.ToInt16(vals["sendingID"]); 
 
@@ -93,7 +95,9 @@ namespace TP_WebAPI.Controllers
             objDateReq.Parameters.AddWithValue("@memID", recID);
             objDateReq.Parameters.AddWithValue("@now", now);
             objDateReq.Parameters.AddWithValue("@message", message);
-            DataSet result = objDB.GetDataSetUsingCmdObj(objDateReq);
+            int result = objDB.DoUpdateUsingCmdObj(objDateReq, out string err);
+
+            notifier.NotifyMessage(recID, "New message from "+ sendingID.ToString());
             return result;
         } // end add date req
 
@@ -136,6 +140,8 @@ namespace TP_WebAPI.Controllers
             objAcceptReq.Parameters.AddWithValue("@recID", recievingID);
 
             int res = objDB.DoUpdateUsingCmdObj(objAcceptReq, out string err);
+            notifier.NotifyMessage(recievingID, sendingID.ToString() + " accepted your date");
+
             return res;
         } // end accept req
 
@@ -152,6 +158,9 @@ namespace TP_WebAPI.Controllers
             objDenyReq.Parameters.AddWithValue("@recID", recievingID);
 
             int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
+
+            notifier.NotifyDate(recievingID, sendingID.ToString() + " denied your date");
+
             return res;
         }
 
@@ -187,6 +196,10 @@ namespace TP_WebAPI.Controllers
             objInsertDt.Parameters.AddWithValue("@description", desc);
 
             int res = objDB.DoUpdateUsingCmdObj(objInsertDt, out string err);
+
+            notifier.NotifyDate(recID, "New date request from " + sendingID.ToString());
+
+
             return res;
         } // end insert date
 

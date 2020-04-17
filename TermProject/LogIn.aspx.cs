@@ -102,6 +102,7 @@ namespace TermProject
                             case "Settings":
                                 Response.Redirect("Settings.aspx");
                                 break;
+
                             default:
                                 Response.Redirect("Dashboard.aspx");
                                 break;
@@ -134,8 +135,29 @@ namespace TermProject
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
             
             Session["memberBlocks"] = memberBlocks;
+            switch (Request.QueryString["target"])
+            {
 
-            Response.Redirect("Dashboard.aspx");
+                case "Dates":
+                    Response.Redirect("Dates.aspx");
+                    break;
+                case "LikeandPass":
+                    Response.Redirect("LikeandPass.aspx");
+                    break;
+                case "Messages":
+                    Response.Redirect("Messages.aspx");
+                    break;
+                case "Profile":
+                    Response.Redirect("Profile.aspx");
+                    break;
+                case "Settings":
+                    Response.Redirect("Settings.aspx");
+                    break;
+
+                default:
+                    Response.Redirect("Dashboard.aspx");
+                    break;
+            }
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
         {
@@ -151,8 +173,29 @@ namespace TermProject
 
             Session["memberBlocks"] = memberBlocks;
 
-            Response.Redirect("Dashboard.aspx");
-            
+            switch (Request.QueryString["target"])
+            {
+
+                case "Dates":
+                    Response.Redirect("Dates.aspx");
+                    break;
+                case "LikeandPass":
+                    Response.Redirect("LikeandPass.aspx");
+                    break;
+                case "Messages":
+                    Response.Redirect("Messages.aspx");
+                    break;
+                case "Profile":
+                    Response.Redirect("Profile.aspx");
+                    break;
+                case "Settings":
+                    Response.Redirect("Settings.aspx");
+                    break;
+
+                default:
+                    Response.Redirect("Dashboard.aspx");
+                    break;
+            }
         }
 
         protected void getPrefs(int userID)

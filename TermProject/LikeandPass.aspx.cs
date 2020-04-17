@@ -27,7 +27,7 @@ namespace TermProject
         {
 
             
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            if (Session["UserID"] == null) Response.Redirect("Login.aspx?target=LikeandPass");
             else
             {
                 userID = Convert.ToInt32(Session["userID"].ToString());
