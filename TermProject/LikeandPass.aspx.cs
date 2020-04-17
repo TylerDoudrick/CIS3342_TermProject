@@ -77,9 +77,33 @@ namespace TermProject
 
                     User u = new User();
                     u.userID = Convert.ToInt16(dtLikeResult.Rows[row]["userID"]);
-                    u.name = (dsUser.Tables[0].Rows[row]["firstName"].ToString() + " " + dsUser.Tables[0].Rows[row]["lastName"].ToString());
-                    u.tagline = dsUser.Tables[0].Rows[row]["tagline"].ToString();
+                    u.name = (dtLikeResult.Rows[row]["name"].ToString());
+                    u.tagline = dtLikeResult.Rows[row]["tagline"].ToString();
                     u.imageSRC = url;
+                    u.city = dtLikeResult.Rows[row]["city"].ToString();
+                    u.state = dtLikeResult.Rows[row]["state"].ToString();
+
+                    if (dtLikeResult.Rows[row]["gender"].ToString().Trim().ToLower() == "female")
+                    {
+                        u.gender = "F";
+                    }
+                    else
+                    {
+                        u.gender = "M";
+                    }
+
+                    u.occuption = dtLikeResult.Rows[row]["occupation"].ToString();
+
+                    DateTime now = DateTime.Now;
+                    DateTime birthday = Convert.ToDateTime(dtLikeResult.Rows[row]["birthday"].ToString());
+                    TimeSpan timelived = now.Subtract(birthday);
+                    int age = timelived.Days / 365;
+                    u.age = age;
+
+                    string heading = (u.name + " (" + u.gender + ") , " + u.age);
+                    u.heading = heading;
+                    u.occuption = dtLikeResult.Rows[row]["occupation"].ToString();
+
                     likedUsers.Add(u);
                 }
                 rptmemLikes.DataSource = likedUsers; rptmemLikes.DataBind();
@@ -114,10 +138,32 @@ namespace TermProject
                     string url = (bfd.Deserialize(memorystreamd)).ToString();
 
                     User u = new User();
+                    u.name = dtPassResult.Rows[row]["name"].ToString();
                     u.userID = Convert.ToInt16(dtPassResult.Rows[row]["userID"]);
-                    u.name = (dtPassResult.Rows[row]["firstName"].ToString() + " " + dtPassResult.Rows[row]["lastName"].ToString());
                     u.tagline = dtPassResult.Rows[row]["tagline"].ToString();
                     u.imageSRC = url;
+                    u.city = dtPassResult.Rows[row]["city"].ToString();
+                    u.state = dtPassResult.Rows[row]["state"].ToString();
+
+                    if (dtPassResult.Rows[row]["gender"].ToString().Trim().ToLower() == "female")
+                    {
+                        u.gender = "F";
+                    }
+                    else
+                    {
+                        u.gender = "M";
+                    }
+
+                    DateTime now = DateTime.Now;
+                    DateTime birthday = Convert.ToDateTime(dtPassResult.Rows[row]["birthday"].ToString());
+                    TimeSpan timelived = now.Subtract(birthday);
+                    int age = timelived.Days / 365;
+                    u.age = age;
+
+                    string heading = (u.name + " (" + u.gender + ") , " + u.age);
+                    u.heading = heading;
+                    u.occuption = dtPassResult.Rows[row]["occupation"].ToString();
+
                     passedUsers.Add(u);
                 }
                 rptDislikes.DataSource = passedUsers; rptDislikes.DataBind();

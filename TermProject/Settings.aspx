@@ -130,9 +130,13 @@
                                 </div>
                                 
                                 <div class="card-body">
-                                    <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
-                                    <br />
+                                    <p>
+                                        <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("heading") %>'></asp:Label>
+                                        <asp:Label ID="lblOccupation" CssClass="card-text text-left" runat="server" Text='<%#Eval("occuption") %>'></asp:Label>
+                                    </p>
+                                                                                                        <p><%#Eval("city") %>, <%#Eval("state") %></p>
                                     <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
+    
                                 </div>
                                 <div class="card-footer text-center">
                             <asp:LinkButton runat="server" CommandName=' <%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="Unnamed_Command"> Unblock</asp:LinkButton>
