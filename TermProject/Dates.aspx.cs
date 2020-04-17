@@ -358,7 +358,7 @@ namespace TermProject
 
         protected void lbShowPendingRecieved_Click(object sender, EventArgs e)
         { // show requests I have received
-            divReqsToApprove.Attributes.Add("style", "display:flex");
+            divReqsToApprove.Visible=true;
             divplanneddates.Attributes.Add("style", "display:none");
             divScheduleDates.Attributes.Add("style", "display:none");
             divpendingreqs.Attributes.Add("style", "display:none");

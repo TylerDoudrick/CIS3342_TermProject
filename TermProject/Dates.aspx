@@ -98,7 +98,7 @@
         </div>
     </div>
 
-    <div id="divReqsToApprove" class="hidden " runat="server">
+    <div id="divReqsToApprove" runat="server" visible="false">
         <div class="row">
 
         <div runat="server" id="divPending" class="justify-content-center align-items-center w-75 my-5 mx-auto">
