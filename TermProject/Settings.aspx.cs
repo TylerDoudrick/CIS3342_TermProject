@@ -62,8 +62,8 @@ namespace TermProject
                 {
                     Session["remain"] = 1;
                     Random random = new Random(); int r = random.Next(0, 3); // get random number --> will choose security question
-                    Session["secAns"] = ds.Tables[3].Rows[r]["questionAnswer"].ToString().ToLower();
-                    lblSecurityQuestion.Text = ds.Tables[3].Rows[r]["SecurityQuestionText"].ToString();
+                    Session["secAns"] = ds.Tables[2].Rows[r]["questionAnswer"].ToString().ToLower();
+                    lblSecurityQuestion.Text = ds.Tables[2].Rows[r]["SecurityQuestionText"].ToString();
                 }
             }
         } //end pageload
@@ -416,9 +416,32 @@ namespace TermProject
 
                 User u = new User();
                 u.userID = Convert.ToInt16(dt.Rows[row]["userID"]);
-                u.name = (dt.Rows[row]["firstName"].ToString() + " " + dt.Rows[row]["lastName"].ToString());
+                
                 u.tagline = dt.Rows[row]["tagline"].ToString();
                 u.imageSRC = url;
+                u.city= dt.Rows[row]["city"].ToString();
+                u.state= dt.Rows[row]["state"].ToString();
+
+                if (dt.Rows[row]["gender"].ToString().Trim().ToLower() == "female")
+                {
+                    u.gender = "F";
+                }
+                else
+                {
+                    u.gender = "M";
+                }
+
+                u.occuption= dt.Rows[row]["occupation"].ToString();
+
+                DateTime now = DateTime.Now;
+                DateTime birthday = Convert.ToDateTime(dt.Rows[row]["birthday"].ToString());
+                TimeSpan timelived = now.Subtract(birthday);
+                int age = timelived.Days / 365;
+                u.age = age;
+
+                string heading = (dt.Rows[row]["name"].ToString()) + " (" + u.gender + ") , " + u.age;
+                u.heading = heading;
+                u.occuption = dt.Rows[row]["occupation"].ToString();
                 blckUsersBinding.Add(u);
             }
 

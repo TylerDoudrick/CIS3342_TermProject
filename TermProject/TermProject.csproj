@@ -85,7 +85,15 @@
     <Content Include="Default.aspx" />
     <Content Include="images\logo.png" />
     <Content Include="images\person1.jpg" />
+    <Content Include="images\person13.jpg" />
+    <Content Include="images\person14.jpg" />
+    <Content Include="images\person15.jpg" />
+    <Content Include="images\person16.jpg" />
+    <Content Include="images\person17.jpg" />
+    <Content Include="images\person18.jpg" />
+    <Content Include="images\person19.jpg" />
     <Content Include="images\person2.jpg" />
+    <Content Include="images\person20.jpg" />
     <Content Include="images\person3.jpg" />
     <Content Include="images\person4.jpg" />
     <Content Include="images\person5.jpg" />

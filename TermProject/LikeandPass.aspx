@@ -3,7 +3,7 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
         .card{
-            height:32em;
+            height:auto;
         }
     </style>
 </asp:Content>
@@ -25,8 +25,11 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
-                                    <br />
+                                   <p>
+                                        <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("heading") %>'></asp:Label><br />
+                                        <asp:Label ID="lblOccupation" CssClass="card-text text-left" runat="server" Text='<%#Eval("occuption") %>'></asp:Label>
+                                    </p>
+                                                                                                        <p><%#Eval("city") %>, <%#Eval("state") %></p>
                                     <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer text-center">
@@ -39,7 +42,6 @@
             </div>
         </div>
     </div>
-
 
 
     <hr />
@@ -57,13 +59,16 @@
                         <div>
                             <div class="card">
                                 <div runat="server">
-                                    <img class="card-img-top" src='<%#Eval("imageSRC") %>'> </img>
+                                    <img class="card-img-top" src='<%#Eval("imageSRC") %>'/>
                                 </div>
 
                                 <div class="card-body">
-                                    <asp:Label CssClass="card-text font-weight-bold text-center" ID="lblName" runat="server" Text='<%#Eval("name") %>'></asp:Label>
-                                    <br />
-                                    <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
+                                    <p>
+                                        <asp:Label CssClass="card-text font-weight-bold text-center" ID="headingPass" runat="server" Text='<%#Eval("heading") %>'></asp:Label>
+                                      <br />  <asp:Label ID="occupationPass" CssClass="card-text text-left" runat="server" Text='<%#Eval("occuption") %>'></asp:Label>
+                                    </p>
+                                                                                                        <p><%#Eval("city") %>, <%#Eval("state") %></p>
+                                    <asp:Label ID="tasglinePass" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer">
                                     <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary w-100 mb-1" ID="lbLikeFromPass" OnCommand="lbLikeFromPass_Command"> Like </asp:LinkButton>

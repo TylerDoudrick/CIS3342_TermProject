@@ -16,17 +16,97 @@ namespace TermProject
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
+
+        DBConnect obj = new DBConnect();
+        SqlCommand commandObj = new SqlCommand();
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["UserID"] == null) Response.Redirect("Default.aspx");
-
+            // if (Session["UserID"] == null) Response.Redirect("Default.aspx");
+            
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetAllUsers";
+            if (Session["UserID"] == null)
+            { // if user is not logged in, show all users
+                string seeking = "Both";
+                commandObj.Parameters.AddWithValue("@seekingGen", seeking);
+            }
             else
             {
-                
-                
-
+                 string seeking = Session["seeking"].ToString();
+                commandObj.Parameters.AddWithValue("@seekingGen", seeking);
             }
+            DataSet dsUser = obj.GetDataSetUsingCmdObj(commandObj); // get the dataset
+            DataTable dt = dsUser.Tables[0];
+            List<User> people = new List<User>();
+            if (Session["UserID"] == null)
+            {
+                for (int row = 0; row < dt.Rows.Count; row++)
+                {
+                    DataRow r = dt.Rows[row];
+                    User u = SetValues(r);
+                    people.Add(u);
+                } // end for loop
+            } // end outer if
+            else
+            {
+                List<int> memberDislikes = (List<int>)Session["memberDislikes"];
+                List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+                for (int row = 0; row < dt.Rows.Count; row++)
+                {
+                    DataRow r = dt.Rows[row];
+                    Boolean blocksContains = memberBlocks.Contains(Convert.ToInt32(r["userID"]));
+                    Boolean passContains = memberDislikes.Contains(Convert.ToInt32(r["userID"]));
+                    if ( !blocksContains && !passContains)
+                    {
+                        User u = SetValues(r);
+                        people.Add(u);
+                    } // end inner if 
+                } // end for loop
+            } // end else
+            rptPeople.DataSource = people; rptPeople.DataBind();
+
         } // end page load
+
+        protected User SetValues(DataRow Row)
+        {
+            User u = new User();
+
+            Byte[] imgArray = (Byte[])Row["profileImage"];
+            MemoryStream memorystreamd = new MemoryStream(imgArray);
+            BinaryFormatter bfd = new BinaryFormatter();
+            string url = (bfd.Deserialize(memorystreamd)).ToString();
+            u.userID = Convert.ToInt16(Row["userID"]);
+            u. name = Row["firstName"].ToString()+ " " + Row["lastName"].ToString(); ;
+            u.tagline = Row["tagline"].ToString();
+            u.imageSRC = url;
+            u.city = Row["city"].ToString();
+            u.state = Row["state"].ToString();
+
+            if (Row["gender"].ToString().Trim().ToLower() == "female")
+            {
+                u.gender = "F";
+            }
+            else
+            {
+                u.gender = "M";
+            }
+
+            u.occuption = Row["occupation"].ToString();
+
+            DateTime now = DateTime.Now;
+            DateTime birthday = Convert.ToDateTime(Row["birthday"].ToString());
+            TimeSpan timelived = now.Subtract(birthday);
+            int age = timelived.Days / 365;
+            u.age = age;
+
+            string heading = (u.name) + " (" + u.gender + ") , " + u.age;
+            u.heading = heading;
+            u.occuption = Row["occupation"].ToString();
+
+            return u;
+        }
 
         protected void lbGoToProfile_Command(object sender, CommandEventArgs e)
         { // transfers you to the profile you clicked on
@@ -39,5 +119,11 @@ namespace TermProject
             Response.Redirect("MemberProfile.aspx?memberID=5");            
 
         }
+
+        protected void lbGoToProfile_Command1(object sender, CommandEventArgs e)
+        { // transfers you to the person's profile
+            int memID = Convert.ToInt32(e.CommandName);
+            Response.Redirect("MemberProfile.aspx?memberID=" + memID);
+        } // end go to profile
     }
 }

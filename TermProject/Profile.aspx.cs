@@ -12,6 +12,8 @@ using System.Web.UI.WebControls;
 using System.Collections;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 
 namespace TermProject
 {
@@ -77,6 +79,17 @@ namespace TermProject
                     DataTable interests = result.Tables[3];
                     DataTable likes = result.Tables[4];
                     DataTable dislikes = result.Tables[5];
+
+                    DataRow image = result.Tables[6].Rows[0]; // get image 
+                    string x = image[0] as string;
+                    //    Byte[] imgArray = Convert.FromBase64String(base64);
+                    Byte[] imgArray = Encoding.ASCII.GetBytes(x);
+
+                    //printing characters with byte values
+                    MemoryStream memorystreamd = new MemoryStream(imgArray);
+                    BinaryFormatter bfd = new BinaryFormatter();
+                    string url = (bfd.Deserialize(memorystreamd)).ToString();
+                    img.ImageUrl = url;
 
                     DateTime now = DateTime.Now;
                     DateTime birthday = Convert.ToDateTime(profile["birthday"].ToString());
