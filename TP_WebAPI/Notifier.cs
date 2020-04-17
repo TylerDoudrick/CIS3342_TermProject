@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,14 +17,36 @@ namespace TP_WebAPI
 
         }
 
-        public void NotifyMessage(string userId)
+        public void NotifyMessage(int userID, string message)
         {
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_CreateNotification";
+            commandObj.Parameters.AddWithValue("@userID", userID);
+            commandObj.Parameters.AddWithValue("@message", message);
+            commandObj.Parameters.AddWithValue("@type", 2);
+
+            databaseObj.DoUpdateUsingCmdObj(commandObj, out string erro);
             //Add record to Notifications table with userId and some kind of description 
             //Type: Message
         }
 
-        public void NotifyDate(string userId)
+        public void NotifyDate(int userID, string message)
         {
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_CreateNotification";
+            commandObj.Parameters.AddWithValue("@userID", userID);
+            commandObj.Parameters.AddWithValue("@message", message);
+            commandObj.Parameters.AddWithValue("@type", 1);
+
+            databaseObj.DoUpdateUsingCmdObj(commandObj, out string erro);
             //Add record to the Notifications table with userId and some kind of description
             //Type: Date
         }

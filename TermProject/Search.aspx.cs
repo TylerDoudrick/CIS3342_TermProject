@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
@@ -19,17 +20,26 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["UserID"] == null)
+            {
+                divHaveKids.Visible = false;
+                divWantKids.Visible = false;
+                divWantMore.Visible = true;
+            }
         } // end page load
 
        
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            gvTemp.DataSource = null;
-            gvTemp.DataBind();
+            //gvTemp.DataSource = null;
+            //gvTemp.DataBind();
             rpCarousel.DataSource = null;
             rpCarousel.DataBind();
             int wantChildren = Int32.Parse(ddlWantKids.SelectedValue);
             int hasKids = Int32.Parse(ddlHasKids.SelectedValue);
+
+            int ageMin = Int32.Parse(txtMinAge.Text);
+            int ageMax = Int32.Parse(txtMaxAge.Text);
 
             DataTable dtReligions = new DataTable();
             dtReligions.Columns.Add("TypeId", typeof(int));
@@ -107,6 +117,7 @@ namespace TermProject
 
             DataTable profilesTable = foundProfiles.Tables[0];
             profilesTable.Columns.Add("age", typeof(int));
+            profilesTable.Columns.Add("imageSrc", typeof(string));
 
 
 
@@ -128,15 +139,33 @@ namespace TermProject
                         DateTime birthday = Convert.ToDateTime(profileRows["birthday"].ToString());
                         TimeSpan timelived = now.Subtract(birthday);
                         int age = timelived.Days / 365;
-                        profileRows["age"] = age;
+
+                        if(age < ageMin || age > ageMax || (ageMax == ageMin && age!= ageMin))
+                        {
+                            profileRows.Delete();
+
+                        }
+                        else
+                        {
+                            profileRows["age"] = age;
+
+                            Byte[] imgArray = (Byte[])profileRows["profileImage"];
+                            MemoryStream memorystreamd = new MemoryStream(imgArray);
+                            BinaryFormatter bfd = new BinaryFormatter();
+                            profileRows["imageSrc"] = (bfd.Deserialize(memorystreamd)).ToString();
+                        }
                     }
+
                 }
                 //foundProfiles.AcceptChanges();
-                divResults.Attributes.Add("style", "display:flex");
-                gvTemp.DataSource = foundProfiles;
-                gvTemp.DataBind();
+                //divResults.Attributes.Add("style", "display:flex");
+                //gvTemp.DataSource = foundProfiles;
+                //gvTemp.DataBind();
                 rpCarousel.DataSource = foundProfiles;
                 rpCarousel.DataBind();
+                searchResults.Visible = true;
+                divSearchOptions.Visible = false;
+                divSearchControls.Visible = true;
             }
             else{
                 Response.Write("none");
@@ -145,6 +174,10 @@ namespace TermProject
 
         } // end search
 
-
+        protected void btnShowSearch_Click(object sender, EventArgs e)
+        {
+            divSearchOptions.Visible = true;
+            divSearchControls.Visible = false;
+        }
     } // end class
 } // end namespace

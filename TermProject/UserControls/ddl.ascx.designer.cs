@@ -58,6 +58,15 @@ namespace TermProject.UserControls {
         protected global::System.Web.UI.WebControls.ListBox lbCommittment;
         
         /// <summary>
+        /// divInterests control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInterests;
+        
+        /// <summary>
         /// lblInterests control.
         /// </summary>
         /// <remarks>
@@ -74,6 +83,15 @@ namespace TermProject.UserControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox lbInterests;
+        
+        /// <summary>
+        /// divLikesDislikes control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divLikesDislikes;
         
         /// <summary>
         /// lblLikes control.

@@ -69,13 +69,13 @@
                                   supported by Chrome, Opera and Firefox */
         }
     </style>
-    <script src="https://kit.fontawesome.com/3bdb92a208.js"></script>
-        <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
-        <script>
+    <script src="https://kit.fontawesome.com/3bdb92a208.js"></script>
+    <script>
         function showToast(type, title, message) {
             //Function to show a convenient toast message
             //types are:
@@ -105,6 +105,50 @@
             toastr[type](message, title);
 
             function showSuccess() {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "2500",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["success"]("Changes successfully saved!", "Success")
+
+
+            }
+            function showError() {
+                toastr.options = {
+                    "closeButton": true,
+                    "debug": false,
+                    "newestOnTop": false,
+                    "progressBar": true,
+                    "positionClass": "toast-bottom-right",
+                    "preventDuplicates": false,
+                    "onclick": null,
+                    "showDuration": "300",
+                    "hideDuration": "1000",
+                    "timeOut": "2500",
+                    "extendedTimeOut": "1000",
+                    "showEasing": "swing",
+                    "hideEasing": "linear",
+                    "showMethod": "fadeIn",
+                    "hideMethod": "fadeOut"
+                }
+                toastr["error"]("Person already exists in preferences.", "Failed")
+            }
+
+        }
+        function showSuccess() {
             toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -125,8 +169,8 @@
             toastr["success"]("Changes successfully saved!", "Success")
 
 
-            }
-                  function showError() {
+        }
+        function showFailed() {
             toastr.options = {
                 "closeButton": true,
                 "debug": false,
@@ -144,6 +188,7 @@
                 "showMethod": "fadeIn",
                 "hideMethod": "fadeOut"
             }
+           // toastr["error"]("Unable to save changes. Please check your inputs.", "Failed")
             toastr["error"]("Person already exists in preferences.", "Failed")
             }
             function showErrorDate() {
@@ -166,7 +211,9 @@
                 }
                 toastr["error"]("Error scheduling date. Not all fields were completed.", "Failed")
             }
-        }
+        
+
+
     </script>
     <asp:ContentPlaceHolder ID="HeadPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>
@@ -194,7 +241,7 @@
                 <li class="nav-item" id="navlinkMessages">
                     <a class="nav-link" href="Messages.aspx"><i class="fas fa-envelope"></i>Messages </a>
                 </li>
-                 <li class="nav-item" id="navlinkPref">
+                <li class="nav-item" id="navlinkPref">
                     <a class="nav-link" href="LikeandPass.aspx"><i class="fas fa-hourglass-half"></i>Like/Pass </a>
                 </li>
                 <li class="nav-item" id="navlinkSearch">
@@ -243,7 +290,7 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    
+
 
     <script src="owlcarousel/owl.carousel.min.js"></script>
     <script>
@@ -254,6 +301,6 @@
     </script>
     <asp:ContentPlaceHolder ID="EndBodyPlaceHolder" runat="server">
     </asp:ContentPlaceHolder>
-                <div id="NotifierPlaceholder" runat="server" visible="false"></div>
+    <div id="NotifierPlaceholder" runat="server" visible="false"></div>
 </body>
 </html>

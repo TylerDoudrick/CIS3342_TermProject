@@ -13,6 +13,15 @@ namespace TermProject {
     public partial class Search {
         
         /// <summary>
+        /// divSearchOptions control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSearchOptions;
+        
+        /// <summary>
         /// ddl control.
         /// </summary>
         /// <remarks>
@@ -22,6 +31,15 @@ namespace TermProject {
         protected global::TermProject.UserControls.ddl ddl;
         
         /// <summary>
+        /// divHaveKids control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divHaveKids;
+        
+        /// <summary>
         /// ddlHasKids control.
         /// </summary>
         /// <remarks>
@@ -29,6 +47,15 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlHasKids;
+        
+        /// <summary>
+        /// divWantKids control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWantKids;
         
         /// <summary>
         /// Label1 control.
@@ -49,6 +76,24 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.DropDownList ddlWantKids;
         
         /// <summary>
+        /// Label3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label Label3;
+        
+        /// <summary>
+        /// ddlGender control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlGender;
+        
+        /// <summary>
         /// Label2 control.
         /// </summary>
         /// <remarks>
@@ -56,6 +101,33 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label Label2;
+        
+        /// <summary>
+        /// txtMinAge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMinAge;
+        
+        /// <summary>
+        /// txtMaxAge control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMaxAge;
+        
+        /// <summary>
+        /// divWantMore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWantMore;
         
         /// <summary>
         /// divSearch control.
@@ -76,22 +148,31 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.LinkButton btnSearch;
         
         /// <summary>
-        /// divResults control.
+        /// divSearchControls control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divResults;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSearchControls;
         
         /// <summary>
-        /// gvTemp control.
+        /// btnShowSearch control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvTemp;
+        protected global::System.Web.UI.WebControls.Button btnShowSearch;
+        
+        /// <summary>
+        /// searchResults control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl searchResults;
         
         /// <summary>
         /// rpCarousel control.

@@ -11,13 +11,13 @@
         <asp:Label runat="server" ID="lblCommitment" CssClass="w-100 border-bottom d-block"> Commitment</asp:Label><br />
         <asp:ListBox runat="server" ID="lbCommittment" CssClass="selectpicker col-10 ddlCommitment" multiple="multiple" Title="Choose a commitment type..." data-selected-text-format="count > 3"></asp:ListBox>
     </div>
-    <div class="col">
+    <div class="col" runat="server" id="divInterests">
         <asp:Label runat="server" ID="lblInterests" CssClass="w-100 border-bottom d-block"> Interests</asp:Label><br /> 
         <asp:ListBox runat="server" ID="lbInterests" CssClass="selectpicker col-10 ddlInterests" multiple="multiple" Title="Choose some interests..." data-selected-text-format="count > 3"></asp:ListBox>
     </div>
 
 </div>
-        <div class="row justify-content-center align-items-center w-75 my-5 mx-auto">
+        <div class="row justify-content-center align-items-center w-75 my-5 mx-auto" id="divLikesDislikes" runat="server">
                 <div class="col">
         <asp:Label runat="server" ID="lblLikes" CssClass="w-100 border-bottom d-block"> Likes</asp:Label><br /> 
         <asp:ListBox runat="server" ID="lbLikes" CssClass="selectpicker col-7 ddlLikes" multiple="multiple" Title="Choose some likes..." data-selected-text-format="count > 3"></asp:ListBox>

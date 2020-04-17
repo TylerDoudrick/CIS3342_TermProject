@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -19,6 +22,8 @@ namespace TP_WebAPI.Controllers
         //"for any and all interactions so updating the liked lists, pass list, blocked lists, dates, and messages"
         //
         DBConnect objDB = new DBConnect();
+        Notifier notifier = new Notifier();
+
 
         [HttpPost("insertPreferences/")]
         public int insertPreferences([FromBody] Preferences p)
@@ -78,9 +83,9 @@ namespace TP_WebAPI.Controllers
 
 
         [HttpPost("addDateReq")]
-        public DataSet AddDateReq([FromBody] IDictionary<string, string> vals)
+        public int AddDateReq([FromBody] IDictionary<string, string> vals)
         { // adds a date request to the db
-            int sendingID = Convert.ToInt16(vals["sendingID"]); 
+            int sendingID = Convert.ToInt16(vals["sendingID"]);
 
             int recID = Convert.ToInt16(vals["recID"]);
             string message = vals["message"];
@@ -93,7 +98,9 @@ namespace TP_WebAPI.Controllers
             objDateReq.Parameters.AddWithValue("@memID", recID);
             objDateReq.Parameters.AddWithValue("@now", now);
             objDateReq.Parameters.AddWithValue("@message", message);
-            DataSet result = objDB.GetDataSetUsingCmdObj(objDateReq);
+            int result = objDB.DoUpdateUsingCmdObj(objDateReq, out string err);
+
+            notifier.NotifyMessage(recID, "New message from " + sendingID.ToString());
             return result;
         } // end add date req
 
@@ -136,6 +143,8 @@ namespace TP_WebAPI.Controllers
             objAcceptReq.Parameters.AddWithValue("@recID", recievingID);
 
             int res = objDB.DoUpdateUsingCmdObj(objAcceptReq, out string err);
+            notifier.NotifyMessage(recievingID, sendingID.ToString() + " accepted your date");
+
             return res;
         } // end accept req
 
@@ -152,13 +161,16 @@ namespace TP_WebAPI.Controllers
             objDenyReq.Parameters.AddWithValue("@recID", recievingID);
 
             int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
+
+            notifier.NotifyDate(recievingID, sendingID.ToString() + " denied your date");
+
             return res;
         }
 
         [HttpGet("getAcceptedDates/{userID}")]
         public DataSet GetAcceptedReqs(int userID)
         {
-            SqlCommand objAccepted =new SqlCommand();
+            SqlCommand objAccepted = new SqlCommand();
 
             objAccepted.CommandType = CommandType.StoredProcedure;
             objAccepted.CommandText = "TP_GetAcceptedDates";
@@ -187,6 +199,10 @@ namespace TP_WebAPI.Controllers
             objInsertDt.Parameters.AddWithValue("@description", desc);
 
             int res = objDB.DoUpdateUsingCmdObj(objInsertDt, out string err);
+
+            notifier.NotifyDate(recID, "New date request from " + sendingID.ToString());
+
+
             return res;
         } // end insert date
 
@@ -227,5 +243,161 @@ namespace TP_WebAPI.Controllers
             int res = objDB.DoUpdateUsingCmdObj(objIgnoreReq, out string err);
             return res;
         } // end ignore request
+
+        [EnableCors("AllowOrigin")]
+        [HttpPost("GetUserInbox")]
+        public List<Message> GetUserInbox([FromBody] User user)
+        {
+            List<Message> messages = new List<Message>();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetUserInbox";
+            commandObj.Parameters.AddWithValue("@UserID", user.id);
+
+            DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
+
+            if (res.Tables[0].Rows.Count == 0)
+            {
+                return null;
+            }
+            else
+            {
+                foreach (DataRow row in res.Tables[0].Rows)
+                {
+                    Message temp = new Message();
+                    temp.senderid = row["senderID"].ToString();
+                    temp.message = row["messageBody"].ToString();
+                    DateTime sentOn = DateTime.Parse(row["timeStamp"].ToString());
+                    temp.timestamp = sentOn.ToString("dddd, MMMM dd'th' yyyy '@' hh:mm tt");
+                    temp.readreceipt = row["readReceipt"].ToString();
+                    temp.sendername = row["name"].ToString();
+                    Byte[] imgArray = (Byte[])row["profileImage"];
+                    MemoryStream memorystreamd = new MemoryStream(imgArray);
+                    BinaryFormatter bfd = new BinaryFormatter();
+                    temp.senderimage = bfd.Deserialize(memorystreamd).ToString();
+                    messages.Add(temp);
+                }
+            }
+
+            return messages;
+        }
+
+        [EnableCors("AllowOrigin")]
+        [HttpPost("ProfileSnippet")]
+        public Recipient ProfileSnippet([FromBody] User user)
+        {
+            Recipient found = new Recipient();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetProfileSnippet";
+            commandObj.Parameters.AddWithValue("@UserID", user.id);
+
+            DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
+
+            if (res.Tables[0].Rows.Count != 1)
+            {
+                return null;
+            }
+            else
+            {
+                DataRow row = res.Tables[0].Rows[0];
+                found.userID = row["userID"].ToString();
+                found.name = row["name"].ToString();
+                Byte[] imgArray = (Byte[])row["image"];
+                MemoryStream memorystreamd = new MemoryStream(imgArray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                found.image = bfd.Deserialize(memorystreamd).ToString();
+                found.location = row["location"].ToString();
+
+            }
+
+
+            return found;
+        }
+
+        [EnableCors("AllowOrigin")]
+        [HttpPut("SendMessage")]
+        public Response SendMessage([FromBody] OutgoingMessage message)
+        {
+            Response response = new Response();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_SendMessage";
+            commandObj.Parameters.AddWithValue("@SenderID", message.senderid);
+            commandObj.Parameters.AddWithValue("@RecipientID", message.recipientid);
+            commandObj.Parameters.AddWithValue("@MessageBody", message.message);
+
+            if (objDB.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                response.result = "fail";
+                response.message = exception;
+            }
+            else
+            {
+                response.result = "success";
+                response.message = "Successfully sent Message!";
+            }
+
+            //if (res.Tables[0].Rows.Count != 1)
+            //{
+            //    return null;
+            //}
+            //else
+            //{
+            //    DataRow row = res.Tables[0].Rows[0];
+            //    found.userID = row["userID"].ToString();
+            //    found.name = row["name"].ToString();
+            //    Byte[] imgArray = (Byte[])row["image"];
+            //    MemoryStream memorystreamd = new MemoryStream(imgArray);
+            //    BinaryFormatter bfd = new BinaryFormatter();
+            //    found.image = bfd.Deserialize(memorystreamd).ToString();
+            //    found.location = row["location"].ToString();
+
+            //}
+
+
+            return response;
+        }
+
+        public class User
+        {
+            public string id {get;set; }
+    }
+
+        public class OutgoingMessage
+        {
+            public string senderid { get; set; }
+            public string recipientid { get; set; }
+            public string message { get; set; }
+
+        }
+
+        public class Message
+        {
+            public string senderid { get; set; }
+            public string sendername { get; set; }
+            public string senderimage { get; set; }
+            public string recipientid { get; set; }
+            public string message { get; set; }
+            public string timestamp { get; set; }
+            public string readreceipt { get; set; }
+        }
+
+        public class Recipient
+        {
+            public string userID { get; set; }
+            public string name { get; set; }
+            public string image { get; set; }
+            public string location { get; set; }
+        }
+
+        public class Response
+        {
+            public string result { get; set; }
+            public string message { get; set; }
+        }
     }
 }

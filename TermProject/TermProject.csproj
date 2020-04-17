@@ -102,6 +102,7 @@
     <Content Include="images\person8.jpg" />
     <Content Include="images\person9.jpg" />
     <Content Include="images\query.png" />
+    <Content Include="js\jquery-ui.min.js" />
     <Content Include="LikeandPass.aspx" />
     <Content Include="MemberProfile.aspx" />
     <Content Include="owlcarousel\owl.carousel.min.css" />
@@ -114,6 +115,7 @@
     <Content Include="Registration.aspx" />
     <Content Include="Search.aspx" />
     <Content Include="Settings.aspx" />
+    <Content Include="styles\jquery-ui.min.css" />
     <Content Include="styles\styles.css" />
     <Content Include="Test.aspx" />
     <Content Include="UserControls\ddl.ascx" />
