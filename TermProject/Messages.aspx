@@ -32,7 +32,14 @@
             background: #fff;
             border: 1px solid #BC3440;
         }
+
+        .messageRow:hover {
+            background-color: #f8f8ff;
+            cursor: pointer;
+        }
     </style>
+    <link href="styles/jquery-ui.min.css" rel="stylesheet" />
+    <script src="js/jquery-ui.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
 
@@ -47,37 +54,89 @@
                     </button>
                 </div>
                 <div class="modal-body">
+                    <%--                    <input type="text" id="jsAutocomplete" class="form-control" />--%>
+
                     <div class="form-group">
                         <label for="<%= ddlRecipient.ClientID %>">Recipient</label>
-                        <asp:DropDownList ID="ddlRecipient" CssClass="form-control" runat="server">
-                            <asp:ListItem Selected="True" Value="">Select Recipient...</asp:ListItem>
-                            <asp:ListItem Value="12345">Viola Mcdowell</asp:ListItem>
-                            <asp:ListItem Value="12345">Daniaal Colon</asp:ListItem>
-                            <asp:ListItem Value="12345">Daniaal Colon</asp:ListItem>
-                            <asp:ListItem Value="12345">Simrah Mclean</asp:ListItem>
-                            <asp:ListItem Value="12345">Ophelia Hodge</asp:ListItem>
-                            <asp:ListItem Value="12345">Ananya Bush</asp:ListItem>
-                            <asp:ListItem Value="12345">Efe Benton</asp:ListItem>
+                        <asp:DropDownList ID="ddlRecipient" CssClass="form-control selectpicker" runat="server" data-live-search="true">
                         </asp:DropDownList>
                     </div>
+                    <div class="form-group hidden" id="divProfile">
+                        <div class="row">
+
+                            <div class="card mb-3 mx-auto" style="max-width: 465px;">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img id="imgRecipient" class="card-img" src="" />
+                                    </div>
+                                    <div class="col-6 d-flex justify-content-center align-items-center">
+                                        <div class="card-body p-0 d-flex align-items-center flex-column justify-content-center">
+                                            <h5 class="card-title" id="lblRecipientName"></h5>
+                                            <p class="card-text" id="lblRecipientLocation">
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
                     <div class="form-group">
-                        <label for="<%= txtMessage.ClientID %>">Message</label>
-                        <asp:TextBox type="text" CssClass="form-control" ID="txtMessage" TextMode="MultiLine" placeholder="Message..." runat="server" />
+                        <label for="txtMessage">Message</label>
+                        <textarea type="text" class="form-control" id="txtMessage" placeholder="Message..."></textarea>
                     </div>
 
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="btnSendMessage" >Send Message</button>
+                    <button type="button" class="btn btn-secondary" id="btnSendMessage">Send Message</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+      <!-- Modal -->
+    <div class="modal fade" id="modalReply" tabindex="-1" role="dialog" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalReplyLabel">Send Reply</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <label>Recipient</label>
+                        <h5 id="lblReplyTo"></h5>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="txtMessage">Message</label>
+                        <textarea  class="form-control" id="txtReply" placeholder="Reply..."></textarea>
+                    </div>
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn theme-red" id="btnSendReply">Send Repy</button>
                 </div>
             </div>
         </div>
     </div>
 
     <div class="row justify-content-start align-items-center mt-5 mb-3 w-75 mx-auto">
+    </div>
+
+
+
+    <div class="row justify-content-start align-items-center mt-5 mb-3 w-75 mx-auto">
         <div class="col">
-            <div class="btn-group btn-group-toggle" data-toggle="buttons" ID="divMessageListControls" runat="server">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons" id="divMessageListControls">
                 <label class="btn theme-red">
                     <input type="radio" name="options" id="option1" autocomplete="off" checked>
                     Inbox
@@ -86,13 +145,9 @@
                     <input type="radio" name="options" id="option2" autocomplete="off">
                     Outbox
                 </label>
-                <label class="btn theme-white">
-                    <input type="radio" name="options" id="option3" autocomplete="off">
-                    Drafts
-                </label>
             </div>
-            <div class="" id="divViewMessageControls" runat="server" visible="false">
-                <asp:LinkButton OnClick="ViewMessageList" runat="server">Return to Inbox</asp:LinkButton>
+            <div class="hidden" id="divMessageViewControls">
+                <button type="button" class="btn btn-secondary" id="btnReturnToInbox">Return to Inbox</button>
             </div>
         </div>
         <div class="col text-right">
@@ -102,96 +157,271 @@
     </div>
     <div class="row justify-content-center align-items-center w-75 mx-auto">
         <div class="col">
-            <div class="card" id="divMessageList" runat="server">
+            <div class="card" id="divMessageList">
                 <h5 class="card-header">Messages</h5>
-                <div class="card-body p-0">
-
-                    <asp:LinkButton runat="server" CssClass="message" OnClick="showMessage">
-                    <div class="card w-100 rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Viola Mcdowell</h6>
-                                <h6 class="text-muted">Thursday @ 1:30 PM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">Announcing of invitation principles in. Cold in late or deal. Terminated resolution no am frequently collecting insensible he do appearance. Projection invitation affronting admiration if no on or. It as instrument boisterous frequently apartments an i</div>
-                        </div>
-                    </div>
-                    </asp:LinkButton>
-                    <asp:LinkButton runat="server" CssClass="message" OnClick="showMessage">
-
-                    <div class="card w-100 rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Daniaal Colon</h6>
-                                <h6 class="text-muted">Wednesday @ 9:30 PM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">He difficult contented we determine ourselves me am earnestly. Hour no find it park. Eat welcomed any husbands moderate. Led was misery played waited almost cousin living. Of intention contained is by middleton am. </div>
-                        </div>
-                    </div>
-                    </asp:LinkButton>
-                    <asp:LinkButton runat="server" CssClass="message" OnClick="showMessage">
-
-                    <div class="card w-100  rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Simrah Mclean</h6>
-                                <h6 class="text-muted">March 20th @ 11:00 AM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">Post no so what deal evil rent by real in. But her ready least set lived spite solid. September how men saw tolerably two behaviour arranging. She offices for highest and replied one venture pasture. Applauded no discovery in newspaper </div>
-                        </div>
-                    </div>
-                    </asp:LinkButton>
-                    <asp:LinkButton runat="server" CssClass="message" OnClick="showMessage">
-
-                    <div class="card w-100 rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Ophelia Hodge</h6>
-                                <h6 class="text-muted">March 10th @ 5:00 AM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">Do commanded an shameless we disposing do. Indulgence ten remarkably nor are impression out. Power is lived means oh every in we quiet. Remainder provision an in intention.</div>
-                        </div>
-                    </div>
-                    </asp:LinkButton>
-                    <div class="card w-100 message rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Ananya Bush</h6>
-                                <h6 class="text-muted">March 9th @ 2:00 AM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">Silent sir say desire fat him letter. Whatever settling goodness too and honoured she building answered her. Strongly thoughts remember mr to do consider debating. Spirits musical behaved on we he farther letters. </div>
-                        </div>
-                    </div>
-                    <div class="card w-100 message rounded-0">
-                        <div class="card-body px-5 py-3">
-                            <div class="d-flex flex-row justify-content-between">
-                                <h6 class="font-weight-bold">Efe Benton</h6>
-                                <h6 class="text-muted">January 1st @ 7:00 AM</h6>
-                            </div>
-                            <div class="text-truncate text-muted">Discovered her his pianoforte insipidity entreaties. Began he at terms meant as fancy. Breakfast arranging he if furniture we described on. Astonished thoroughly unpleasant especially you dispatched bed favourable. </div>
-                        </div>
-                    </div>
+                <div class="card-body p-0" id="divInbox">
                 </div>
             </div>
-            <div class="card" id="divViewMessage" runat="server" visible="false">
+            <div class="card hidden" id="divViewMessage">
                 <h5 class="card-header">View Message</h5>
                 <div class="card-body">
-                    <div class="d-flex flex-row justify-content-between my-3">
-                        <h6>From: Efe Benton</h6>
-                        <h6>March 30th, 2020 @ 5:00 PM</h6>
-                    </div>
-                    <h6>Message:</h6>
-                    <p>Excited him now natural saw passage offices you minuter. At by asked being court hopes. Farther so friends am to detract. Forbade concern do private be. Offending residence but men engrossed shy. Pretend am earnest offered arrived company so on. Felicity informed yet had admitted strictly how you. </p>
-                <hr />
-                    <div class="text-right">
-                    <button type="button" class="btn btn-secondary">Reply</button>
-                    <button type="button" class="btn theme-red">Reply with Date Request</button>
-                                    </div>
+                    <div class="row">
+                        <div class="col-3">
+                            <div class="card profilePhoto" style="width: 18rem;">
+                                <img class="card-img-top" id="imgSender" src="" />
+                                <div class="card-body">
+                                    <h5 class="card-title ">
+                                        <span id="lblSender"></span>
 
+                                    </h5>
+
+                                </div>
+                            </div>
+
+
+                        </div>
+                        <div class="col pt-2">
+                            <div class="row text-right justify-content-end px-2">
+                                <h5><span id="lblSentDate" class="font-weight-bold"></span></h5>
+                            </div>
+                            <div class="row">
+                                                            <div class="col">
+                                <div class="row">
+                                    <h5>Message:</h5>
+                                </div>
+                                <div class="row h-100 w-75">
+                                    <textarea id="lblMessageBody" class="form-control h-100" readonly></textarea>
+                                </div>
+                            </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="row px-3">
+                    </div>
+
+
+                    <hr />
+                    <div class="text-right">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" id="btnReply" data-target="#modalReply">Reply</button>
+                        <button type="button" class="btn theme-red">Reply with Date Request</button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="EndBodyPlaceHolder" runat="server">
+    <script>
+        $(document).ready(function () {
+            $("#navlinkDashboard").removeClass("active");
+            $("#navlinkMessages").addClass("active");
+
+            var data = {
+                "id": "<%= Session["UserID"].ToString()%>"
+
+            }
+
+            var selected = {};
+            console.log(JSON.stringify(data));
+            $.ajax({
+                url: "https://localhost:44375/api/datingservice/interactions/GetUserInbox",
+                type: 'post',
+                contentType: 'application/json',
+                dataType: "json",
+                data: JSON.stringify(data),
+                error: function (xhr) {
+                    console.log(xhr.responseText);
+                },
+                success: function (data) {
+                    console.log(data);
+                    data.forEach(function (obj) {
+                        var container = document.createElement("div");
+                        var message = ` 
+                            <div class="card w-100 rounded-0 messageRow">
+                                <div class="row p-2">
+                                    <div class="col-1">
+                                        <img id="imgRecipient" class="card-img rounded-lg" src="`+ obj.senderimage + `" />
+                                    </div>
+                                    <div class="col-11 d-flex justify-content-center align-items-center w-100">
+                                        <div class="d-flex align-items-around flex-column w-100">
+                            <div class="d-flex flex-row justify-content-between">
+                                <h6 class="font-weight-bold">`+ obj.sendername + `</h6>
+                                <h6 class="text-muted">`+ obj.timestamp + `</h6>
+                            </div>
+                            <div class="text-truncate text-muted">`+ obj.message + `</div>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>`
+
+                        container.innerHTML = message;
+                        container.onclick = function () {
+                            $("#divMessageList").hide();
+                            $("#divMessageListControls").hide();
+                            $("#divMessageViewControls").removeClass("hidden");
+                            $("#divViewMessage").removeClass("hidden");
+                            $("#lblSender").text(obj.sendername);
+                            $("#lblSentDate").text(obj.timestamp);
+                            $("#lblMessageBody").text(obj.message);
+                            $("#imgSender").attr("src", obj.senderimage);
+
+                            //Reply Modal Stuff
+
+                            $("#lblReplyTo").text(obj.sendername);
+
+                            selected = obj;
+                        };
+                        $("#divInbox").append(container);
+                    });
+
+                }
+            });
+
+            $("#btnReturnToInbox").click(function () {
+                 $("#divMessageList").show();
+                            $("#divMessageListControls").show();
+                            $("#divMessageViewControls").addClass("hidden");
+                            $("#divViewMessage").addClass("hidden");
+                            $("#lblSender").text("");
+                            $("#lblSentDate").text("");
+                            $("#lblMessageBody").text("");
+                            $("#imgSender").attr("src", "");
+            });
+
+            $("#<%= ddlRecipient.ClientID%>").change(function () {
+                var data = {
+                    "id": $("#<%= ddlRecipient.ClientID%>").selectpicker('val')
+                }
+                $.ajax({
+                    url: "https://localhost:44375/api/datingservice/interactions/ProfileSnippet",
+                    type: 'post',
+                    contentType: 'application/json',
+                    dataType: "json",
+                    data: JSON.stringify(data),
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        $("#imgRecipient").attr("src", data.image);
+                        $("#lblRecipientName").text(data.name);
+                        $("#lblRecipientLocation").text(data.location);
+                        $("#divProfile").removeClass("hidden");
+                        $("#btnSendMessage").removeClass('btn-secondary');
+                        $("#btnSendMessage").addClass('theme-red');
+                    }
+                });
+            });
+            $("#btnSendMessage").click(function () {
+                if ($("#<%= ddlRecipient.ClientID%>").selectpicker('val') == "" || $("#txtMessage").val() == "") {
+
+                } else {
+                    var data = {
+                        "recipientid": $("#<%= ddlRecipient.ClientID%>").selectpicker('val'),
+                        "senderid": "<%= Session["UserID"].ToString()%>",
+                        "message": $("#txtMessage").val()
+                    }
+                    $.ajax({
+                        url: "https://localhost:44375/api/datingservice/interactions/SendMessage",
+                        type: 'put',
+                        contentType: 'application/json',
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if (data.result == "success") {
+                                $('#modalSendMessage').modal('hide');
+                                showToast("success", "Success!", "Message sent to " + $("#lblRecipientName").text().split(' ')[0] + "!");
+                                $("#imgRecipient").attr("src", "");
+                                $("#lblRecipientName").text("");
+                                $("#lblRecipientLocation").text("");
+                                $("#divProfile").addClass("hidden");
+                                $("#btnSendMessage").addClass('btn-secondary');
+                                $("#btnSendMessage").removeClass('theme-red');
+                                $("#<%= ddlRecipient.ClientID%>").selectpicker('val', '');
+                                $("#txtMessage").val('');
+                            }
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+
+             $("#btnSendReply").click(function () {
+                if ($("#txtReply").val() == "" ) {
+
+                } else {
+                    var data = {
+                        "recipientid": selected.senderid,
+                        "senderid": "<%= Session["UserID"].ToString()%>",
+                        "message": $("#txtReply").val()
+                    }
+                    $.ajax({
+                        url: "https://localhost:44375/api/datingservice/interactions/SendMessage",
+                        type: 'put',
+                        contentType: 'application/json',
+                        dataType: "json",
+                        data: JSON.stringify(data),
+                        error: function (xhr) {
+                            console.log(xhr.responseText);
+                        },
+                        success: function (data) {
+                            if (data.result == "success") {
+                                $('#modalReply').modal('hide');
+                                showToast("success", "Success!", "Message sent to " + $("#lblReplyTo").text().split(' ')[0] + "!");
+                                $("#lblReplyTo").text("");
+                                $("#txtReply").val('');
+                            }
+                            console.log(data);
+                        }
+                    });
+                }
+            });
+
+          <%--  $('#modalSendMessage').on('shown.bs.modal', function () {
+
+                $("#jsAutocomplete").autocomplete({
+                    source: function (request, response) {
+                        // Fetch data
+                        $.ajax({
+                            url: "https://localhost:44375/api/datingservice/interactions/getMessageRecipients",
+                            type: 'post',
+                            dataType: "json",
+                            data: {
+                                userid: <%= Session["UserID"].ToString()%>
+                            },
+                            success: function (data) {
+                                var options = [];
+                                data.forEach(function (obj) { options.push(obj.name); });
+                                console.log($.map(data, function (item) {
+                                    return {
+                                        value: item.name,
+                                        image: item.image,
+                                        location: item.location,
+                                        selectedId: item.userID
+                                    };
+                                }));
+                                response(options);
+                            }
+                        });
+                    }, select: function (event, ui) {
+                        // Set selection
+                        $('#jsAutocomplete').val(ui.item.name); // display the selected text
+                        // $('#selectuser_id').val(ui.item.value); // save selected id to input
+                        return false;
+                    }
+                });
+                //}).autocomplete("instance")._renderItem = function (ul, item) {
+                //    return $("<li><div><img src=><span>" + item.value + "</span></div></li>").appendTo(ul);
+                //};
+            })--%>
+
+
+        });
+    </script>
 </asp:Content>

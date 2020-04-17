@@ -149,8 +149,8 @@ namespace TermProject
                         {
                             profileRows["age"] = age;
 
-                            Byte[] imgArrayLiked = (Byte[])profileRows["profileImage"];
-                            MemoryStream memorystreamd = new MemoryStream(imgArrayLiked);
+                            Byte[] imgArray = (Byte[])profileRows["profileImage"];
+                            MemoryStream memorystreamd = new MemoryStream(imgArray);
                             BinaryFormatter bfd = new BinaryFormatter();
                             profileRows["imageSrc"] = (bfd.Deserialize(memorystreamd)).ToString();
                         }
