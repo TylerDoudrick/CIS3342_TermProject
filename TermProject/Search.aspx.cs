@@ -106,10 +106,11 @@ namespace TermProject
             DataSet foundProfiles = databaseObj.GetDataSetUsingCmdObj(commandObj);
 
             DataTable profilesTable = foundProfiles.Tables[0];
+            profilesTable.Columns.Add("age", typeof(int));
 
 
 
-            if(foundProfiles.Tables[0].Rows.Count > 0)
+            if (foundProfiles.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow profileRows in profilesTable.Rows)
                 {
@@ -120,6 +121,14 @@ namespace TermProject
                     else if ((Int32.Parse(profileRows["wantChildren"].ToString()) == 1 && wantChildren == 0) || (Int32.Parse(profileRows["wantChildren"].ToString()) == 0 && wantChildren == 1))
                     {
                         profileRows.Delete();
+                    }
+                    else
+                    {
+                        DateTime now = DateTime.Now;
+                        DateTime birthday = Convert.ToDateTime(profileRows["birthday"].ToString());
+                        TimeSpan timelived = now.Subtract(birthday);
+                        int age = timelived.Days / 365;
+                        profileRows["age"] = age;
                     }
                 }
                 //foundProfiles.AcceptChanges();

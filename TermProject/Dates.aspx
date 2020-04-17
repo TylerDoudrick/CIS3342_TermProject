@@ -101,95 +101,95 @@
     <div id="divReqsToApprove" runat="server" visible="false">
         <div class="row">
 
-        <div runat="server" id="divPending" class="justify-content-center align-items-center w-75 my-5 mx-auto">
-            <br />
-            <div class="col-12">
-                <div class="card-body p-0">
-                    <h5 class="text-info">Pending Requests </h5>
+            <div runat="server" id="divPending" class="justify-content-center align-items-center w-75 my-5 mx-auto">
+                <br />
+                <div class="col-12">
+                    <div class="card-body p-0">
+                        <h5 class="text-info">Pending Requests </h5>
 
-                    <asp:Repeater runat="server" ID="rptAcceptReqs">
-                        <ItemTemplate>
-                            <div class="card w-100 rounded">
-                                <div class="card-body px-5 py-3">
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <!-- Name and time goes here-->
-                                        <div>
-                                            <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
-                                            | 
+                        <asp:Repeater runat="server" ID="rptAcceptReqs">
+                            <ItemTemplate>
+                                <div class="card w-100 rounded">
+                                    <div class="card-body px-5 py-3">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <!-- Name and time goes here-->
+                                            <div>
+                                                <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
+                                                | 
                                         <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
 
+                                            </div>
+                                            <asp:Label runat="server" Text='<%#Eval("time") %>' CssClass="float-right"></asp:Label>
                                         </div>
-                                        <asp:Label runat="server" Text='<%#Eval("time") %>' CssClass="float-right"></asp:Label>
-                                    </div>
-                                    <div class="text-truncate text-muted text-wrap">
-                                        <asp:Label runat="server" Text='<%#Eval("message") %>'> </asp:Label>
-                                    </div>
-                                    <br />
-                                    <div class="d-flex justify-content-around">
-                                        <asp:LinkButton runat="server" ID="lbAccept" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbAccept_Command"> Accept Request</asp:LinkButton>
-                                        <asp:LinkButton runat="server" ID="lbDeny" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbDeny_Command"> Deny Request</asp:LinkButton>
-                                        <asp:LinkButton runat="server" ID="lbIgnore" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbIgnore_Command"> Ignore Request</asp:LinkButton>
+                                        <div class="text-truncate text-muted text-wrap">
+                                            <asp:Label runat="server" Text='<%#Eval("message") %>'> </asp:Label>
+                                        </div>
+                                        <br />
+                                        <div class="d-flex justify-content-around">
+                                            <asp:LinkButton runat="server" ID="lbAccept" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbAccept_Command"> Accept Request</asp:LinkButton>
+                                            <asp:LinkButton runat="server" ID="lbDeny" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbDeny_Command"> Deny Request</asp:LinkButton>
+                                            <asp:LinkButton runat="server" ID="lbIgnore" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbIgnore_Command"> Ignore Request</asp:LinkButton>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
                 </div>
-            </div>
-            <div>
-                sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
+                <div>
+                    sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
                 sdfkhsjdhkesh nfskdf s742154 erfhskdfsd5
                 fse shekskdsn shse esmljreurjlajrj isjfs;kfnkhgeri[aljs kjejeeskriw68734924pijml'fk hfhkjlJWLJ  JKSJDGKHKGJREKljkjgkrjgrk
+                </div>
             </div>
         </div>
-            </div>
 
-         <div class="row">
-           <div runat="server" id="divIgnoredDates" class="justify-content-center align-items-center w-75 my-5 mx-auto ">
-            <br />
-            <div class="col-12 ">
-                <div class="card-body p-0">
-                    <h5 class="text-info">Ignored Requests </h5>
-                    <asp:Repeater runat="server" ID="rptIgnoredReqs">
-                        <ItemTemplate>
-                            <div class="card w-100 rounded">
-                                <div class="card-body px-5 py-3">
-                                    <div class="d-flex flex-row justify-content-between">
-                                        <div>
-                                            <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
-                                            | 
+        <div class="row">
+            <div runat="server" id="divIgnoredDates" class="justify-content-center align-items-center w-75 my-5 mx-auto ">
+                <br />
+                <div class="col-12 ">
+                    <div class="card-body p-0">
+                        <h5 class="text-info">Ignored Requests </h5>
+                        <asp:Repeater runat="server" ID="rptIgnoredReqs">
+                            <ItemTemplate>
+                                <div class="card w-100 rounded">
+                                    <div class="card-body px-5 py-3">
+                                        <div class="d-flex flex-row justify-content-between">
+                                            <div>
+                                                <asp:Label CssClass="font-weight-bold " runat="server" Text='<%#Eval("userName") %>'></asp:Label>
+                                                | 
                                         <asp:LinkButton runat="server" CssClass="text-danger" ID="lbGotoProf" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbGotoProf_Command"> Go to Profile</asp:LinkButton>
 
+                                            </div>
+                                            <asp:Label runat="server" Text='<%#Eval("time") %>' CssClass="float-right"></asp:Label>
                                         </div>
-                                        <asp:Label runat="server" Text='<%#Eval("time") %>' CssClass="float-right"></asp:Label>
-                                    </div>
-                                    <div class="text-truncate text-muted text-wrap">
-                                        <asp:Label runat="server" Text='<%#Eval("message") %>'> </asp:Label>
-                                    </div>
-                                    <br />
-                                    <div class="d-flex justify-content-around">
-                                        <asp:LinkButton runat="server" ID="lbAccept" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbAccept_Command"> Accept Request</asp:LinkButton>
-                                        <asp:LinkButton runat="server" ID="lbDeny" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbDeny_Command"> Deny Request</asp:LinkButton>
+                                        <div class="text-truncate text-muted text-wrap">
+                                            <asp:Label runat="server" Text='<%#Eval("message") %>'> </asp:Label>
+                                        </div>
+                                        <br />
+                                        <div class="d-flex justify-content-around">
+                                            <asp:LinkButton runat="server" ID="lbAccept" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbAccept_Command"> Accept Request</asp:LinkButton>
+                                            <asp:LinkButton runat="server" ID="lbDeny" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="lbDeny_Command"> Deny Request</asp:LinkButton>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </ItemTemplate>
-                    </asp:Repeater>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
                 </div>
-            </div>
-             <div>
-                sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
+                <div>
+                    sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
                 sdfkhsjdhkesh nfskdf s742154 erfhskdfsd5
                 fse shekskdsn shse esmljreurjlajrj isjfs;kfnkhgeri[aljs kjejeeskriw68734924pijml'fk hfhkjlJWLJ  JKSJDGKHKGJREKljkjgkrjgrk
+                </div>
             </div>
+
         </div>
-          
-        </div>        
-        
+
     </div>
 
 
-    <div class="row justify-content-center my-5 modal fade" runat="server" id="modalScheduleDate" tabindex="-1" role="dialog" aria-labelledby="modalAddCompletedIndicatorLabel" aria-hidden="true">
+    <div class="modal fade" id="modalScheduleDate" tabindex="-1" role="dialog" aria-labelledby="modalScheduleDateLabel" aria-hidden="true">
         <div class=" modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header text-center">
@@ -263,8 +263,7 @@
                                 <div runat="server">
                                     <asp:LinkButton runat="server" ID="btnShowDate" CssClass="btn btn-primary" Text="Schedule Date" CommandName='<%#DataBinder.Eval(Container.DataItem, "userID") %>' OnCommand="btnShowDate_Command"></asp:LinkButton>
                                 </div>
-                                <button type="button" style="display: none;" id="btnShowPopup" class="btn btn-primary btn-lg"
-                                    data-toggle="modal" data-target="#modalScheduleDate">
+                                <button type="button" style="display: none;" id="btnShowPopup" class="btn btn-primary btn-lg">
                                 </button>
 
                             </div>
@@ -390,7 +389,7 @@
 
             function ShowPopup() {
                 //$("#btnShowPopup").click();
-               // $("modalScheduleDate").modal("show");
+                // $("modalScheduleDate").modal("show");
             }
 
 
