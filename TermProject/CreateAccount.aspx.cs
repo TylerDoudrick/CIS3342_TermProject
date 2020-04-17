@@ -319,6 +319,9 @@ namespace TermProject
                         }
                         else
                         {
+                            // insert empty list of prefs
+                            insertPreferences();
+
                             // send email
                             string sendAdd = "querydating@gmail.com";
                             MailMessage msg = new MailMessage();

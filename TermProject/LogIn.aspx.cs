@@ -30,7 +30,6 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
-
             string username = txtLogInUsername.Text;
             string password = txtLogInPassword.Text;
 
@@ -88,6 +87,10 @@ namespace TermProject
                         Session["UserID"] = drUserRecord["userID"].ToString();
                         getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
 
+                        // store the seeking gender in session
+                        string seeking = dsUser.Tables[1].Rows[0][0].ToString();
+                        Session["seeking"] = seeking;
+
                         switch (Request.QueryString["target"])
                         {
 
@@ -138,7 +141,7 @@ namespace TermProject
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
             
             Session["memberBlocks"] = memberBlocks;
-
+            Session["seeking"] = "Male";
             Response.Redirect("Dashboard.aspx");
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
@@ -146,7 +149,7 @@ namespace TermProject
             Session["FirstName"] = "Thomas";
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
-
+            Session["seeking"] = "Female";
             List<int> memberLieks = new List<int>();
             memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8); 
             Session["memberLikes"] = memberLieks;

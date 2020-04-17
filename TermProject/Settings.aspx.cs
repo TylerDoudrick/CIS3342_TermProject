@@ -62,8 +62,8 @@ namespace TermProject
                 {
                     Session["remain"] = 1;
                     Random random = new Random(); int r = random.Next(0, 3); // get random number --> will choose security question
-                    Session["secAns"] = ds.Tables[3].Rows[r]["questionAnswer"].ToString().ToLower();
-                    lblSecurityQuestion.Text = ds.Tables[3].Rows[r]["SecurityQuestionText"].ToString();
+                    Session["secAns"] = ds.Tables[2].Rows[r]["questionAnswer"].ToString().ToLower();
+                    lblSecurityQuestion.Text = ds.Tables[2].Rows[r]["SecurityQuestionText"].ToString();
                 }
             }
         } //end pageload

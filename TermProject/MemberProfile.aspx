@@ -38,7 +38,7 @@
     <div>
         <div class="row justify-content-center my-5">
             <div class="col-2">
-                <asp:Image runat="server" CssClass="img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
+                <asp:Image runat="server" ID="img" CssClass="img-thumbnail" ImageUrl="https://www.skymania.com/wp/wp-content/uploads/2011/06/sun_with_prominence.jpg" />
             </div>
             <div class="col-4 ">
                 <asp:Label class="text-info font-weight-bold" runat="server" ID="Name">John Johnson, 25</asp:Label><br />

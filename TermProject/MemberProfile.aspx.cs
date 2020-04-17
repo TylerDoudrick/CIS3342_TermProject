@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
@@ -40,8 +41,7 @@ namespace TermProject
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDateReq.Enabled = false;
             }
-            //memberUserID = Convert.ToInt32(Request.QueryString["memberID"]); // this is the user id of the person who's profile we're viewing
-            memberUserID = 2;
+            memberUserID = Convert.ToInt32(Request.QueryString["memberID"]); // this is the user id of the person who's profile we're viewing
             grabPersonalProfile();
         } // end page load
 
@@ -86,6 +86,17 @@ namespace TermProject
                 DataTable interests = result.Tables[3];
                 DataTable likes = result.Tables[4];
                 DataTable dislikes = result.Tables[5];
+
+                DataRow image = result.Tables[6].Rows[0]; // get image 
+                string x = image[0] as string;
+                //    Byte[] imgArray = Convert.FromBase64String(base64);
+                Byte[] imgArray = Encoding.ASCII.GetBytes(x);
+
+                //printing characters with byte values
+                MemoryStream memorystreamd = new MemoryStream(imgArray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                string url = (bfd.Deserialize(memorystreamd)).ToString();
+                img.ImageUrl = url;
 
                 DateTime now = DateTime.Now;
                 DateTime birthday = Convert.ToDateTime(profile["birthday"].ToString());

@@ -2,9 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadPlaceHolder" runat="server">
     <style>
-        .card{
-            height: 31em;
-        }
     </style>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="BodyPlaceHolder" runat="server">
@@ -36,23 +33,29 @@
         <h3>Meet some hot singles in your area!</h3>
     </div>
 
-    <div class="col">
+        <div class="row justify-content-center w-75 mx-auto">
+        <!-- Result set could be carousal that's in dashboard  -->
+
+        <div class="col">
             <div class="owl-carousel owl-theme">
                 <asp:Repeater runat="server" ID="rptPeople">
                     <ItemTemplate>
                         <div>
                             <div class="card">
                                 <div runat="server">
-                                    <img class="card-img-top" src='<%#Eval("imageSRC") %>'> </img>
+                                    <img class="card-img-top" src='<%#Eval("imageSRC") %>'/>
                                 </div>
 
                                 <div class="card-body">
-                                    <asp:Label CssClass="card-text font-weight-bold" ID="lblFirstName" runat="server" Text='<%#Eval("name") %>' ></asp:Label>
-                                    <br />
-                                    <asp:Label ID="lblTagline" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
+                                    <p>
+                                        <asp:Label CssClass="card-text font-weight-bold text-center" ID="headingPass" runat="server" Text='<%#Eval("heading") %>'></asp:Label>
+                                      <br />  <asp:Label ID="occupationPass" CssClass="card-text text-left" runat="server" Text='<%#Eval("occuption") %>'></asp:Label>
+                                    </p>
+                                                                                                        <p><%#Eval("city") %>, <%#Eval("state") %></p>
+                                    <asp:Label ID="tasglinePass" CssClass="card-text text-left" runat="server" Text='<%#Eval("tagline") %>'></asp:Label>
                                 </div>
                                 <div class="card-footer">
-                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-secondary " ID="lbGoToProfile" OnCommand="lbGoToProfile_Command"> Go to Profile </asp:LinkButton>
+                                    <asp:LinkButton runat="server" CommandName= ' <%#DataBinder.Eval(Container.DataItem, "userID") %>' CssClass="btn btn-primary" ID="lbGoToProfile" OnCommand="lbGoToProfile_Command1"> Go to Profile</asp:LinkButton>
                                 </div>
                             </div>
                         </div>
@@ -60,6 +63,7 @@
                 </asp:Repeater>
             </div>
         </div>
+    </div>
 
 
     <!-- 
