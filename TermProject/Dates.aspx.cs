@@ -188,7 +188,7 @@ namespace TermProject
             int memID = Convert.ToInt32(e.CommandName);
             string name = "";
             Session["memID"] = memID;
-            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "ShowPopup();", true);
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('#modalScheduleDate').modal('show');", true);
 
         }
 
