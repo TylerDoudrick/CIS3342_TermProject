@@ -266,6 +266,7 @@ namespace TP_WebAPI.Controllers
                 foreach (DataRow row in res.Tables[0].Rows)
                 {
                     IncomingMessage temp = new IncomingMessage();
+                    temp.messageid = row["messageID"].ToString();
                     temp.senderid = row["senderID"].ToString();
                     temp.message = row["messageBody"].ToString();
                     DateTime sentOn = DateTime.Parse(row["timeStamp"].ToString());
@@ -369,6 +370,31 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.AddWithValue("@SenderID", message.senderid);
             commandObj.Parameters.AddWithValue("@RecipientID", message.recipientid);
             commandObj.Parameters.AddWithValue("@MessageBody", message.message);
+            commandObj.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
+            if (objDB.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            {
+                response.result = "fail";
+                response.message = exception;
+            }
+            else
+            {
+                notifier.NotifyMessage(Int32.Parse(message.recipientid), "You have a new message from " + commandObj.Parameters["@SenderName"].Value + "!");
+                response.result = "success";
+                response.message = "Successfully sent Message!";
+            }
+
+            return response;
+        }
+        [EnableCors("AllowOrigin")]
+        [HttpPut("UpdateReadReceipt")]
+        public Response UpdateReadReceipt([FromBody] MessageInfo message)
+        {
+            Response response = new Response();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_UpdateReadReceipt";
+            commandObj.Parameters.AddWithValue("@MessageID", message.id);
 
             if (objDB.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
             {
@@ -377,46 +403,33 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
+                //  notifier.NotifyMessage();
                 response.result = "success";
-                response.message = "Successfully sent Message!";
+                response.message = "Successfully updated readreceipt";
             }
-
-            //if (res.Tables[0].Rows.Count != 1)
-            //{
-            //    return null;
-            //}
-            //else
-            //{
-            //    DataRow row = res.Tables[0].Rows[0];
-            //    found.userID = row["userID"].ToString();
-            //    found.name = row["name"].ToString();
-            //    Byte[] imgArray = (Byte[])row["image"];
-            //    MemoryStream memorystreamd = new MemoryStream(imgArray);
-            //    BinaryFormatter bfd = new BinaryFormatter();
-            //    found.image = bfd.Deserialize(memorystreamd).ToString();
-            //    found.location = row["location"].ToString();
-
-            //}
-
 
             return response;
         }
-
         public class User
         {
             public string id {get;set; }
     }
-
+        public class MessageInfo
+        {
+            public string id { get; set; }
+        }
         public class SendingMessage
         {
             public string senderid { get; set; }
             public string recipientid { get; set; }
+            public string recipientname { get; set; }
             public string message { get; set; }
 
         }
 
         public class IncomingMessage
         {
+            public string messageid { get; set; }
             public string senderid { get; set; }
             public string sendername { get; set; }
             public string senderimage { get; set; }
