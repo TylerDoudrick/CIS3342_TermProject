@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
@@ -13,8 +16,8 @@ namespace TP_WebAPI.Controllers
     public class NotificationsController : ControllerBase
     {
         [EnableCors("AllowOrigin")]
-        [HttpGet("{id}")]
-        public string getNotifications(string userID)
+        [HttpGet("{userID}")]
+        public List<Notification> getNotifications(int userID)
         {
             //Methodology:
             /*
@@ -24,11 +27,32 @@ namespace TP_WebAPI.Controllers
 
             Serve the notifications back tothe AJAX with JSON
             */
-            Random random = new Random();
-            int num = random.Next(0, 100);
-            if (num < 50) { return "New Messages"; } else
+            List<Notification> notifications = new List<Notification>();
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetUserNotifications";
+            commandObj.Parameters.AddWithValue("@UserID", userID);
+
+            DataSet res = databaseObj.GetDataSetUsingCmdObj(commandObj);
+
+            if (res.Tables[0].Rows.Count == 0)
             {
-                return "";
+                return null;
+            }
+            else
+            {
+                foreach(DataRow row in res.Tables[0].Rows)
+                {
+                    Notification temp = new Notification();
+                    temp.notificationMessage = row["notificationMessage"].ToString();
+                    temp.notificationType = row["notificationType"].ToString();
+                    temp.notificationID = row["notificationID"].ToString();
+                    notifications.Add(temp);
+                }
+                return notifications;
             }
         }
 
@@ -48,6 +72,12 @@ namespace TP_WebAPI.Controllers
         public void dismissAllNotifications(string userID)
         {
             //See above but do more.
+        }
+
+        public class Notification{
+            public string notificationID { get; set; }
+            public string notificationMessage { get; set; }
+            public string notificationType { get; set; }
         }
     }
 }

@@ -37,6 +37,12 @@
             background-color: #f8f8ff;
             cursor: pointer;
         }
+
+        .unread {
+            border: 1px solid red;
+            border-radius: 7px;
+            box-shadow: 0 0 5px red;
+        }
     </style>
     <link href="styles/jquery-ui.min.css" rel="stylesheet" />
     <script src="js/jquery-ui.min.js"></script>
@@ -283,10 +289,16 @@
                         console.log(xhr.responseText);
                     },
                     success: function (data) {
+                        console.log(data);
                         data.forEach(function (obj) {
                             var container = document.createElement("div");
-                            var message = ` 
-                            <div class="card w-100 rounded-0 messageRow">
+                            var message = ``;
+                            if (obj.readreceipt == "") {
+                                container.className = "unread"
+                            } else {
+                            }
+                            message += ` 
+<div class="card w-100 rounded-0 messageRow">
                                 <div class="row p-2">
                                     <div class="col-1">
                                         <img id="imgRecipient" class="card-img rounded-lg" src="`+ obj.senderimage + `" />
@@ -314,7 +326,27 @@
                                 $("#lblSentDate").text(obj.timestamp);
                                 $("#lblMessageBody").text(obj.message);
                                 $("#imgSender").attr("src", obj.senderimage);
-
+                                var messageinfo = {
+                                    "id": obj.messageid
+                                }
+                                if (obj.readreceipt == "") {
+                                    $.ajax({
+                                        url: "https://localhost:44375/api/datingservice/interactions/UpdateReadReceipt",
+                                        type: 'put',
+                                        contentType: 'application/json',
+                                        dataType: "json",
+                                        data: JSON.stringify(messageinfo),
+                                        error: function (xhr) {
+                                            console.log(xhr.responseText);
+                                        },
+                                        success: function (data) {
+                                            console.log(data);
+                                            if (data.result == "success") {
+                                                container.className = "";
+                                            }
+                                        }
+                                    });
+                                }
                                 //Reply Modal Stuff
 
                                 $("#lblReplyTo").text(obj.sendername);
@@ -354,8 +386,16 @@
                                 <h6 class="font-weight-bold">`+ obj.receivername + `</h6>
                                 <h6 class="text-muted">Sent On: `+ obj.timestamp + `</h6>
                             </div>
-                            <div class="text-truncate text-muted">`+ obj.message + `</div>
-                                            </p>
+                            <div class="text-truncate text-muted">`+ obj.message + `</div>`
+                            if (obj.readreceipt == "") {
+                                message += `<div class="text-truncate text-muted text-right">` + obj.readreceipt + `</div>
+`
+                            } else {
+                                message += `<div class="text-truncate text-muted text-right">Opened On: ` + obj.readreceipt + `</div>
+`
+                            }
+
+                            message += `</p>
                                         </div>
                                     </div>
                                 </div>
