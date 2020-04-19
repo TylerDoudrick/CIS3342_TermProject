@@ -30,6 +30,19 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
+            //string ph = "images/person21.jpg";
+            //BinaryFormatter serializer = new BinaryFormatter();
+            //MemoryStream memStream = new MemoryStream();
+            //serializer.Serialize(memStream, ph);
+            //Byte[] imgArray = memStream.ToArray();
+
+            //commandObj.Parameters.Clear();
+            //commandObj.CommandType = CommandType.StoredProcedure;
+            //commandObj.CommandText = "test";
+            //commandObj.Parameters.AddWithValue("@profID", 21);
+            //commandObj.Parameters.AddWithValue("@image", imgArray);
+            //dbConnection.DoUpdateUsingCmdObj(commandObj, out string err);
+
             string username = txtLogInUsername.Text;
             string password = txtLogInPassword.Text;
 
@@ -137,9 +150,9 @@ namespace TermProject
             Session["UserID"] = "2";
 
 
-            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(5); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
-            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); memberDislikes.Add(4); Session["memberDislikes"] = memberDislikes;
-            List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
+            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
+            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); Session["memberDislikes"] = memberDislikes;
+            List<int> memberBlocks = new List<int>();memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
             GetAcceptedDates(2);
 
             Session["memberBlocks"] = memberBlocks;

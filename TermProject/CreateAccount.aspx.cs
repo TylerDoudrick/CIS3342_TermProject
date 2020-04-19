@@ -321,7 +321,7 @@ namespace TermProject
                         {
                             // insert empty list of prefs
                             insertPreferences();
-
+                            Session["userID"] = outputNewUserID;
                             // send email
                             string sendAdd = "querydating@gmail.com";
                             MailMessage msg = new MailMessage();

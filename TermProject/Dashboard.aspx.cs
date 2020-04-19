@@ -115,7 +115,7 @@ namespace TermProject
         }
 
         protected void Unnamed_Click(object sender, EventArgs e)
-        {
+        { // testing purporse
             Response.Redirect("MemberProfile.aspx?memberID=5");            
 
         }
