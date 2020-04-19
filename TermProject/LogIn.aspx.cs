@@ -21,6 +21,7 @@ namespace TermProject
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
+        string authWebAPI = "https://localhost:44375/api/datingservice/authentication/";
         DBConnect dbConnection = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
         protected void Page_Load(object sender, EventArgs e)
@@ -67,78 +68,141 @@ namespace TermProject
             }
             else
             {
-                //Do something
 
-                commandObj.Parameters.Clear();
-                commandObj.CommandType = CommandType.StoredProcedure;
-                commandObj.CommandText = "TP_LookupUserRecord";
+                LoginCredentials cred = new LoginCredentials();
+                cred.username = username;
+                cred.password = password;
+                WebRequest request = WebRequest.Create(authWebAPI);
+                request.Method = "POST";
+                JavaScriptSerializer json = new JavaScriptSerializer();
+                string jsonCred = json.Serialize(cred);
+                byte[] postData = Encoding.ASCII.GetBytes(jsonCred);
+                request.ContentType = "application/json";
+                request.ContentLength = postData.Length;
 
-                SqlParameter inputUsername = new SqlParameter("@username", username)
+                Stream requestStream = request.GetRequestStream();
+                requestStream.Write(postData, 0, postData.Length);
+
+                WebResponse response = request.GetResponse();
+                Stream theDataStream = response.GetResponseStream();
+                StreamReader reader = new StreamReader(theDataStream);
+                string responseData = reader.ReadToEnd();
+                if(responseData.Length <= 0)
                 {
-                    Direction = ParameterDirection.Input,
 
-                    SqlDbType = SqlDbType.VarChar
-                };
-
-                commandObj.Parameters.Add(inputUsername);
-
-
-                DataSet dsUser = dbConnection.GetDataSetUsingCmdObj(commandObj);
-                if (dsUser.Tables[0].Rows.Count > 0)
-                {
-                    DataRow drUserRecord = dsUser.Tables[0].Rows[0];
-
-                    string email = drUserRecord["emailAddress"].ToString();
-                    Session["email"] = email;
-
-                    byte[] salt = (byte[])drUserRecord["salt"];
-                    byte[] hashedPassword = (byte[])drUserRecord["password"];
-
-
-                    if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
-                    {
-                        Session["UserID"] = drUserRecord["userID"].ToString();
-                        getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
-                        GetAcceptedDates(Convert.ToInt32(drUserRecord["userID"]));
-                        // store the seeking gender in session
-                        string seeking = dsUser.Tables[1].Rows[0][0].ToString();
-                        Session["seeking"] = seeking;
-
-                        switch (Request.QueryString["target"])
-                        {
-
-                            case "Dates":
-                                Response.Redirect("Dates.aspx");
-                                break;
-                            case "LikeandPass":
-                                Response.Redirect("LikeandPass.aspx");
-                                break;
-                            case "Messages":
-                                Response.Redirect("Messages.aspx");
-                                break;
-                            case "Profile":
-                                Response.Redirect("Profile.aspx");
-                                break;
-                            case "Settings":
-                                Response.Redirect("Settings.aspx");
-                                break;
-
-                            default:
-                                Response.Redirect("Dashboard.aspx");
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        Response.Write("Failed password check");
-                        //Invalid password :(
-                    }
                 }
                 else
                 {
-                    Response.Write("Failed username check");
-                    //Profile not found
+                    User foundAccount = json.Deserialize<User>(responseData);
+                    Session["email"] = foundAccount.emailAddress;
+                    Session["UserID"] = foundAccount.userID;
+                    Session["seeking"] = foundAccount.seekingGender;
+                    Session["firstName"] = foundAccount.firstName;
+                    Session["lastName"] = foundAccount.lastName;
+                    Session["token"] = foundAccount.token;
+                    getPrefs(Int32.Parse(foundAccount.userID));
+                    GetAcceptedDates(Int32.Parse(foundAccount.userID));
+
+                    switch (Request.QueryString["target"])
+                    {
+
+                        case "Dates":
+                            Response.Redirect("Dates.aspx");
+                            break;
+                        case "LikeandPass":
+                            Response.Redirect("LikeandPass.aspx");
+                            break;
+                        case "Messages":
+                            Response.Redirect("Messages.aspx");
+                            break;
+                        case "Profile":
+                            Response.Redirect("Profile.aspx");
+                            break;
+                        case "Settings":
+                            Response.Redirect("Settings.aspx");
+                            break;
+
+                        default:
+                            Response.Redirect("Dashboard.aspx");
+                            break;
+                    }
+
                 }
+                reader.Close();
+                response.Close();
+
+                ////Do something
+
+                //commandObj.Parameters.Clear();
+                //commandObj.CommandType = CommandType.StoredProcedure;
+                //commandObj.CommandText = "TP_LookupUserRecord";
+
+                //SqlParameter inputUsername = new SqlParameter("@username", username)
+                //{
+                //    Direction = ParameterDirection.Input,
+
+                //    SqlDbType = SqlDbType.VarChar
+                //};
+
+                //commandObj.Parameters.Add(inputUsername);
+
+
+                //DataSet dsUser = dbConnection.GetDataSetUsingCmdObj(commandObj);
+                //if (dsUser.Tables[0].Rows.Count > 0)
+                //{
+                //    DataRow drUserRecord = dsUser.Tables[0].Rows[0];
+
+                //    string email = drUserRecord["emailAddress"].ToString();
+                //    Session["email"] = email;
+
+                //    byte[] salt = (byte[])drUserRecord["salt"];
+                //    byte[] hashedPassword = (byte[])drUserRecord["password"];
+
+
+                //    if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
+                //    {
+                //        Session["UserID"] = drUserRecord["userID"].ToString();
+                //        getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
+
+                //        // store the seeking gender in session
+                //        string seeking = dsUser.Tables[1].Rows[0][0].ToString();
+                //        Session["seeking"] = seeking;
+
+                //        switch (Request.QueryString["target"])
+                //        {
+
+                //            case "Dates":
+                //                Response.Redirect("Dates.aspx");
+                //                break;
+                //            case "LikeandPass":
+                //                Response.Redirect("LikeandPass.aspx");
+                //                break;
+                //            case "Messages":
+                //                Response.Redirect("Messages.aspx");
+                //                break;
+                //            case "Profile":
+                //                Response.Redirect("Profile.aspx");
+                //                break;
+                //            case "Settings":
+                //                Response.Redirect("Settings.aspx");
+                //                break;
+
+                //            default:
+                //                Response.Redirect("Dashboard.aspx");
+                //                break;
+                //        }
+                //    }
+                //    else
+                //    {
+                //        Response.Write("Failed password check");
+                //        //Invalid password :(
+                //    }
+                //}
+                //else
+                //{
+                //    Response.Write("Failed username check");
+                //    //Profile not found
+                //}
 
             }
 
@@ -148,6 +212,7 @@ namespace TermProject
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
+            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
 
 
             List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
@@ -189,8 +254,10 @@ namespace TermProject
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
             Session["seeking"] = "Female";
+            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
 
             GetAcceptedDates(1);
+            
             List<int> memberLieks = new List<int>();
             memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8);
             Session["memberLikes"] = memberLieks;
@@ -198,7 +265,6 @@ namespace TermProject
             List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); memberBlocks.Add(5); Session["memberBlocks"] = memberBlocks;
 
             Session["memberBlocks"] = memberBlocks;
-
             switch (Request.QueryString["target"])
             {
 
@@ -263,6 +329,21 @@ namespace TermProject
             } // end if
         } // end method
 
+
+        public class LoginCredentials
+        {
+            public string username { get; set; }
+            public string password { get; set; }
+        }
+        public class User
+        {
+            public string userID { get; set; }
+            public string firstName { get; set; }
+            public string lastName { get; set; }
+            public string emailAddress { get; set; }
+            public string seekingGender { get; set; }
+            public string token { get; set; }
+        }
         protected void GetAcceptedDates(int userID)
         { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
             WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);

@@ -54,6 +54,7 @@ namespace TermProject
         protected void grabPersonalProfile()
         {
             WebRequest request = WebRequest.Create(profileWebAPI + Session["UserID"].ToString());
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
@@ -197,6 +198,7 @@ namespace TermProject
             {
 
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/tagline/" + Session["UserID"].ToString());
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 request.Method = "POST";
                 request.ContentType = "application/json";
@@ -256,6 +258,7 @@ namespace TermProject
                 {
 
                     WebRequest request = WebRequest.Create(profileWebAPI + "update/contact/" + Session["UserID"].ToString());
+                    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                     request.Method = "POST";
                     request.ContentType = "application/json";
@@ -328,8 +331,9 @@ namespace TermProject
             {
 
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/basic/" + Session["UserID"].ToString());
+                    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
-                request.Method = "POST";
+                    request.Method = "POST";
                 request.ContentType = "application/json";
 
                 StreamWriter writer = new StreamWriter(request.GetRequestStream());
@@ -396,6 +400,7 @@ namespace TermProject
             {
 
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/about/" + Session["UserID"].ToString());
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 request.Method = "POST";
                 request.ContentType = "application/json";
@@ -436,6 +441,8 @@ namespace TermProject
             divEditYourDetailsControls.Visible = true;
 
             WebRequest request = WebRequest.Create(profileWebAPI + Session["UserID"].ToString());
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
@@ -554,6 +561,7 @@ namespace TermProject
             {
 
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["UserID"].ToString());
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 request.Method = "POST";
                 request.ContentType = "application/json";

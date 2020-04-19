@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,11 +12,12 @@ using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("AllowOrigin")]
     [Route("api/datingservice/[controller]")]
     [ApiController]
     public class NotificationsController : ControllerBase
     {
-        [EnableCors("AllowOrigin")]
         [HttpGet("{userID}")]
         public List<Notification> getNotifications(int userID)
         {
@@ -56,28 +58,67 @@ namespace TP_WebAPI.Controllers
             }
         }
 
-        [HttpPost("dismiss/{id}")]
-        public void dismissNotification(string userID, [FromBody] string notificationID)
+        [HttpDelete("dismiss")]
+        public Response dismissNotification([FromBody] Notification notification)
         {
-            //Methodology:
-            /*
-             * 
-              Reach out to the notifications table and update the record defined by the id
-              to note that record as "dismissed" or some shit so that it doesn't get served again
-             
-             */
+            Response response = new Response();
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_DismissNotification";
+            commandObj.Parameters.AddWithValue("@UserID", notification.userID);
+            commandObj.Parameters.AddWithValue("@NotificationID", notification.notificationID);
+
+            if(databaseObj.DoUpdateUsingCmdObj(commandObj, out string err) == -2){
+                response.result = "fail";
+                response.message = err;
+            }
+            else
+            {
+                response.result = "success";
+            }
+
+            return response;
         }
 
-        [HttpPost("dismiss/all/{id}")]
-        public void dismissAllNotifications(string userID)
+        [HttpDelete("dismiss/messages/{userID}")]
+        public Response dismissAllMessages(string userID)
         {
-            //See above but do more.
+            Response response = new Response();
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_DismissMessageNotifications";
+            commandObj.Parameters.AddWithValue("@UserID", userID);
+
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
+            {
+                response.result = "fail";
+                response.message = err;
+            }
+            else
+            {
+                response.result = "success";
+            }
+
+            return response;
         }
 
         public class Notification{
             public string notificationID { get; set; }
             public string notificationMessage { get; set; }
             public string notificationType { get; set; }
+            public string userID { get; set; }
+        }
+
+        public class Response
+        {
+            public string result { get; set; }
+            public string message { get; set; }
         }
     }
 }

@@ -198,6 +198,8 @@ namespace TermProject
             try
             {
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["UserID"].ToString());
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 request.Method = "POST";
                 request.ContentType = "application/json";
 
@@ -308,6 +310,8 @@ namespace TermProject
             string jsonR = js.Serialize(reg);
 
             WebRequest r = WebRequest.Create(profileWebAPI + "insert/registrationInfo");
+            r.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
             r.Method = "POST";
             r.ContentLength = jsonR.Length;
             r.ContentType = "application/json";

@@ -43,6 +43,8 @@ namespace TermProject
             if (pend || approve)
             {
                 request = WebRequest.Create(interactionsWebAPI + "getAllDates/" + userID);
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 response = request.GetResponse();
                 theDataStream = response.GetResponseStream();
                 reader = new StreamReader(theDataStream);
@@ -65,6 +67,8 @@ namespace TermProject
             if (Sch || dates)
             { // display the dates that need to be scheduled
                 request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 response = request.GetResponse();
                 theDataStream = response.GetResponseStream();
                 reader = new StreamReader(theDataStream);
@@ -159,6 +163,8 @@ namespace TermProject
             String jsonValues = js.Serialize(vals);
 
             WebRequest request = WebRequest.Create(interactionsWebAPI + method + "/");
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
             request.Method = "PUT";
             request.ContentLength = jsonValues.Length;
             request.ContentType = "application/json";
@@ -254,6 +260,8 @@ namespace TermProject
                 string values = js.Serialize(newValues);
 
                 WebRequest request = WebRequest.Create(interactionsWebAPI + "insertDate/");
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 request.Method = "POST";
                 request.ContentLength = values.Length;
                 request.ContentType = "application/json";

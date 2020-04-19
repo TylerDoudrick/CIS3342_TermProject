@@ -26,6 +26,7 @@ namespace TermProject.UserControls
             if (!IsPostBack)
             {
                 WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
                 WebResponse response = request.GetResponse();
                 // Read the data from the Web Response, which requires working with streams.
                 Stream theDataStream = response.GetResponseStream();

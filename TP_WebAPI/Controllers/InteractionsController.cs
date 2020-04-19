@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,8 @@ using TermProject;
 
 namespace TP_WebAPI.Controllers
 {
+    [Authorize]
+    [EnableCors("AllowOrigin")]
     [Route("api/datingservice/interactions/")]
     [ApiController]
     public class InteractionsController : ControllerBase
@@ -24,7 +27,7 @@ namespace TP_WebAPI.Controllers
         DBConnect objDB = new DBConnect();
         Notifier notifier = new Notifier();
 
-
+        [AllowAnonymous]
         [HttpPost("insertPreferences/")]
         public int insertPreferences([FromBody] Preferences p)
         { // inserts empty serialized lists to the db
@@ -244,7 +247,7 @@ namespace TP_WebAPI.Controllers
             return res;
         } // end ignore request
 
-        [EnableCors("AllowOrigin")]
+
         [HttpPost("GetUserInbox")]
         public List<IncomingMessage> GetUserInbox([FromBody] User user)
         {
@@ -284,7 +287,7 @@ namespace TP_WebAPI.Controllers
             return messages;
         }
 
-        [EnableCors("AllowOrigin")]
+
         [HttpPost("GetUserOutbox")]
         public List<OutgoingMessage> GetUserOutbox([FromBody] User user)
         {
@@ -324,7 +327,7 @@ namespace TP_WebAPI.Controllers
         }
 
 
-        [EnableCors("AllowOrigin")]
+
         [HttpPost("ProfileSnippet")]
         public Recipient ProfileSnippet([FromBody] User user)
         {
@@ -358,7 +361,7 @@ namespace TP_WebAPI.Controllers
             return found;
         }
 
-        [EnableCors("AllowOrigin")]
+
         [HttpPut("SendMessage")]
         public Response SendMessage([FromBody] SendingMessage message)
         {
@@ -385,7 +388,6 @@ namespace TP_WebAPI.Controllers
 
             return response;
         }
-        [EnableCors("AllowOrigin")]
         [HttpPut("UpdateReadReceipt")]
         public Response UpdateReadReceipt([FromBody] MessageInfo message)
         {

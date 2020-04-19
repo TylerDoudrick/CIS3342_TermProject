@@ -33,6 +33,9 @@ namespace TermProject
             {
                 userID = Convert.ToInt32(Session["UserID"]);
                 WebRequest request = WebRequest.Create(profileWebAPI + "GetSettings/" + userID);
+
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 WebResponse response = request.GetResponse();
                 Stream theDataStream = response.GetResponseStream();
                 StreamReader reader = new StreamReader(theDataStream);
@@ -278,6 +281,8 @@ namespace TermProject
                 string jsonA = js.Serialize(a);
 
                 WebRequest request = WebRequest.Create(profileWebAPI + "/updateAddress");
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 request.Method = "PUT";
                 request.ContentLength = jsonA.Length;
                 request.ContentType = "application/json";

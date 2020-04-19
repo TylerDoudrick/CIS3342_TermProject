@@ -74,7 +74,8 @@ namespace TermProject
 
         protected void grabPersonalProfile()
         {
-            WebRequest request = WebRequest.Create(profileWebAPI + memberUserID); // grab info from validation table values
+            WebRequest request = WebRequest.Create(profileWebAPI + "/public" + memberUserID); // grab info from validation table values
+
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
@@ -216,6 +217,7 @@ namespace TermProject
 
                 // remove messages, dates between the two
                 WebRequest request = WebRequest.Create(interactionsWebAPI + "blockUser");
+
                 request.Method = "PUT";
                 request.ContentType = "application/json";
 
@@ -258,6 +260,8 @@ namespace TermProject
             try
             {
                WebRequest request = WebRequest.Create(interactionsWebAPI + "addDateReq/");
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
                 request.Method = "POST";
                 request.ContentLength = jsonValues.Length;
                 request.ContentType = "application/json";
@@ -323,6 +327,8 @@ namespace TermProject
             string jsonP = js.Serialize(p);
 
             WebRequest request = WebRequest.Create(interactionsWebAPI + "updatePreferences/");
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
             request.Method = "PUT";
             request.ContentLength = jsonP.Length;
             request.ContentType = "application/json";

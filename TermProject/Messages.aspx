@@ -282,6 +282,9 @@
                 $.ajax({
                     url: "https://localhost:44375/api/datingservice/interactions/GetUserInbox",
                     type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                    },
                     contentType: 'application/json',
                     dataType: "json",
                     data: JSON.stringify(user),
@@ -289,7 +292,6 @@
                         console.log(xhr.responseText);
                     },
                     success: function (data) {
-                        console.log(data);
                         data.forEach(function (obj) {
                             var container = document.createElement("div");
                             var message = ``;
@@ -333,6 +335,9 @@
                                     $.ajax({
                                         url: "https://localhost:44375/api/datingservice/interactions/UpdateReadReceipt",
                                         type: 'put',
+                                        beforeSend: function (request) {
+                                            request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                                        },
                                         contentType: 'application/json',
                                         dataType: "json",
                                         data: JSON.stringify(messageinfo),
@@ -340,7 +345,6 @@
                                             console.log(xhr.responseText);
                                         },
                                         success: function (data) {
-                                            console.log(data);
                                             if (data.result == "success") {
                                                 container.className = "";
                                             }
@@ -358,12 +362,33 @@
 
                     }
                 });
+
+                $.ajax({
+                    url: "https://localhost:44375/api/datingservice/notifications/dismiss/messages/<%= Session["UserID"]%>",
+                    type: 'delete',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                    },
+                    contentType: 'application/json',
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.result == "success") {
+                            $('.close-toastr').closest('.toast').remove();
+                        }
+                    }
+                });
             }
             function grabOutbox() {
                 $("#divOutbox").empty();
                 $.ajax({
                     url: "https://localhost:44375/api/datingservice/interactions/GetUserOutbox",
                     type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                    },
                     contentType: 'application/json',
                     dataType: "json",
                     data: JSON.stringify(user),
@@ -371,7 +396,6 @@
                         console.log(xhr.responseText);
                     },
                     success: function (data) {
-                        console.log(data);
                         data.forEach(function (obj) {
                             var container = document.createElement("div");
                             var message = ` 
@@ -471,6 +495,9 @@
                 $.ajax({
                     url: "https://localhost:44375/api/datingservice/interactions/ProfileSnippet",
                     type: 'post',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                    },
                     contentType: 'application/json',
                     dataType: "json",
                     data: JSON.stringify(data),
@@ -478,7 +505,6 @@
                         console.log(xhr.responseText);
                     },
                     success: function (data) {
-                        console.log(data);
                         $("#imgRecipient").attr("src", data.image);
                         $("#lblRecipientName").text(data.name);
                         $("#lblRecipientLocation").text(data.location);
@@ -500,6 +526,9 @@
                     $.ajax({
                         url: "https://localhost:44375/api/datingservice/interactions/SendMessage",
                         type: 'put',
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                        },
                         contentType: 'application/json',
                         dataType: "json",
                         data: JSON.stringify(data),
@@ -519,7 +548,6 @@
                                 $("#<%= ddlRecipient.ClientID%>").selectpicker('val', '');
                                 $("#txtMessage").val('');
                             }
-                            console.log(data);
                         }
                     });
                 }
@@ -537,6 +565,9 @@
                     $.ajax({
                         url: "https://localhost:44375/api/datingservice/interactions/SendMessage",
                         type: 'put',
+                        beforeSend: function (request) {
+                            request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                        },
                         contentType: 'application/json',
                         dataType: "json",
                         data: JSON.stringify(data),
@@ -550,7 +581,6 @@
                                 $("#lblReplyTo").text("");
                                 $("#txtReply").val('');
                             }
-                            console.log(data);
                         }
                     });
                 }
