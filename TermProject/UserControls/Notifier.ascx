@@ -5,13 +5,13 @@
     function startWorker() {
         if (typeof (Worker) !== "undefined") {
             if (typeof (w) == "undefined") {
-                w = new Worker("UserControls/js/notifierWorker.js?userID=<%= this.UserID %>");
+                w = new Worker("UserControls/js/notifierWorker.js?userID=<%= this.UserID %>&token=<%= this.token %>");
             }
             w.onmessage = function (event) {
 
                 if (event.data.length !== 0) {
                     event.data.forEach(function (obj) {
-                        var id = obj.notificationID;
+                        var notificationID = obj.notificationID;
                         toastr.options = {
                             "closeButton": true,
                             "debug": false,
@@ -29,7 +29,28 @@
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut",
                             "onclick": function () {
-                                alert("This will dismiss notification with id: " + id)
+                                var notification = {
+                                    "userID": "<%= Session["UserID"].ToString()%>",
+                                    "notificationID": notificationID
+                                }
+
+                                $.ajax({
+                                    url: "https://localhost:44375/api/datingservice/notifications/dismiss",
+                                    type: 'delete',
+                                    beforeSend: function (request) {
+                                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                                    },
+                                    contentType: 'application/json',
+                                    dataType: "json",
+                                    data: JSON.stringify(notification),
+                                    error: function (xhr) {
+                                        console.log(xhr.responseText);
+                                    },
+                                    success: function (data) {
+                                        console.log(data);
+                                    }
+                                });
+
                             }
                         }
                         if (obj.notificationType == 1) {

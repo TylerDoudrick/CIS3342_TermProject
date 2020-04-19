@@ -10,9 +10,11 @@ using Models;
 using System.Data;
 using TermProject;
 using Classess;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TP_WebAPI.Controllers
 {
+    [Authorize]
     [Route("api/datingservice/profile/")]
     [ApiController]
     public class ProfileController : ControllerBase
@@ -45,6 +47,19 @@ namespace TP_WebAPI.Controllers
             return myDS;
         }
         [HttpGet("{id}")]
+        public DataSet grabProfile(string id)
+        {
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_LookupPersonalProfile";
+            commandObj.Parameters.AddWithValue("@UserId", id);
+            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+            return myDS;
+        }
+
+        [AllowAnonymous]
+        [HttpGet("/public/{id}")]
         public DataSet grabPublicProfile(string id)
         {
             DBConnect databaseObj = new DBConnect();
