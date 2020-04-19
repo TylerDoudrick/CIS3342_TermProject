@@ -22,19 +22,19 @@ namespace TermProject
         DBConnect obj = new DBConnect(); int userID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            userID = 19;
-            //userID = Convert.ToInt32(Session["UserID"].ToString()) ;
+            //ddl.ShowInterestLikesDis();
+            userID = Convert.ToInt32(Session["UserID"].ToString()) ;
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
+            string p = photoUpload.FileName;
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
             lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
             lblOccupation.Style.Remove("color"); lblSeekingGender.Style.Remove("color");
-            ddl.RemoveColor();
+            ddl.RemoveColor(); 
             Boolean check =validateForm(); // call method to validate input
-
             if (!check)
             { // if everything was entered correctly, transfer to participant profile
                 Boolean opt = AddRecords();
@@ -222,9 +222,10 @@ namespace TermProject
             reg.id = userID;
             // profile photo table - serialized image
             string p = photoUpload.FileName;
+            string ph = "images/person21.jpg";
             BinaryFormatter serializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream();
-            serializer.Serialize(memStream, p);
+            serializer.Serialize(memStream, ph);
             Byte[] imgArray = memStream.ToArray();
             reg.photo = imgArray;
 

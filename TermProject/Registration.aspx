@@ -220,7 +220,7 @@
             <div class="font-weight-bold text-info h5 my-auto">About You</div>
         </div>
        </div>
-
+    
     <div class="row justify-content-center my-5">
         <div class="col-4">
             <asp:Label runat="server" ID="lblFavSongs">Favorite Songs</asp:Label>

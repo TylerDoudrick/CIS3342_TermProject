@@ -136,11 +136,6 @@
                         </asp:Repeater>
                     </div>
                 </div>
-                <div>
-                    sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
-                sdfkhsjdhkesh nfskdf s742154 erfhskdfsd5
-                fse shekskdsn shse esmljreurjlajrj isjfs;kfnkhgeri[aljs kjejeeskriw68734924pijml'fk hfhkjlJWLJ  JKSJDGKHKGJREKljkjgkrjgrk
-                </div>
             </div>
         </div>
 
@@ -176,11 +171,6 @@
                             </ItemTemplate>
                         </asp:Repeater>
                     </div>
-                </div>
-                <div>
-                    sekjghkdhgjgkjjfkghdkgdgdfhfg shjhjhjsdhjdgh sjfhdsfdsa hsethjertiuhtkjwefn kjehkrfkdsfkn kashlayahf skhdfndknvkdsjfnksjdh sdfndfksjfkjsdluthsj ncvsdfsfsdf
-                sdfkhsjdhkesh nfskdf s742154 erfhskdfsd5
-                fse shekskdsn shse esmljreurjlajrj isjfs;kfnkhgeri[aljs kjejeeskriw68734924pijml'fk hfhkjlJWLJ  JKSJDGKHKGJREKljkjgkrjgrk
                 </div>
             </div>
 
