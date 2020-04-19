@@ -31,6 +31,19 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
+            //string ph = "images/person21.jpg";
+            //BinaryFormatter serializer = new BinaryFormatter();
+            //MemoryStream memStream = new MemoryStream();
+            //serializer.Serialize(memStream, ph);
+            //Byte[] imgArray = memStream.ToArray();
+
+            //commandObj.Parameters.Clear();
+            //commandObj.CommandType = CommandType.StoredProcedure;
+            //commandObj.CommandText = "test";
+            //commandObj.Parameters.AddWithValue("@profID", 21);
+            //commandObj.Parameters.AddWithValue("@image", imgArray);
+            //dbConnection.DoUpdateUsingCmdObj(commandObj, out string err);
+
             string username = txtLogInUsername.Text;
             string password = txtLogInPassword.Text;
 
@@ -76,7 +89,7 @@ namespace TermProject
                 string responseData = reader.ReadToEnd();
                 if(responseData.Length <= 0)
                 {
-                    Response.Write("Invalid username or password!");
+
                 }
                 else
                 {
@@ -88,6 +101,7 @@ namespace TermProject
                     Session["lastName"] = foundAccount.lastName;
                     Session["token"] = foundAccount.token;
                     getPrefs(Int32.Parse(foundAccount.userID));
+                    GetAcceptedDates(Int32.Parse(foundAccount.userID));
 
                     switch (Request.QueryString["target"])
                     {
@@ -200,9 +214,11 @@ namespace TermProject
             Session["UserID"] = "2";
             Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
 
-            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(5); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
-            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); memberDislikes.Add(4); Session["memberDislikes"] = memberDislikes;
-            List<int> memberBlocks = new List<int>(); memberBlocks.Add(1); memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
+
+            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
+            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); Session["memberDislikes"] = memberDislikes;
+            List<int> memberBlocks = new List<int>();memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
+            GetAcceptedDates(2);
 
             Session["memberBlocks"] = memberBlocks;
             Session["seeking"] = "Male";
@@ -239,6 +255,9 @@ namespace TermProject
             Session["UserID"] = "1";
             Session["seeking"] = "Female";
             Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
+
+            GetAcceptedDates(1);
+            
             List<int> memberLieks = new List<int>();
             memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8);
             Session["memberLikes"] = memberLieks;
@@ -325,5 +344,32 @@ namespace TermProject
             public string seekingGender { get; set; }
             public string token { get; set; }
         }
+        protected void GetAcceptedDates(int userID)
+        { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+            DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
+
+            List<int> acceptedDates = new List<int>();
+
+            for (int i=0;i<one.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(one.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            for ( int i =0; i < two.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(two.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            Session["acceptedDates"] = acceptedDates;
+        } // end get accepted dates
     }
 }

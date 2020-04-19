@@ -27,6 +27,11 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            memberUserID = Convert.ToInt32(Request.QueryString["memberID"]); // this is the user id of the person who's profile we're viewing
+            if (memberUserID == 0)
+            {
+                Response.Redirect("dashboard.aspx");
+            }
             if (Session["UserID"] != null)
             {
                 userID = Convert.ToInt32(Session["userID"].ToString());
@@ -35,13 +40,18 @@ namespace TermProject
                 divFavThings.Attributes.Add("style", "display:block"); // show fav things
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDateReq.Enabled = true;
                 userID = Convert.ToInt32(Session["userID"].ToString()); // get userID from session
-                //memberLikes = (List<int>)Session["memberLikes"]; memberDislikes = (List<int>)Session["memberDislikes"]; memberBlocks = (List<int>)Session["memberBlocks"];
+
+                List<int> temp = (List<int>)Session["acceptedDates"];
+                if (temp.Contains(memberUserID))
+                { // display contact info
+                    divContactInfo.Attributes.Remove("class");
+                }
+
             } // end if 
             else
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDateReq.Enabled = false;
             }
-            memberUserID = Convert.ToInt32(Request.QueryString["memberID"]); // this is the user id of the person who's profile we're viewing
             grabPersonalProfile();
         } // end page load
 

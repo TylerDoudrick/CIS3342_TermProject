@@ -91,6 +91,12 @@ namespace TermProject.UserControls
             LBCommitment.CssClass = LBCommitment.CssClass.Replace("is-invalid", "").Trim();
         }
 
+        public void ShowInterestLikesDis()
+        {
+            divInterests.Visible = true;
+            divLikesDislikes.Visible = true;
+        }
+
         public void SetReligion()
         {
             LBReligion.CssClass += " is-invalid";
