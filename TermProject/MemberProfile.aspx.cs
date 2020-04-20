@@ -74,7 +74,7 @@ namespace TermProject
 
         protected void grabPersonalProfile()
         {
-            WebRequest request = WebRequest.Create(profileWebAPI + "/public" + memberUserID); // grab info from validation table values
+            WebRequest request = WebRequest.Create(profileWebAPI + "/public/" + memberUserID); // grab info from validation table values
 
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
@@ -217,6 +217,7 @@ namespace TermProject
 
                 // remove messages, dates between the two
                 WebRequest request = WebRequest.Create(interactionsWebAPI + "blockUser");
+                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 request.Method = "PUT";
                 request.ContentType = "application/json";
@@ -278,20 +279,20 @@ namespace TermProject
                 reader.Close();
                 response.Close();
                 
-                string sendAdd = "querydating@gmail.com";
-                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-                string memEmail = ds.Tables[0].Rows[0][0].ToString();
-                MailMessage msg = new MailMessage();
-                msg.To.Add(new MailAddress(memEmail));
-                msg.Subject = "QUERY New Dating Request";
-                msg.From = new MailAddress(sendAdd);
-                msg.IsBodyHtml = true;
-                msg.Body = "<div> You have a new dating request! <BR><br> Log into your account to view the request and accept/deny! <br><BR><div class='text-body text-center'>Happy Dating! </ div > " +"<Br><BR> <div>";
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
-                smtp.EnableSsl = true;
+                //string sendAdd = "querydating@gmail.com";
+                //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+                //string memEmail = ds.Tables[0].Rows[0][0].ToString();
+                //MailMessage msg = new MailMessage();
+                //msg.To.Add(new MailAddress(memEmail));
+                //msg.Subject = "QUERY New Dating Request";
+                //msg.From = new MailAddress(sendAdd);
+                //msg.IsBodyHtml = true;
+                //msg.Body = "<div> You have a new dating request! <BR><br> Log into your account to view the request and accept/deny! <br><BR><div class='text-body text-center'>Happy Dating! </ div > " +"<Br><BR> <div>";
+                //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                //smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
+                //smtp.EnableSsl = true;
 
-                smtp.Send(msg);
+                //smtp.Send(msg);
 
 
                 // redirect to dashboard

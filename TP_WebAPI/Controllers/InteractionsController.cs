@@ -4,6 +4,7 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -101,9 +102,11 @@ namespace TP_WebAPI.Controllers
             objDateReq.Parameters.AddWithValue("@memID", recID);
             objDateReq.Parameters.AddWithValue("@now", now);
             objDateReq.Parameters.AddWithValue("@message", message);
+            objDateReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
+
             int result = objDB.DoUpdateUsingCmdObj(objDateReq, out string err);
 
-            notifier.NotifyMessage(recID, "New message from " + sendingID.ToString());
+            notifier.NotifyDate(recID, "New date request from " + objDateReq.Parameters["@SenderName"].Value + "!");
             return result;
         } // end add date req
 
@@ -144,9 +147,10 @@ namespace TP_WebAPI.Controllers
             objAcceptReq.CommandText = "TP_AcceptReq";
             objAcceptReq.Parameters.AddWithValue("@sendingID", sendingID);
             objAcceptReq.Parameters.AddWithValue("@recID", recievingID);
+            objAcceptReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
 
             int res = objDB.DoUpdateUsingCmdObj(objAcceptReq, out string err);
-            notifier.NotifyMessage(recievingID, sendingID.ToString() + " accepted your date");
+            notifier.NotifyDate(recievingID, objAcceptReq.Parameters["@SenderName"].Value + " accepted your date!");
 
             return res;
         } // end accept req
@@ -162,10 +166,11 @@ namespace TP_WebAPI.Controllers
             objDenyReq.CommandText = "TP_DenyReq";
             objDenyReq.Parameters.AddWithValue("@senderID", sendingID);
             objDenyReq.Parameters.AddWithValue("@recID", recievingID);
+            objDenyReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
 
             int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
 
-            notifier.NotifyDate(recievingID, sendingID.ToString() + " denied your date");
+            notifier.NotifyDate(recievingID, objDenyReq.Parameters["@SenderName"].Value + " denied your date!");
 
             return res;
         }
@@ -200,10 +205,11 @@ namespace TP_WebAPI.Controllers
             objInsertDt.Parameters.AddWithValue("@dt", dt);
             objInsertDt.Parameters.AddWithValue("@location", location);
             objInsertDt.Parameters.AddWithValue("@description", desc);
+            objInsertDt.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
 
             int res = objDB.DoUpdateUsingCmdObj(objInsertDt, out string err);
 
-            notifier.NotifyDate(recID, "New date request from " + sendingID.ToString());
+            notifier.NotifyDate(recID, "New date request from " + objInsertDt.Parameters["@SenderName"].Value);
 
 
             return res;
@@ -374,6 +380,7 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.AddWithValue("@RecipientID", message.recipientid);
             commandObj.Parameters.AddWithValue("@MessageBody", message.message);
             commandObj.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
+            commandObj.Parameters.Add("@SenderEmail", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
             if (objDB.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
             {
                 response.result = "fail";
@@ -381,6 +388,22 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
+
+                string email = commandObj.Parameters["@SenderEmail"].Value.ToString();
+                string sendAdd = "querydating@gmail.com";
+                MailMessage msg = new MailMessage();
+                msg.To.Add(new MailAddress(@email));
+                msg.Subject = "QUERY Verification Email";
+                msg.From = new MailAddress(sendAdd);
+                msg.IsBodyHtml = true;
+                msg.Body = "<div> You got a new message! <br><BR> Sign into your account to view the message of your admirer!" +
+                    "<Br><BR> <div>";
+                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
+                smtp.EnableSsl = true;
+
+                smtp.Send(msg);
+
                 notifier.NotifyMessage(Int32.Parse(message.recipientid), "You have a new message from " + commandObj.Parameters["@SenderName"].Value + "!");
                 response.result = "success";
                 response.message = "Successfully sent Message!";
@@ -414,8 +437,8 @@ namespace TP_WebAPI.Controllers
         }
         public class User
         {
-            public string id {get;set; }
-    }
+            public string id { get; set; }
+        }
         public class MessageInfo
         {
             public string id { get; set; }

@@ -49,7 +49,10 @@ namespace TP_WebAPI
             commandObj.Parameters.AddWithValue("@message", message);
             commandObj.Parameters.AddWithValue("@type", 1);
 
-            databaseObj.DoUpdateUsingCmdObj(commandObj, out string erro);
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string erro) == -2)
+            {
+                throw new Exception(erro);
+            }
             //Add record to the Notifications table with userId and some kind of description
             //Type: Date
         }

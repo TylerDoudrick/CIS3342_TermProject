@@ -108,6 +108,31 @@ namespace TP_WebAPI.Controllers
             return response;
         }
 
+        [HttpDelete("dismiss/dates/{userID}")]
+        public Response dismissAllDates(string userID)
+        {
+            Response response = new Response();
+
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_DismissDateNotifications";
+            commandObj.Parameters.AddWithValue("@UserID", userID);
+
+            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
+            {
+                response.result = "fail";
+                response.message = err;
+            }
+            else
+            {
+                response.result = "success";
+            }
+
+            return response;
+        }
+
         public class Notification{
             public string notificationID { get; set; }
             public string notificationMessage { get; set; }

@@ -73,7 +73,11 @@ namespace TP_WebAPI.Controllers
 
         }
 
-
+        [HttpGet]
+        public string debugToken()
+        {
+            return GenerateJSONWebToken();
+        }
 
         private string GenerateJSONWebToken()
         {

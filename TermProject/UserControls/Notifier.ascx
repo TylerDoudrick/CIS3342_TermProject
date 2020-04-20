@@ -55,21 +55,15 @@
                         }
                         if (obj.notificationType == 1) {
 
-                            toastr["info"](obj.notificationMessage, "New Date Request!")
+                            toastr["info"](obj.notificationMessage, "Date Information!")
 
                         } else if (obj.notificationType == 2) {
                             toastr["info"](obj.notificationMessage, "New Message!")
                         }
                     });
 
-
-                    function toastClick(notificationID) {
-                        alert("Clicked Toast!");
-                    }
                 }
             };
-        } else {
-            document.getElementById("result").innerHTML = "Sorry, your browser does not support Web Workers...";
         }
     }
 

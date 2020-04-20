@@ -385,6 +385,25 @@
             $("#navlinkDashboard").removeClass("active");
             $("#navlinkDates").addClass("active");
 
+            $.ajax({
+                    url: "https://localhost:44375/api/datingservice/notifications/dismiss/dates/<%= Session["UserID"]%>",
+                    type: 'delete',
+                    beforeSend: function (request) {
+                        request.setRequestHeader("Authorization", "Bearer <%= Session["token"]%>");
+                    },
+                    contentType: 'application/json',
+                    error: function (xhr) {
+                        console.log(xhr.responseText);
+                    },
+                    success: function (data) {
+                        console.log(data);
+                        if (data.result == "success") {
+                            $('.close-toastr').closest('.toast').remove();
+                        }
+                    }
+                });
+
+
             function ShowPopup() {
                 //$("#btnShowPopup").click();
                 // $("modalScheduleDate").modal("show");

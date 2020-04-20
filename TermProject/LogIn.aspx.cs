@@ -197,10 +197,18 @@ namespace TermProject
         }
         protected void btnDebug1_Click(object sender, EventArgs e)
         {
+            WebRequest request = WebRequest.Create(authWebAPI);
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close();
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
-            //Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
+            Session["token"] = data;
 
 
             List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
@@ -238,11 +246,20 @@ namespace TermProject
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
         {
+            WebRequest request = WebRequest.Create(authWebAPI);
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close();
+
             Session["FirstName"] = "Thomas";
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
             Session["seeking"] = "Female";
-           // Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
+            Session["token"] = data;
 
             GetAcceptedDates(1);
             
@@ -336,6 +353,7 @@ namespace TermProject
         protected void GetAcceptedDates(int userID)
         { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
             WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
