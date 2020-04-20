@@ -221,8 +221,10 @@
     </asp:ContentPlaceHolder>
 </head>
 <body>
+        <form id="form1" runat="server">
+
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="Default.aspx">
+        <a class="navbar-brand" href="Dashboard.aspx">
             <img src="images/logo.png" height="40" class="mr-1" />
             <img src="images/query.png" height="30" /></a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#NavBar" aria-controls="NavBar" aria-expanded="false" aria-label="Toggle navigation">
@@ -268,17 +270,15 @@
             </ul>
             <ul class="navbar-nav ml-auto mt-auto">
                 <li class="nav-item">
-                    <a class="nav-link pl-2" href="LogIn.aspx"><i class="fas fa-lock"></i>Log In</a>
+                    <asp:LinkButton CssClass="nav-link pl-2" runat="server" OnClick="btnLogin_Click" ><i class="fas fa-lock"></i>Log In</asp:LinkButton>
                 </li>
             </ul>
         </div>
     </nav>
-    <form id="form1" runat="server">
         <div class="container-fluid pb-5">
             <asp:ContentPlaceHolder ID="BodyPlaceHolder" runat="server">
             </asp:ContentPlaceHolder>
         </div>
-    </form>
 
 
 
@@ -289,6 +289,7 @@
                 <img src="images/logo.png" height="40" /></span>
         </div>
     </footer>
+        </form>
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->

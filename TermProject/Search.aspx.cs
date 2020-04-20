@@ -120,43 +120,50 @@ namespace TermProject
             profilesTable.Columns.Add("age", typeof(int));
             profilesTable.Columns.Add("imageSrc", typeof(string));
 
-
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
 
             if (foundProfiles.Tables[0].Rows.Count > 0)
             {
                 foreach (DataRow profileRows in profilesTable.Rows)
                 {
-                    if ((Int32.Parse(profileRows["numChildren"].ToString()) > 0 && hasKids == 0) || (Int32.Parse(profileRows["numChildren"].ToString()) == 0 && hasKids == 1))
+                    if (!(memberBlocks.Contains(Int32.Parse(profileRows["userID"].ToString()))) && !(memberDislikes.Contains(Int32.Parse(profileRows["userID"].ToString()))))
                     {
-                        profileRows.Delete();
-                    }
-                    else if ((Int32.Parse(profileRows["wantChildren"].ToString()) == 1 && wantChildren == 0) || (Int32.Parse(profileRows["wantChildren"].ToString()) == 0 && wantChildren == 1))
-                    {
-                        profileRows.Delete();
-                    }
-                    else
-                    {
-                        DateTime now = DateTime.Now;
-                        DateTime birthday = Convert.ToDateTime(profileRows["birthday"].ToString());
-                        TimeSpan timelived = now.Subtract(birthday);
-                        int age = timelived.Days / 365;
-
-                        if(age < ageMin || age > ageMax || (ageMax == ageMin && age!= ageMin))
+                        if ((Int32.Parse(profileRows["numChildren"].ToString()) > 0 && hasKids == 0) || (Int32.Parse(profileRows["numChildren"].ToString()) == 0 && hasKids == 1))
                         {
                             profileRows.Delete();
-
+                        }
+                        else if ((Int32.Parse(profileRows["wantChildren"].ToString()) == 1 && wantChildren == 0) || (Int32.Parse(profileRows["wantChildren"].ToString()) == 0 && wantChildren == 1))
+                        {
+                            profileRows.Delete();
                         }
                         else
                         {
-                            profileRows["age"] = age;
+                            DateTime now = DateTime.Now;
+                            DateTime birthday = Convert.ToDateTime(profileRows["birthday"].ToString());
+                            TimeSpan timelived = now.Subtract(birthday);
+                            int age = timelived.Days / 365;
 
-                            Byte[] imgArray = (Byte[])profileRows["profileImage"];
-                            MemoryStream memorystreamd = new MemoryStream(imgArray);
-                            BinaryFormatter bfd = new BinaryFormatter();
-                            profileRows["imageSrc"] = (bfd.Deserialize(memorystreamd)).ToString();
+                            if (age < ageMin || age > ageMax || (ageMax == ageMin && age != ageMin))
+                            {
+                                profileRows.Delete();
+
+                            }
+                            else
+                            {
+                                profileRows["age"] = age;
+
+                                Byte[] imgArray = (Byte[])profileRows["profileImage"];
+                                MemoryStream memorystreamd = new MemoryStream(imgArray);
+                                BinaryFormatter bfd = new BinaryFormatter();
+                                profileRows["imageSrc"] = (bfd.Deserialize(memorystreamd)).ToString();
+                            }
                         }
                     }
-
+                    else
+                    {
+                        profileRows.Delete();
+                    }
                 }
                 //foundProfiles.AcceptChanges();
                 //divResults.Attributes.Add("style", "display:flex");

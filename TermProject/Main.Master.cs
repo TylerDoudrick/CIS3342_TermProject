@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -27,6 +28,11 @@ namespace TermProject
                 lblLoggedIn.Text = "Signed in as " + Session["FirstName"] + " " + Session["LastName"];
 
             }
+        }
+
+        protected void btnLogin_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("LogIn.aspx?target=" + Path.GetFileNameWithoutExtension(Page.AppRelativeVirtualPath) +"&"+ Request.QueryString.ToString());
         }
     }
 }

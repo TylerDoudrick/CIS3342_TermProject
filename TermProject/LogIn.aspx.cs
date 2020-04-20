@@ -109,7 +109,9 @@ namespace TermProject
                         case "Settings":
                             Response.Redirect("Settings.aspx");
                             break;
-
+                        case "MemberProfile":
+                            Response.Redirect("MemberProfile.aspx?"+ Request.QueryString.ToString());
+                            break;
                         default:
                             Response.Redirect("Dashboard.aspx");
                             break;
@@ -240,7 +242,9 @@ namespace TermProject
                     case "Settings":
                         Response.Redirect("Settings.aspx");
                         break;
-
+                    case "MemberProfile":
+                        Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
+                        break;
                     default:
                         Response.Redirect("Dashboard.aspx");
                         break;
@@ -296,7 +300,9 @@ namespace TermProject
                     case "Settings":
                         Response.Redirect("Settings.aspx");
                         break;
-
+                    case "MemberProfile":
+                        Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
+                        break;
                     default:
                         Response.Redirect("Dashboard.aspx");
                         break;
