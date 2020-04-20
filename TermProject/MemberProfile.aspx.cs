@@ -46,13 +46,14 @@ namespace TermProject
                 { // display contact info
                     divContactInfo.Attributes.Remove("class");
                 }
+                grabPersonalProfile();
 
             } // end if 
             else
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDateReq.Enabled = false;
+                grabPublicProfile();
             }
-            grabPersonalProfile();
         } // end page load
 
         protected void btnLike_Click(object sender, EventArgs e)
@@ -74,7 +75,8 @@ namespace TermProject
 
         protected void grabPersonalProfile()
         {
-            WebRequest request = WebRequest.Create(profileWebAPI + "/public/" + memberUserID); // grab info from validation table values
+            WebRequest request = WebRequest.Create(profileWebAPI + memberUserID); // grab info from validation table values
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
@@ -178,6 +180,77 @@ namespace TermProject
                 if (strLikes.Length > 0) lblLikes.Text = strLikes.Remove(strLikes.Length - 2, 2);
                 if (strDislikes.Length > 0) lblDislikes.Text = strDislikes.Remove(strDislikes.Length - 2, 2);
 
+            }
+        }
+
+        protected void grabPublicProfile()
+        {
+            WebRequest request = WebRequest.Create(profileWebAPI + "public/" + memberUserID); // grab info from validation table values
+
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+
+            String data = reader.ReadToEnd();
+            reader.Close();
+            response.Close();
+
+            DataSet result = JsonConvert.DeserializeObject<DataSet>(data);
+            if (result.Tables[0].Rows.Count != 1)
+            {
+                //error
+            }
+            else
+            {
+                DataRow profile = result.Tables[0].Rows[0];
+                DataTable religion = result.Tables[1];
+                DataTable commitments = result.Tables[2];
+                DataRow image = result.Tables[3].Rows[0]; // get image 
+
+                string x = image[0] as string;
+                //    Byte[] imgArray = Convert.FromBase64String(base64);
+                Byte[] imgArray = Encoding.ASCII.GetBytes(x);
+
+                //printing characters with byte values
+                MemoryStream memorystreamd = new MemoryStream(imgArray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                string url = (bfd.Deserialize(memorystreamd)).ToString();
+                img.ImageUrl = url;
+
+                DateTime now = DateTime.Now;
+                DateTime birthday = Convert.ToDateTime(profile["birthday"].ToString());
+                TimeSpan timelived = now.Subtract(birthday);
+                int age = timelived.Days / 365;
+                Name.Text = profile["firstName"].ToString() + " " + profile["lastName"].ToString() + ", " + age.ToString();
+                lblLocation.Text = profile["city"].ToString() + ", " + profile["state"].ToString();
+                lblTagline.Text = profile["tagline"].ToString();
+
+
+
+                //Seeking Gender
+                lblSeekingGender.Text = (profile["seekingGender"].ToString());
+
+                lblOccupation.Text = (profile["occupation"].ToString());
+
+                //Table 1 is religion, Table 2 is Commitments
+                string strReligions = "";
+                string strCommitments = "";
+
+
+                foreach (DataRow row in religion.Rows)
+                {
+                    strReligions += row["ReligionType"].ToString();
+                    strReligions += ", ";
+
+                }
+                foreach (DataRow row in commitments.Rows)
+                {
+                    strCommitments += row["CommitmentType"].ToString();
+                    strCommitments += ", ";
+                }
+
+                if (strReligions.Length > 0) lblReligion.Text = strReligions.Remove(strReligions.Length - 2, 2);
+                if (strCommitments.Length > 0) lblCommitment.Text = strCommitments.Remove(strCommitments.Length - 2, 2);
             }
         }
 

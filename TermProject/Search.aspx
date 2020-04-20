@@ -95,7 +95,7 @@
                                 <p><%#Eval("occupation")%></p>
                                 <p><%#Eval("city") %>, <%#Eval("state") %></p>
                                 <p><%#Eval("tagline") %></p>
-                                <a href="MemberProfile.aspx?profileID=<%#Eval("profileID") %>" class="btn btn-primary stretched-link">View Profile</a>
+                                <a href="MemberProfile.aspx?memberID=<%#Eval("profileID") %>" class="btn btn-primary stretched-link">View Profile</a>
                             </div>
                             </div>
                         </div>

@@ -9,11 +9,10 @@ namespace TermProject
 {
     public partial class Default : System.Web.UI.Page
     {
-        string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
-        string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
+        
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            Response.Redirect("Dashboard.aspx");
         }
     }
 }

@@ -29,6 +29,15 @@ namespace TermProject
                 commandObj.CommandText = "TP_GetOtherUsers";
                 commandObj.Parameters.AddWithValue("@userID", Session["UserID"].ToString());
                 DataSet recipients = databaseObj.GetDataSetUsingCmdObj(commandObj);
+
+                List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+                foreach (DataRow row in recipients.Tables[0].Rows)
+                {
+                    if ((memberBlocks.Contains(Int32.Parse(row["userID"].ToString()))))
+                    {
+                        row.Delete();
+                    }
+                }
                 ddlRecipient.DataSource = recipients;
                 ddlRecipient.DataValueField = "userID";
                 ddlRecipient.DataTextField = "name";

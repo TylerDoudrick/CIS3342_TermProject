@@ -103,10 +103,13 @@ namespace TP_WebAPI.Controllers
             objDateReq.Parameters.AddWithValue("@now", now);
             objDateReq.Parameters.AddWithValue("@message", message);
             objDateReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
-
+            
             int result = objDB.DoUpdateUsingCmdObj(objDateReq, out string err);
-
-            notifier.NotifyDate(recID, "New date request from " + objDateReq.Parameters["@SenderName"].Value + "!");
+            List<int> memberBlocks = GetBlocks(recID.ToString());
+            if (!(memberBlocks.Contains(recID)))
+            {
+                notifier.NotifyDate(recID, "New date request from " + objDateReq.Parameters["@SenderName"].Value + "!");
+            }
             return result;
         } // end add date req
 
@@ -150,8 +153,11 @@ namespace TP_WebAPI.Controllers
             objAcceptReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
 
             int res = objDB.DoUpdateUsingCmdObj(objAcceptReq, out string err);
-            notifier.NotifyDate(recievingID, objAcceptReq.Parameters["@SenderName"].Value + " accepted your date!");
-
+            List<int> memberBlocks = GetBlocks(recievingID.ToString());
+            if (!(memberBlocks.Contains(recievingID)))
+            {
+                notifier.NotifyDate(recievingID, objAcceptReq.Parameters["@SenderName"].Value + " accepted your date!");
+            }
             return res;
         } // end accept req
 
@@ -169,6 +175,7 @@ namespace TP_WebAPI.Controllers
             objDenyReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
 
             int res = objDB.DoUpdateUsingCmdObj(objDenyReq, out string err);
+
 
             notifier.NotifyDate(recievingID, objDenyReq.Parameters["@SenderName"].Value + " denied your date!");
 
@@ -209,7 +216,13 @@ namespace TP_WebAPI.Controllers
 
             int res = objDB.DoUpdateUsingCmdObj(objInsertDt, out string err);
 
-            notifier.NotifyDate(recID, "New date request from " + objInsertDt.Parameters["@SenderName"].Value);
+
+            List<int> memberBlocks = GetBlocks(recID.ToString());
+            if (!(memberBlocks.Contains(recID)))
+            {
+                notifier.NotifyDate(recID, "New date request from " + objInsertDt.Parameters["@SenderName"].Value);
+            }
+
 
 
             return res;
@@ -257,9 +270,13 @@ namespace TP_WebAPI.Controllers
         [HttpPost("GetUserInbox")]
         public List<IncomingMessage> GetUserInbox([FromBody] User user)
         {
+
+            List<int> memberBlocks = GetBlocks(user.id);
             List<IncomingMessage> messages = new List<IncomingMessage>();
+
             SqlCommand commandObj = new SqlCommand();
 
+            commandObj.Parameters.Clear();
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetUserInbox";
             commandObj.Parameters.AddWithValue("@UserID", user.id);
@@ -274,6 +291,9 @@ namespace TP_WebAPI.Controllers
             {
                 foreach (DataRow row in res.Tables[0].Rows)
                 {
+                    if (!(memberBlocks.Contains(Int32.Parse(row["senderID"].ToString()))))
+                    {
+
                     IncomingMessage temp = new IncomingMessage();
                     temp.messageid = row["messageID"].ToString();
                     temp.senderid = row["senderID"].ToString();
@@ -287,6 +307,8 @@ namespace TP_WebAPI.Controllers
                     BinaryFormatter bfd = new BinaryFormatter();
                     temp.senderimage = bfd.Deserialize(memorystreamd).ToString();
                     messages.Add(temp);
+                    }
+
                 }
             }
 
@@ -403,8 +425,11 @@ namespace TP_WebAPI.Controllers
                 smtp.EnableSsl = true;
 
                 smtp.Send(msg);
-
-                notifier.NotifyMessage(Int32.Parse(message.recipientid), "You have a new message from " + commandObj.Parameters["@SenderName"].Value + "!");
+                List<int> memberBlocks = GetBlocks(message.recipientid.ToString());
+                if (!(memberBlocks.Contains(Int32.Parse(message.recipientid))))
+                {
+                    notifier.NotifyMessage(Int32.Parse(message.recipientid), "You have a new message from " + commandObj.Parameters["@SenderName"].Value + "!");
+                }
                 response.result = "success";
                 response.message = "Successfully sent Message!";
             }
@@ -435,6 +460,29 @@ namespace TP_WebAPI.Controllers
 
             return response;
         }
+
+        private List<int> GetBlocks(string userID)
+        {
+            List<int> memberBlocks = new List<int>();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetPreferences";
+
+            commandObj.Parameters.AddWithValue("@UserID", userID);
+
+
+            DataSet ds = objDB.GetDataSetUsingCmdObj(commandObj);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                Byte[] test3 = (Byte[])ds.Tables[0].Rows[0][1];
+                MemoryStream m3 = new MemoryStream(test3);
+                BinaryFormatter bfd3 = new BinaryFormatter();
+                memberBlocks = bfd3.Deserialize(m3) as List<int>;
+            }
+            return memberBlocks;
+        }
+
         public class User
         {
             public string id { get; set; }
