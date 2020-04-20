@@ -59,7 +59,7 @@ namespace TP_WebAPI.Controllers
         }
 
         [AllowAnonymous]
-        [HttpGet("/public/{id}")]
+        [HttpGet("public/{id}")]
         public DataSet grabPublicProfile(string id)
         {
             DBConnect databaseObj = new DBConnect();

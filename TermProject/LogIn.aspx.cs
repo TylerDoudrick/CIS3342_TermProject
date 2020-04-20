@@ -197,87 +197,174 @@ namespace TermProject
         }
         protected void btnDebug1_Click(object sender, EventArgs e)
         {
-            Session["FirstName"] = "Samantha";
-            Session["LastName"] = "Rogers";
-            Session["UserID"] = "2";
-            //Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
+            JavaScriptSerializer json = new JavaScriptSerializer();
+
+            WebRequest request = WebRequest.Create(authWebAPI + "debug/samantha202");
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            string responseData = reader.ReadToEnd();
 
 
-            List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
-            List<int> memberDislikes = new List<int>(); memberDislikes.Add(7); Session["memberDislikes"] = memberDislikes;
-            List<int> memberBlocks = new List<int>();memberBlocks.Add(6); Session["memberBlocks"] = memberBlocks;
-            GetAcceptedDates(2);
-
-            Session["memberBlocks"] = memberBlocks;
-            Session["seeking"] = "Male";
-            //Response.Redirect("Dashboard.aspx");
-
-            switch (Request.QueryString["target"])
+            if (responseData.Length <= 0)
             {
 
-                case "Dates":
-                    Response.Redirect("Dates.aspx");
-                    break;
-                case "LikeandPass":
-                    Response.Redirect("LikeandPass.aspx");
-                    break;
-                case "Messages":
-                    Response.Redirect("Messages.aspx");
-                    break;
-                case "Profile":
-                    Response.Redirect("Profile.aspx");
-                    break;
-                case "Settings":
-                    Response.Redirect("Settings.aspx");
-                    break;
-
-                default:
-                    Response.Redirect("Dashboard.aspx");
-                    break;
             }
+            else
+            {
+                User foundAccount = json.Deserialize<User>(responseData);
+                Session["email"] = foundAccount.emailAddress;
+                Session["UserID"] = foundAccount.userID;
+                Session["seeking"] = foundAccount.seekingGender;
+                Session["firstName"] = foundAccount.firstName;
+                Session["lastName"] = foundAccount.lastName;
+                Session["token"] = foundAccount.token;
+                getPrefs(Int32.Parse(foundAccount.userID));
+                GetAcceptedDates(Int32.Parse(foundAccount.userID));
+
+                switch (Request.QueryString["target"])
+                {
+
+                    case "Dates":
+                        Response.Redirect("Dates.aspx");
+                        break;
+                    case "LikeandPass":
+                        Response.Redirect("LikeandPass.aspx");
+                        break;
+                    case "Messages":
+                        Response.Redirect("Messages.aspx");
+                        break;
+                    case "Profile":
+                        Response.Redirect("Profile.aspx");
+                        break;
+                    case "Settings":
+                        Response.Redirect("Settings.aspx");
+                        break;
+
+                    default:
+                        Response.Redirect("Dashboard.aspx");
+                        break;
+                }
+
+            }
+
+            reader.Close();
+            response.Close();
         }
         protected void btnDebug2_Click(object sender, EventArgs e)
         {
-            Session["FirstName"] = "Thomas";
-            Session["LastName"] = "Smith";
-            Session["UserID"] = "1";
-            Session["seeking"] = "Female";
-           // Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
+            JavaScriptSerializer json = new JavaScriptSerializer();
 
-            GetAcceptedDates(1);
-            
-            List<int> memberLieks = new List<int>();
-            memberLieks.Add(2); memberLieks.Add(6); memberLieks.Add(8);
-            Session["memberLikes"] = memberLieks;
-            List<int> memberDislikes = new List<int>(); memberDislikes.Add(4); memberDislikes.Add(6); memberDislikes.Add(2); Session["memberDislikes"] = memberDislikes;
-            List<int> memberBlocks = new List<int>(); memberBlocks.Add(3); memberBlocks.Add(5); Session["memberBlocks"] = memberBlocks;
+            WebRequest request = WebRequest.Create(authWebAPI + "debug/thomasUpdate");
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            string responseData = reader.ReadToEnd();
 
-            Session["memberBlocks"] = memberBlocks;
-            switch (Request.QueryString["target"])
+
+            if (responseData.Length <= 0)
             {
 
-                case "Dates":
-                    Response.Redirect("Dates.aspx");
-                    break;
-                case "LikeandPass":
-                    Response.Redirect("LikeandPass.aspx");
-                    break;
-                case "Messages":
-                    Response.Redirect("Messages.aspx");
-                    break;
-                case "Profile":
-                    Response.Redirect("Profile.aspx");
-                    break;
-                case "Settings":
-                    Response.Redirect("Settings.aspx");
-                    break;
-
-                default:
-                    Response.Redirect("Dashboard.aspx");
-                    break;
             }
-        }
+            else
+            {
+                User foundAccount = json.Deserialize<User>(responseData);
+                Session["email"] = foundAccount.emailAddress;
+                Session["UserID"] = foundAccount.userID;
+                Session["seeking"] = foundAccount.seekingGender;
+                Session["firstName"] = foundAccount.firstName;
+                Session["lastName"] = foundAccount.lastName;
+                Session["token"] = foundAccount.token;
+                getPrefs(Int32.Parse(foundAccount.userID));
+                GetAcceptedDates(Int32.Parse(foundAccount.userID));
 
+                switch (Request.QueryString["target"])
+                {
+
+                    case "Dates":
+                        Response.Redirect("Dates.aspx");
+                        break;
+                    case "LikeandPass":
+                        Response.Redirect("LikeandPass.aspx");
+                        break;
+                    case "Messages":
+                        Response.Redirect("Messages.aspx");
+                        break;
+                    case "Profile":
+                        Response.Redirect("Profile.aspx");
+                        break;
+                    case "Settings":
+                        Response.Redirect("Settings.aspx");
+                        break;
+
+                    default:
+                        Response.Redirect("Dashboard.aspx");
+                        break;
+                }
+
+            }
+
+            reader.Close();
+            response.Close();
+        }
+        protected void btnDebug3_Click(object sender, EventArgs e)
+        {
+            string username = txtLogInUsername.Text;
+
+            JavaScriptSerializer json = new JavaScriptSerializer();
+
+            WebRequest request = WebRequest.Create(authWebAPI + "debug/"+username);
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            string responseData = reader.ReadToEnd();
+
+
+            if (responseData.Length <= 0)
+            {
+
+            }
+            else
+            {
+                User foundAccount = json.Deserialize<User>(responseData);
+                Session["email"] = foundAccount.emailAddress;
+                Session["UserID"] = foundAccount.userID;
+                Session["seeking"] = foundAccount.seekingGender;
+                Session["firstName"] = foundAccount.firstName;
+                Session["lastName"] = foundAccount.lastName;
+                Session["token"] = foundAccount.token;
+                getPrefs(Int32.Parse(foundAccount.userID));
+                GetAcceptedDates(Int32.Parse(foundAccount.userID));
+
+                switch (Request.QueryString["target"])
+                {
+
+                    case "Dates":
+                        Response.Redirect("Dates.aspx");
+                        break;
+                    case "LikeandPass":
+                        Response.Redirect("LikeandPass.aspx");
+                        break;
+                    case "Messages":
+                        Response.Redirect("Messages.aspx");
+                        break;
+                    case "Profile":
+                        Response.Redirect("Profile.aspx");
+                        break;
+                    case "Settings":
+                        Response.Redirect("Settings.aspx");
+                        break;
+
+                    default:
+                        Response.Redirect("Dashboard.aspx");
+                        break;
+                }
+
+            }
+
+            reader.Close();
+            response.Close();
+        }
         protected void getPrefs(int userID)
         {
             commandObj.Parameters.Clear();
@@ -336,6 +423,7 @@ namespace TermProject
         protected void GetAcceptedDates(int userID)
         { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
             WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
             WebResponse response = request.GetResponse();
             Stream theDataStream = response.GetResponseStream();
             StreamReader reader = new StreamReader(theDataStream);
