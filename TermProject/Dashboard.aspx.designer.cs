@@ -22,6 +22,60 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divMemberOnlyFeature;
         
         /// <summary>
+        /// divNumMessages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNumMessages;
+        
+        /// <summary>
+        /// hNumUnreadMessages control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hNumUnreadMessages;
+        
+        /// <summary>
+        /// divVisitorMess control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divVisitorMess;
+        
+        /// <summary>
+        /// divNumDates control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divNumDates;
+        
+        /// <summary>
+        /// hNumPlannedDates control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl hNumPlannedDates;
+        
+        /// <summary>
+        /// divVisitorDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divVisitorDate;
+        
+        /// <summary>
         /// rptPeople control.
         /// </summary>
         /// <remarks>

@@ -9,6 +9,7 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Models;
 
 namespace TermProject
 {
@@ -29,12 +30,22 @@ namespace TermProject
             commandObj.CommandText = "TP_GetAllUsers";
             if (Session["UserID"] == null)
             { // if user is not logged in, show all users
+                divNumDates.Visible = false;
+                divNumMessages.Visible = false;
+                divVisitorDate.Visible = true;
+                divVisitorMess.Visible = true;
+
                 divMemberOnlyFeature.Disabled = true;
                 string seeking = "Both";
                 commandObj.Parameters.AddWithValue("@seekingGen", seeking);
             }
             else
             {
+                divNumDates.Visible = true;
+                divNumMessages.Visible = true;
+                divVisitorDate.Visible = false;
+                divVisitorMess.Visible = false;
+
                 userID = Convert.ToInt32(Session["UserID"]);
                  string seeking = Session["seeking"].ToString();
                 commandObj.Parameters.AddWithValue("@seekingGen", seeking);
@@ -53,6 +64,12 @@ namespace TermProject
             } // end outer if
             else
             {
+                int plannedDates = Convert.ToInt32(Session["plannedDates"]);
+                int unreadMessages = Convert.ToInt32(Session["unreadMessages"]);
+
+                hNumPlannedDates.InnerText = plannedDates + " Planned Dates";
+                hNumUnreadMessages.InnerText = unreadMessages + " Unread Messages";
+
                 List<int> memberDislikes = (List<int>)Session["memberDislikes"];
                 List<int> memberBlocks = (List<int>)Session["memberBlocks"];
                 for (int row = 0; row < dt.Rows.Count; row++)

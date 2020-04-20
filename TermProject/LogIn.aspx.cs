@@ -14,7 +14,7 @@ using System.Web;
 using System.Web.Script.Serialization;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using Models;
 
 namespace TermProject
 {
@@ -88,9 +88,10 @@ namespace TermProject
                     Session["firstName"] = foundAccount.firstName;
                     Session["lastName"] = foundAccount.lastName;
                     Session["token"] = foundAccount.token;
-                    getPrefs(Int32.Parse(foundAccount.userID));
-                   GetAcceptedDates(Int32.Parse(foundAccount.userID));
 
+                    getPrefs(foundAccount.userID);
+                    GetAcceptedDates(foundAccount.userID);
+                    GetUnreadMessages(foundAccount.userID);
                     switch (Request.QueryString["target"])
                     {
 
@@ -113,7 +114,7 @@ namespace TermProject
                             Response.Redirect("MemberProfile.aspx?"+ Request.QueryString.ToString());
                             break;
                         default:
-                            Response.Redirect("Dashboard.aspx");
+                            Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
                             break;
                     }
 
@@ -221,8 +222,10 @@ namespace TermProject
                 Session["firstName"] = foundAccount.firstName;
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
-                getPrefs(Int32.Parse(foundAccount.userID));
-                GetAcceptedDates(Int32.Parse(foundAccount.userID));
+
+                getPrefs(foundAccount.userID);
+                GetAcceptedDates(foundAccount.userID);
+                GetUnreadMessages(foundAccount.userID);
 
                 switch (Request.QueryString["target"])
                 {
@@ -246,7 +249,7 @@ namespace TermProject
                         Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
                         break;
                     default:
-                        Response.Redirect("Dashboard.aspx");
+                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
                         break;
                 }
 
@@ -279,8 +282,10 @@ namespace TermProject
                 Session["firstName"] = foundAccount.firstName;
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
-                getPrefs(Int32.Parse(foundAccount.userID));
-                GetAcceptedDates(Int32.Parse(foundAccount.userID));
+
+                getPrefs(foundAccount.userID);
+                GetAcceptedDates(foundAccount.userID);
+                GetUnreadMessages(foundAccount.userID);
 
                 switch (Request.QueryString["target"])
                 {
@@ -304,7 +309,7 @@ namespace TermProject
                         Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
                         break;
                     default:
-                        Response.Redirect("Dashboard.aspx");
+                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
                         break;
                 }
 
@@ -339,8 +344,10 @@ namespace TermProject
                 Session["firstName"] = foundAccount.firstName;
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
-                getPrefs(Int32.Parse(foundAccount.userID));
-                GetAcceptedDates(Int32.Parse(foundAccount.userID));
+                getPrefs(foundAccount.userID);
+
+                GetAcceptedDates(foundAccount.userID);
+                GetUnreadMessages(foundAccount.userID);
 
                 switch (Request.QueryString["target"])
                 {
@@ -362,7 +369,7 @@ namespace TermProject
                         break;
 
                     default:
-                        Response.Redirect("Dashboard.aspx");
+                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
                         break;
                 }
 
@@ -374,19 +381,15 @@ namespace TermProject
         protected void getPrefs(int userID)
         {
             commandObj.Parameters.Clear();
+
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetPreferences";
-
-            SqlParameter uid = new SqlParameter("@userID", userID)
-            {
-                Direction = ParameterDirection.Input,
-                SqlDbType = SqlDbType.VarChar
-            };
-
-            commandObj.Parameters.Add(uid);
+            
+            commandObj.Parameters.AddWithValue("@userID", userID);
 
             DBConnect OBJ = new DBConnect();
             DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+
             if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow test = ds.Tables[0].Rows[0];
@@ -405,6 +408,7 @@ namespace TermProject
                 MemoryStream m3 = new MemoryStream(test3);
                 BinaryFormatter bfd3 = new BinaryFormatter();
                 List<int> memberBlocks = bfd3.Deserialize(m3) as List<int>;
+
                 Session["memberLikes"] = memberLikes;
                 Session["memberDislikes"] = memberDislikes;
                 Session["memberBlocks"] = memberBlocks;
@@ -417,15 +421,7 @@ namespace TermProject
             public string username { get; set; }
             public string password { get; set; }
         }
-        public class User
-        {
-            public string userID { get; set; }
-            public string firstName { get; set; }
-            public string lastName { get; set; }
-            public string emailAddress { get; set; }
-            public string seekingGender { get; set; }
-            public string token { get; set; }
-        }
+      
         protected void GetAcceptedDates(int userID)
         { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
             WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
@@ -438,6 +434,8 @@ namespace TermProject
 
             JavaScriptSerializer js = new JavaScriptSerializer();
             DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+
+            // datatable one is date requests, datatable two is planned dates
             DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
 
             List<int> acceptedDates = new List<int>();
@@ -453,6 +451,41 @@ namespace TermProject
                 acceptedDates.Add(id);
             }
             Session["acceptedDates"] = acceptedDates;
+
+            Session["plannedDates"] = two.Rows.Count;// count of planned dates
         } // end get accepted dates
+
+        protected void GetUnreadMessages(int uID)
+        {
+            User u = new User();
+            u.userID = uID;
+
+            // serialize the object
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            String jsonValues = js.Serialize(u);
+
+            // create the reqest
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "GetUserInbox");
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            // write data to body
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(jsonValues);
+            writer.Flush();
+            writer.Close();
+
+            // get response and read it
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
+            Session["unreadMessages"]= im.Count(); // store the number of unread messages in session
+        } // end get unread messages
     }
 }
