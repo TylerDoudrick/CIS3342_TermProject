@@ -91,7 +91,7 @@
                         <div class="card flex-fill" style="width: 20rem;min-height:4em;">
                             <img class="card-img-top" src='<%#Eval("imageSRC") %>' alt="Card image cap">
                             <div class="card-body">
-                                <h5 class="card-title h-100"><%#Eval("firstName") %> (<%#Eval("gender").ToString()[0] %>), <%#Eval("age") %></h5>
+                                <h5 class="card-title h-100"><%#Eval("firstName") %> (<%#Eval("gender").ToString().ToUpper()[0] %>), <%#Eval("age") %></h5>
                                 <p><%#Eval("occupation")%></p>
                                 <p><%#Eval("city") %>, <%#Eval("state") %></p>
                                 <p><%#Eval("tagline") %></p>

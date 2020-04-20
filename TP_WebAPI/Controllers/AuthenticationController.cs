@@ -73,10 +73,54 @@ namespace TP_WebAPI.Controllers
 
         }
 
-        [HttpGet]
-        public string debugToken()
+        /*
+         * 
+         * TODO: DELETE THIS 
+         * 
+         * 
+         */
+
+        [HttpGet("debug/{username}")]
+        public User debugToken(string username)
         {
-            return GenerateJSONWebToken();
+            //Do something
+            DBConnect databaseObj = new DBConnect();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_LookupUserRecord";
+
+            SqlParameter inputUsername = new SqlParameter("@username", username)
+            {
+                Direction = ParameterDirection.Input,
+
+                SqlDbType = SqlDbType.VarChar
+            };
+
+            commandObj.Parameters.Add(inputUsername);
+
+
+            DataSet dsUser = databaseObj.GetDataSetUsingCmdObj(commandObj);
+            if (dsUser.Tables[0].Rows.Count > 0)
+            {
+                DataRow drUserRecord = dsUser.Tables[0].Rows[0];
+
+                    User foundUser = new User();
+                    foundUser.userID = drUserRecord["userID"].ToString();
+                    foundUser.firstName = drUserRecord["firstName"].ToString();
+                    foundUser.lastName = drUserRecord["lastName"].ToString();
+                    foundUser.emailAddress = drUserRecord["emailAddress"].ToString();
+                    foundUser.seekingGender = drUserRecord["seekingGender"].ToString();
+                    foundUser.token = GenerateJSONWebToken();
+                    return foundUser;
+
+
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         private string GenerateJSONWebToken()
