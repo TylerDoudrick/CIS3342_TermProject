@@ -65,6 +65,7 @@ namespace TermProject
 
         protected void btnCreateAccount_Click(object sender, EventArgs e)
         {
+
             string username = txtUsername.Text;
             string email = txtEmail.Text.Trim();
             string password = txtPassword.Text;
@@ -242,6 +243,31 @@ namespace TermProject
                     SqlDbType = SqlDbType.VarChar
                 };
 
+                SqlParameter inputBilling = new SqlParameter("@billing", AddressOne)
+                {
+                    Direction = ParameterDirection.Input,
+
+                    SqlDbType = SqlDbType.VarChar
+                };
+
+                SqlParameter inputCity = new SqlParameter("@city", city)
+                {
+                    Direction = ParameterDirection.Input,
+
+                    SqlDbType = SqlDbType.VarChar
+                };
+                SqlParameter inputState = new SqlParameter("@state", state)
+                {
+                    Direction = ParameterDirection.Input,
+
+                    SqlDbType = SqlDbType.VarChar
+                };
+                SqlParameter inputZip = new SqlParameter("@zip", Convert.ToInt32(zip))
+                {
+                    Direction = ParameterDirection.Input,
+
+                    SqlDbType = SqlDbType.VarChar
+                };
                 SqlParameter outputUsernameExists = new SqlParameter("@UsernameExists", SqlDbType.Int)
                 {
                     Direction = ParameterDirection.Output
@@ -260,7 +286,10 @@ namespace TermProject
                 commandObj.Parameters.Add(inputEmail);
                 commandObj.Parameters.Add(inputFirstName);
                 commandObj.Parameters.Add(inputLastName);
-
+                commandObj.Parameters.Add(inputBilling);
+                commandObj.Parameters.Add(inputCity);
+                commandObj.Parameters.Add(inputState);
+                commandObj.Parameters.Add(inputZip);
                 commandObj.Parameters.Add(outputNewUserID);
 
                 commandObj.Parameters.Add(outputEmailExists);
@@ -320,8 +349,10 @@ namespace TermProject
                         else
                         {
                             // insert empty list of prefs
-                            insertPreferences();
-                            Session["userID"] = outputNewUserID;
+                            insertPreferences(Convert.ToInt32(outputNewUserID.Value.ToString()));
+                            Session["UserID"] = outputNewUserID;
+                            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
+
                             // send email
                             string sendAdd = "querydating@gmail.com";
                             MailMessage msg = new MailMessage();
@@ -349,7 +380,7 @@ namespace TermProject
 
         }
 
-        protected void insertPreferences()
+        protected void insertPreferences(int id)
         { // calls web api to insert empty lists
             List<int> memberLikes = new List<int>();
             List<int> memberDislikes = new List<int>();
@@ -366,7 +397,8 @@ namespace TermProject
            // int userID = 100;  // this needs to be changed to the userID of the new user
 
             Preferences p = new Preferences();
-            p.id = userID; p.mLikes = mLikes; p.mDislikes = mDislikes; p.mBlocks = mBlocks;
+            p.id = id;
+            p.mLikes = mLikes; p.mDislikes = mDislikes; p.mBlocks = mBlocks;
             JavaScriptSerializer js = new JavaScriptSerializer();
             string jsonP = js.Serialize(p);
 

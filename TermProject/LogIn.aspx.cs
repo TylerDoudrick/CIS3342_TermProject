@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Models;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -31,19 +32,6 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
-            //string ph = "images/person21.jpg";
-            //BinaryFormatter serializer = new BinaryFormatter();
-            //MemoryStream memStream = new MemoryStream();
-            //serializer.Serialize(memStream, ph);
-            //Byte[] imgArray = memStream.ToArray();
-
-            //commandObj.Parameters.Clear();
-            //commandObj.CommandType = CommandType.StoredProcedure;
-            //commandObj.CommandText = "test";
-            //commandObj.Parameters.AddWithValue("@profID", 21);
-            //commandObj.Parameters.AddWithValue("@image", imgArray);
-            //dbConnection.DoUpdateUsingCmdObj(commandObj, out string err);
-
             string username = txtLogInUsername.Text;
             string password = txtLogInPassword.Text;
 
@@ -101,7 +89,7 @@ namespace TermProject
                     Session["lastName"] = foundAccount.lastName;
                     Session["token"] = foundAccount.token;
                     getPrefs(Int32.Parse(foundAccount.userID));
-                    GetAcceptedDates(Int32.Parse(foundAccount.userID));
+                   GetAcceptedDates(Int32.Parse(foundAccount.userID));
 
                     switch (Request.QueryString["target"])
                     {
@@ -212,7 +200,7 @@ namespace TermProject
             Session["FirstName"] = "Samantha";
             Session["LastName"] = "Rogers";
             Session["UserID"] = "2";
-            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
+            //Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
 
 
             List<int> memberLieks = new List<int>(); memberLieks.Add(3); memberLieks.Add(9); memberLieks.Add(2); Session["memberLikes"] = memberLieks;
@@ -254,7 +242,7 @@ namespace TermProject
             Session["LastName"] = "Smith";
             Session["UserID"] = "1";
             Session["seeking"] = "Female";
-            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
+           // Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2ODV9.RKvyybRJyA9tS1rfsCL5nj7-dmtzCt6f0586b_V9E5Q";
 
             GetAcceptedDates(1);
             
@@ -292,6 +280,7 @@ namespace TermProject
 
         protected void getPrefs(int userID)
         {
+            commandObj.Parameters.Clear();
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetPreferences";
 

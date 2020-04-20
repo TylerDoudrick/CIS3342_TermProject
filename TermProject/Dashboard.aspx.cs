@@ -19,7 +19,7 @@ namespace TermProject
 
         DBConnect obj = new DBConnect();
         SqlCommand commandObj = new SqlCommand();
-
+        int userID;
         protected void Page_Load(object sender, EventArgs e)
         {
             // if (Session["UserID"] == null) Response.Redirect("Default.aspx");
@@ -29,11 +29,13 @@ namespace TermProject
             commandObj.CommandText = "TP_GetAllUsers";
             if (Session["UserID"] == null)
             { // if user is not logged in, show all users
+                divMemberOnlyFeature.Disabled = true;
                 string seeking = "Both";
                 commandObj.Parameters.AddWithValue("@seekingGen", seeking);
             }
             else
             {
+                userID = Convert.ToInt32(Session["UserID"]);
                  string seeking = Session["seeking"].ToString();
                 commandObj.Parameters.AddWithValue("@seekingGen", seeking);
             }
@@ -58,7 +60,7 @@ namespace TermProject
                     DataRow r = dt.Rows[row];
                     Boolean blocksContains = memberBlocks.Contains(Convert.ToInt32(r["userID"]));
                     Boolean passContains = memberDislikes.Contains(Convert.ToInt32(r["userID"]));
-                    if ( !blocksContains && !passContains)
+                    if ( !blocksContains && !passContains && !((Convert.ToInt32(r["userID"]) == userID)))
                     {
                         User u = SetValues(r);
                         people.Add(u);
