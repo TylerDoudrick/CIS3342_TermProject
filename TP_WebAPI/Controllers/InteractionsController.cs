@@ -270,8 +270,8 @@ namespace TP_WebAPI.Controllers
         [HttpPost("GetUserInbox")]
         public List<IncomingMessage> GetUserInbox([FromBody] User user)
         {
-
-            List<int> memberBlocks = GetBlocks(user.id);
+            string id = user.userID.ToString();
+            List<int> memberBlocks = GetBlocks(id);
             List<IncomingMessage> messages = new List<IncomingMessage>();
 
             SqlCommand commandObj = new SqlCommand();
@@ -279,7 +279,7 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.Clear();
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetUserInbox";
-            commandObj.Parameters.AddWithValue("@UserID", user.id);
+            commandObj.Parameters.AddWithValue("@UserID", user.userID);
 
             DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
 
@@ -324,7 +324,7 @@ namespace TP_WebAPI.Controllers
 
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetUserOutbox";
-            commandObj.Parameters.AddWithValue("@UserID", user.id);
+            commandObj.Parameters.AddWithValue("@UserID", user.userID);
 
             DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
 
@@ -364,7 +364,7 @@ namespace TP_WebAPI.Controllers
 
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetProfileSnippet";
-            commandObj.Parameters.AddWithValue("@UserID", user.id);
+            commandObj.Parameters.AddWithValue("@UserID", user.userID);
 
             DataSet res = objDB.GetDataSetUsingCmdObj(commandObj);
 
@@ -469,7 +469,7 @@ namespace TP_WebAPI.Controllers
             commandObj.CommandType = CommandType.StoredProcedure;
             commandObj.CommandText = "TP_GetPreferences";
 
-            commandObj.Parameters.AddWithValue("@UserID", userID);
+            commandObj.Parameters.AddWithValue("@userID", userID);
 
 
             DataSet ds = objDB.GetDataSetUsingCmdObj(commandObj);
@@ -485,7 +485,7 @@ namespace TP_WebAPI.Controllers
 
         public class User
         {
-            public string id { get; set; }
+            public string userID { get; set; }
         }
         public class MessageInfo
         {
@@ -500,18 +500,7 @@ namespace TP_WebAPI.Controllers
 
         }
 
-        public class IncomingMessage
-        {
-            public string messageid { get; set; }
-            public string senderid { get; set; }
-            public string sendername { get; set; }
-            public string senderimage { get; set; }
-            public string recipientid { get; set; }
-            public string message { get; set; }
-            public string timestamp { get; set; }
-            public string readreceipt { get; set; }
-        }
-
+       
         public class OutgoingMessage
         {
             public string receiverid { get; set; }

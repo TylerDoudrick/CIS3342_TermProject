@@ -425,6 +425,11 @@ namespace TermProject
             Session["memberLikes"] = memberLikes;
             Session["memberDislikes"] = memberDislikes;
             Session["memberBlocks"] = memberBlocks;
+
+            Session["plannedDates"] = 0; // no dates because you just joined
+            Session["unreadMessages"] = 0; // no unread messages because you just joined
+
+
         }
     }
 }
