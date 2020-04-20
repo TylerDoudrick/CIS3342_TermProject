@@ -22,6 +22,7 @@ namespace TermProject
         {
             if (Session["UserID"] == null)
             {
+                ddl.HideInterestLikesDis();
                 divHaveKids.Visible = false;
                 divWantKids.Visible = false;
                 divWantMore.Visible = true;

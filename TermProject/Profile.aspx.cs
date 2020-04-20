@@ -559,7 +559,6 @@ namespace TermProject
             try
 
             {
-
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["UserID"].ToString());
                 request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 

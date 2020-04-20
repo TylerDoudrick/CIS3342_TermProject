@@ -72,7 +72,7 @@ namespace TP_WebAPI.Controllers
         }
 
         [HttpPut("updateAddress")]
-        public void UpdateAddress( [FromBody] IDictionary<string, string> newValues)
+        public void UpdateAddress([FromBody] IDictionary<string, string> newValues)
         {
             int userID = Convert.ToInt16(newValues["id"]);
             int zipCode = Convert.ToInt16(newValues["zipCode"]);
@@ -229,11 +229,11 @@ namespace TP_WebAPI.Controllers
             objReg.Parameters.AddWithValue("@photo", r.photo);
             objReg.Parameters.AddWithValue("@phone", r.phone);
             // if there are valid values for height and weight, add them to the command
-            if (r.height!=0)
+            if (r.height != 0)
             {
-                objReg.Parameters.AddWithValue("@height", r.height); 
+                objReg.Parameters.AddWithValue("@height", r.height);
             }
-            if (r.weight !=0)
+            if (r.weight != 0)
             {
                 objReg.Parameters.AddWithValue("@weight", r.weight);
             }
@@ -270,8 +270,6 @@ namespace TP_WebAPI.Controllers
             List<string> interests = newValues["interests"];
             List<string> likes = newValues["likes"];
             List<string> dislikes = newValues["dislikes"];
-
-
 
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();

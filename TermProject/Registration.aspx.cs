@@ -19,16 +19,14 @@ namespace TermProject
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
-        DBConnect obj = new DBConnect(); int userID;
+        DBConnect obj = new DBConnect(); string userID;
         protected void Page_Load(object sender, EventArgs e)
         {
             //ddl.ShowInterestLikesDis();
-            userID = Convert.ToInt32(Session["UserID"].ToString()) ;
         } // end page load
 
         protected void btnSave_Click(object sender, EventArgs e)
         {
-            string p = photoUpload.FileName;
             // clear styling previously applied
             lblTagline.Style.Remove("color"); lblBio.Style.Remove("color"); lblGender.Style.Remove("color");
             lblBirthday.Style.Remove("color"); lblPhotos.Style.Remove("color");
@@ -40,13 +38,11 @@ namespace TermProject
                 Boolean opt = AddRecords();
                 if (opt)
                 {
-                    Server.Transfer("/Profile.aspx");
+                    showSuccessToast();
+                    //Server.Transfer("/Dashboard.aspx");               
                 }
             } // end if
-            else
-            { // else display an error messafe
-                lblError.Text = "Please correct the following inputs.";
-            } // end else
+            else return;
         } // end save event handler
 
         List<string> religions = new List<string>();
@@ -184,6 +180,8 @@ namespace TermProject
 
         private Boolean AddRecords()
         {
+       //     userID = (Session["UserID"].ToString());
+
             // search criteria --> all 5 tables
             IDictionary<string, List<string>> newValues = new Dictionary<string, List<string>>
             {
@@ -191,7 +189,7 @@ namespace TermProject
                 ["commitments"] = commitments,
                 ["interests"] = interests,
                 ["likes"] = likes,
-                ["dislikes"] = dislikes
+                ["dislikes"] = dislikes,
             };
             JavaScriptSerializer js = new JavaScriptSerializer();
             String jsonValues = js.Serialize(newValues);
@@ -214,20 +212,31 @@ namespace TermProject
                 String data = reader.ReadToEnd();
                 reader.Close();
                 response.Close();
+                if (data == "true")
+                {
+                    showSuccessToast();
+                }
+                else
+                {
+                    showFailureToast();
+                }
             }
+
             catch (Exception ex)
             {
                 Response.Write("Error: " + ex.Message);
             }
 
+
             RegistrationObj reg = new RegistrationObj();
-            reg.id = userID;
+            //reg.id = 10031;
+            reg.id = Convert.ToInt32(userID);
             // profile photo table - serialized image
             string p = photoUpload.FileName;
-            string ph = "images/person21.jpg";
+        //    string ph = "images/person49.jpg";
             BinaryFormatter serializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream();
-            serializer.Serialize(memStream, ph);
+            serializer.Serialize(memStream, p);
             Byte[] imgArray = memStream.ToArray();
             reg.photo = imgArray;
 
@@ -309,30 +318,45 @@ namespace TermProject
 
             string jsonR = js.Serialize(reg);
 
-            WebRequest r = WebRequest.Create(profileWebAPI + "insert/registrationInfo");
-            r.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-
-            r.Method = "POST";
-            r.ContentLength = jsonR.Length;
-            r.ContentType = "application/json";
-
-            // Write the JSON data to the Web Request           
-            StreamWriter w = new StreamWriter(r.GetRequestStream());
-            w.Write(jsonR);
-            w.Flush();
-            w.Close();
-
-            WebResponse rps = r.GetResponse();
-            Stream tDS = rps.GetResponseStream();
-            StreamReader rder = new StreamReader(tDS);
-            String d = rder.ReadToEnd();
-            rder.Close(); rps.Close();
-
-            if (d == "pass")
+            try
             {
-                return true;
+                WebRequest r = WebRequest.Create(profileWebAPI + "insert/registrationInfo");
+                // r.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
+                r.Method = "POST";
+                r.ContentLength = jsonR.Length;
+                r.ContentType = "application/json";
+
+                // Write the JSON data to the Web Request           
+                StreamWriter w = new StreamWriter(r.GetRequestStream());
+                w.Write(jsonR);
+                w.Flush();
+                w.Close();
+
+                WebResponse rps = r.GetResponse();
+                Stream tDS = rps.GetResponseStream();
+                StreamReader rder = new StreamReader(tDS);
+                String d = rder.ReadToEnd();
+                rder.Close(); rps.Close();
+
+                if (d == "pass")
+                {
+                    return true;
+                }
+                return false;
             }
-            return false;
+            catch { return false; }
+             
+        }
+
+        protected void showSuccessToast()
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+        }
+
+        protected void showFailureToast()
+        {
+            ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showFailed();", true);
 
         }
     } // end class

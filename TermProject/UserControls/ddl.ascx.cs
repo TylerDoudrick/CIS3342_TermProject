@@ -8,6 +8,7 @@ using System.Net;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
 
 namespace TermProject.UserControls
 {
@@ -18,24 +19,25 @@ namespace TermProject.UserControls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if(Session["UserID"] == null)
-            {
-                divInterests.Visible = false;
-                divLikesDislikes.Visible = false;
-            }
             if (!IsPostBack)
             {
-                WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
-                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-                WebResponse response = request.GetResponse();
-                // Read the data from the Web Response, which requires working with streams.
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
-                //JavaScriptSerializer js = new JavaScriptSerializer();
-                DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+                //WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
+                //request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+                //WebResponse response = request.GetResponse();
+                //// Read the data from the Web Response, which requires working with streams.
+                //Stream theDataStream = response.GetResponseStream();
+                //StreamReader reader = new StreamReader(theDataStream);
+                //String data = reader.ReadToEnd();
+                //reader.Close();
+                //response.Close();
+                ////JavaScriptSerializer js = new JavaScriptSerializer();
+                //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+
+                DBConnect obj = new DBConnect();
+                SqlCommand objSearchCriteria = new SqlCommand();
+                objSearchCriteria.CommandType = CommandType.StoredProcedure;
+                objSearchCriteria.CommandText = "TP_GetSearchCriteria";
+                DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
 
                 lbReligion.DataSource = ds.Tables[0];
                 lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
@@ -91,10 +93,10 @@ namespace TermProject.UserControls
             LBCommitment.CssClass = LBCommitment.CssClass.Replace("is-invalid", "").Trim();
         }
 
-        public void ShowInterestLikesDis()
+        public void HideInterestLikesDis()
         {
-            divInterests.Visible = true;
-            divLikesDislikes.Visible = true;
+            divInterests.Visible = false;
+            divLikesDislikes.Visible = false;
         }
 
         public void SetReligion()
