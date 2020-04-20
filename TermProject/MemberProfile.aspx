@@ -22,8 +22,6 @@
                         <label for="<%= txtMessage.ClientID %>">Message</label>
                         <asp:TextBox type="text" CssClass="form-control" ID="txtMessage" TextMode="MultiLine" placeholder="Message..." runat="server" />
                     </div>
-
-
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -60,7 +58,7 @@
                 </div>
                 <br />
                 <div class="row"> <!-- data-toggle="modal" data-target="#modalSendMessage" -->
-                    <asp:Button runat="server" ID="btnDateReq" CssClass="btn btn-primary w-75"  Text="Send Date Request" OnClick="btnDateRequest_Click" />
+                    <asp:Button runat="server" ID="btndatereqOpenModal" OnClick="btndatereqOpenModal_Click" CssClass="btn btn-primary w-75" data-toggle="modal" data-target="#modalSendMessage" Text="Send Date Request"/>
                 </div>
             </div>
         </div>
@@ -105,22 +103,22 @@
         <div class="row justify-content-center my-5">
             <div class="col-2 form-group">
                 <asp:Label runat="server" for="<%= lblReligion.ClientID %>" CssClass="font-weight-bold"> Religion </asp:Label>
-                &nbsp;  &nbsp;
+               <br />
             <asp:Label runat="server" ID="lblReligion"> Christianity </asp:Label>
             </div>
             <div class="col-2">
                 <asp:Label runat="server" for="<%= lblCommitment.ClientID %>" CssClass="font-weight-bold">Commitment Type</asp:Label>
-                &nbsp;  &nbsp;
+                <br />
             <asp:Label runat="server" ID="lblCommitment"> </asp:Label>
             </div>
             <div class="col-2">
                 <asp:Label runat="server" for="<%= lblOccupation.ClientID %>" CssClass="font-weight-bold"> Occupation</asp:Label>
-                &nbsp; &nbsp;
+               <br />
                 <asp:Label runat="server" ID="lblOccupation"> </asp:Label>
             </div>
             <div class="col-2">
                 <asp:Label runat="server" for="<%= lblSeekingGender.ClientID %>" CssClass="font-weight-bold"> Seeking Gender</asp:Label>
-                &nbsp; &nbsp;
+               <br />
                 <asp:Label runat="server" ID="lblSeekingGender"> 
                 </asp:Label>
             </div>
