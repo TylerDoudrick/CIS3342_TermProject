@@ -15,11 +15,11 @@
       </div>
       <div class="modal-body">
         Enter your email address. If it's on file, you'll receive an email with a password recovery link.
-          <asp:TextBox runat="server" CssClass="form-control"></asp:TextBox>
+          <asp:TextBox runat="server" CssClass="form-control" ID="txtPasswordRecoveryEmail"></asp:TextBox>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Submit</button>
+        <asp:Button CssClass="btn btn-primary" runat="server" Text="Submit" OnClick="btnSendRecovery_Click"/>
       </div>
     </div>
   </div>

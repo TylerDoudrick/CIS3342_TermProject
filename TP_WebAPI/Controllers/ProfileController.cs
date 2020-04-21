@@ -254,6 +254,7 @@ namespace TP_WebAPI.Controllers
 
             if (obj.DoUpdateUsingCmdObj(objReg, out string exception) == -2)
             {
+                throw new Exception(exception);
                 return exception;
             }
             else

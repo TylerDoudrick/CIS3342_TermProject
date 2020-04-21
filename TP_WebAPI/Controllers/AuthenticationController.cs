@@ -46,7 +46,6 @@ namespace TP_WebAPI.Controllers
                 byte[] salt = (byte[])drUserRecord["salt"];
                 byte[] hashedPassword = (byte[])drUserRecord["password"];
 
-
                 if (CryptoUtilities.comparePassword(hashedPassword, salt, cred.password))
                 {
                     User foundUser = new User();
@@ -54,7 +53,9 @@ namespace TP_WebAPI.Controllers
                     foundUser.firstName = drUserRecord["firstName"].ToString();
                     foundUser.lastName = drUserRecord["lastName"].ToString();
                     foundUser.emailAddress = drUserRecord["emailAddress"].ToString();
-                    foundUser.seekingGender = drUserRecord["seekingGender"].ToString();
+                    if((dsUser.Tables[1].Rows.Count > 0)) foundUser.seekingGender = dsUser.Tables[1].Rows[0]["seekingGender"].ToString();
+                    foundUser.isVerified = drUserRecord["isVerified"].ToString();
+                    foundUser.finishedRegistration = drUserRecord["finishedRegistration"].ToString();
                     foundUser.token = GenerateJSONWebToken();
                     return foundUser;
 
@@ -71,6 +72,34 @@ namespace TP_WebAPI.Controllers
             }
 
 
+        }
+        [HttpPost("verify")]
+        public User TryVerify([FromBody] VerificationCredentials cred)
+        {
+            User registeringUser = new User();
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_CheckVerification";
+
+            commandObj.Parameters.AddWithValue("@EmailAddress", cred.email);
+            commandObj.Parameters.AddWithValue("@Verification", cred.code);
+            commandObj.Parameters.Add("@UserID", SqlDbType.Int, 50).Direction = ParameterDirection.Output;
+
+            DBConnect OBJ = new DBConnect();
+            DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+
+            if (ds.Tables.Count == 1)
+            {
+                registeringUser.userID = commandObj.Parameters["@UserID"].Value.ToString();
+                registeringUser.token = GenerateJSONWebToken();
+                return registeringUser;
+
+            }
+            else
+            {
+                return null;
+            }
         }
 
         /*
@@ -144,6 +173,12 @@ namespace TP_WebAPI.Controllers
             public string password { get; set; }
         }
 
+        public class VerificationCredentials
+        {
+            public string email { get; set; }
+            public string code { get; set; }
+        }
+
         public class User
         {
             public string userID { get; set; }
@@ -151,7 +186,10 @@ namespace TP_WebAPI.Controllers
             public string lastName { get; set; }
             public string emailAddress { get; set; }
             public string seekingGender { get; set; }
+            public string finishedRegistration { get; set; }
+            public string isVerified { get; set; }
             public string token { get; set; }
+
         }
     }
 }
