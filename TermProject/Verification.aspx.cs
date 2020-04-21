@@ -98,7 +98,7 @@ namespace TermProject
             string responseData = reader.ReadToEnd();
             if (responseData.Length <= 0)
             {
-                Response.Write("Failed");
+              //  Response.Write("Failed");
             }
             else
             {

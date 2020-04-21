@@ -151,11 +151,11 @@ namespace TermProject
                 objUpdateUserName.Parameters.Add(outputUsernameExists);
                 if (obj.DoUpdateUsingCmdObj(objUpdateUserName, out string exception) == -2)
                 {
-                    Response.Write(exception);
+                   // Response.Write(exception);
                 }
                 if (Int32.Parse(outputUsernameExists.Value.ToString()) == 1)
                 {
-                    Response.Write("Fail, username exists");
+                    //Response.Write("Fail, username exists");
                 }
                 else
                 {
