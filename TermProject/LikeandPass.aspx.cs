@@ -27,8 +27,7 @@ namespace TermProject
 
         protected void Page_Load(object sender, EventArgs e)
         {
-
-            
+           
             if (Session["UserID"] == null) Response.Redirect("Login.aspx?target=LikeandPass");
             else
             {
@@ -46,7 +45,7 @@ namespace TermProject
 
 
         protected void bind(Boolean mCheck, Boolean dCheck )
-        {
+        { // bind the likes and passes carousel
             List<User> likedUsers = new List<User>();
             List<User> passedUsers = new List<User>();
             SqlCommand objCMD = new SqlCommand();
@@ -167,10 +166,10 @@ namespace TermProject
                     u.occuption = dtPassResult.Rows[row]["occupation"].ToString();
 
                     passedUsers.Add(u);
-                }
+                }// end for loop
                 rptDislikes.DataSource = passedUsers; rptDislikes.DataBind();
-            }                        
-        }
+            }// end outter if                         
+        } // end method bind
 
         protected void lbUnlike_Command(object sender, CommandEventArgs e)
         { // removes user from liked list
@@ -193,7 +192,7 @@ namespace TermProject
             if (String.IsNullOrEmpty(error))
             {
                 Boolean l = true; Boolean d = false;
-                bind(l,d);
+                bind(l,d); // rebind
             } // end if
 
         }

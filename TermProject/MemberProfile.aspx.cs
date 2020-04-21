@@ -35,7 +35,8 @@ namespace TermProject
             if (Session["UserID"] != null)
             {
                 userID = Convert.ToInt32(Session["userID"].ToString());
-                divPrivateBasic2.Attributes.Add("style", "display:block");
+
+                divPrivateBasic2.Attributes.Add("style", "display:block"); // show fav things
                 divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
                 divFavThings.Attributes.Add("style", "display:block"); // show fav things
                 btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btndatereqOpenModal.Enabled = true;
@@ -281,6 +282,7 @@ namespace TermProject
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
+            // check to see if person doesn't already exists in memberdislikes
             else if (!(memberDislikes.Contains(memberUserID)))
             {
                 memberDislikes.Add(memberUserID);
@@ -288,7 +290,7 @@ namespace TermProject
                 UpdatePreferences();
             }           
             else
-            { // user already passed on them
+            { // user already passed on them, show error
                 ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
 
@@ -309,6 +311,7 @@ namespace TermProject
             {
                 ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
+            // check to see if user doesn't already exist in memberblocks
             else if (!(memberBlocks.Contains(memberUserID)))
             {
                 memberBlocks.Add(memberUserID);
@@ -341,7 +344,7 @@ namespace TermProject
                 reader.Close();
                 response.Close();
 
-                ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+                UpdatePreferences();
 
             }
             else
@@ -370,13 +373,14 @@ namespace TermProject
             { // everything is good - send date request
                 string message = txtMessage.Text;
 
+                // put parameters in dictionary
                 IDictionary<string, string> newValues = new Dictionary<string, string>
                 {
                     ["sendingID"] = userID.ToString(),
                     ["recID"] = memberUserID.ToString(),
                     ["message"] = message
                 };
-
+                // deserialize dictionary
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 String jsonValues = js.Serialize(newValues);
 
@@ -401,8 +405,8 @@ namespace TermProject
                     reader.Close();
                     response.Close();
 
+                    // send the email to the member so they can be notified of an date request
                     string recEmail = lblEmail.Text; // get the member's email
-
                     string sendAdd = "querydating@gmail.com";
                    // DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
                     MailMessage msg = new MailMessage();

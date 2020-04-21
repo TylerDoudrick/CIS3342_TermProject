@@ -97,6 +97,7 @@ namespace TermProject
 
             Boolean check = false;
 
+            // get the selected values from the list boxes
             foreach (ListItem item in ddl.LBReligion.Items)
             {
                 if (item.Selected)
@@ -133,7 +134,7 @@ namespace TermProject
                 }
             }
 
-            // check if at least one item was selected from each ddl
+            // check if at least one item was selected from each listbox
             if (religions.Count == 0)
             {
                 check = true; ddl.SetReligion();
@@ -214,7 +215,6 @@ namespace TermProject
 
         private Boolean AddRecords()
         {
-
             // search criteria --> all 5 tables
             IDictionary<string, List<string>> newValues = new Dictionary<string, List<string>>
             {
@@ -227,6 +227,7 @@ namespace TermProject
             JavaScriptSerializer js = new JavaScriptSerializer();
             String jsonValues = js.Serialize(newValues);
           
+            // update the details
                 WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["RegisteringUserID"].ToString());
                 request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
@@ -252,17 +253,14 @@ namespace TermProject
                 {
                     showFailureToast();
                 }
-            
-
-            
-
 
             RegistrationObj reg = new RegistrationObj();
-            //reg.id = 10031;
+            //reg.id = 10031;     string ph = "images/person49.jpg";
+
             reg.id = Convert.ToInt32(Session["RegisteringUserID"].ToString());
+
             // profile photo table - serialized image
             string p = photoUpload.FileName;
-        //    string ph = "images/person49.jpg";
             BinaryFormatter serializer = new BinaryFormatter();
             MemoryStream memStream = new MemoryStream();
             serializer.Serialize(memStream, p);
@@ -372,10 +370,9 @@ namespace TermProject
                     return true;
                 }
                 return false;
-            
-            
              
-        }
+        } // end add records
+
         protected void getPrefs(int userID)
         {
             SqlCommand commandObj = new SqlCommand();
@@ -445,6 +442,7 @@ namespace TermProject
             }
             Session["acceptedDates"] = acceptedDates;
         } // end get accepted dates
+
         protected void showSuccessToast()
         {
             ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);

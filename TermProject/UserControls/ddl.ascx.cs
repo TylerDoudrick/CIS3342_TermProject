@@ -33,6 +33,7 @@ namespace TermProject.UserControls
                 ////JavaScriptSerializer js = new JavaScriptSerializer();
                 //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
 
+                // get the values from validation table for the list boxes
                 DBConnect obj = new DBConnect();
                 SqlCommand objSearchCriteria = new SqlCommand();
                 objSearchCriteria.CommandType = CommandType.StoredProcedure;
@@ -94,29 +95,29 @@ namespace TermProject.UserControls
         }
 
         public void HideInterestLikesDis()
-        {
+        {// hide the divs when necessary
             divInterests.Visible = false;
             divLikesDislikes.Visible = false;
         }
 
         public void SetReligion()
-        {
+        { // mark the religion list box as invalid for validation
             LBReligion.CssClass += " is-invalid";
         }
         public void SetInterests()
-        {
-           LBInterest.CssClass += " is-invalid";
+        {// mark the interest list box as invalid for validation
+            LBInterest.CssClass += " is-invalid";
         }
         public void SetLikes()
-        {
-           LBLikes.CssClass += " is-invalid";
+        {// mark the likes list box as invalid for validation
+            LBLikes.CssClass += " is-invalid";
         }
         public void SetDislikes()
-        {
-          lbDislikes.CssClass += " is-invalid";
+        {// mark the dislieks list box as invalid for validation
+            lbDislikes.CssClass += " is-invalid";
         }
         public void SetCommitment()
-        {
+        { // mark the commitment list box as invalid for validation
             LBCommitment.CssClass += " is-invalid";
         }
 

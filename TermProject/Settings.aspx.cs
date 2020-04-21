@@ -31,9 +31,10 @@ namespace TermProject
 
             else
             {
-                userID = Convert.ToInt32(Session["UserID"]);
-                WebRequest request = WebRequest.Create(profileWebAPI + "GetSettings/" + userID);
+                userID = Convert.ToInt32(Session["UserID"]); // get user id
 
+                // call web api method to get the data for this page
+                WebRequest request = WebRequest.Create(profileWebAPI + "GetSettings/" + userID);
                 request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 WebResponse response = request.GetResponse();
@@ -45,6 +46,7 @@ namespace TermProject
 
                 DataSet ds = JsonConvert.DeserializeObject<DataSet>(data); // ds contains username + password, hide profile pref, blocked
 
+                // set text of controls to the data recieved
                 txtCurrentUsername.Text = ds.Tables[0].Rows[0][0].ToString();
                 txtCurrentPassword.Text = ds.Tables[0].Rows[0][1].ToString();
 
@@ -60,24 +62,28 @@ namespace TermProject
                 else rbYes.Checked = true;
 
                 memberBlocks = (List<int>) Session["memberBlocks"]; // get blocks list from                
-                bindDL();
+                bindDL(); // bind the memberlikes data list
                 if (!IsPostBack)
                 {
-                    Session["remain"] = 1;
+                    Session["remain"] = 1; // variable used for security question attempts
                     Random random = new Random(); int r = random.Next(0, 3); // get random number --> will choose security question
                     Session["secAns"] = ds.Tables[2].Rows[r]["questionAnswer"].ToString().ToLower();
                     lblSecurityQuestion.Text = ds.Tables[2].Rows[r]["SecurityQuestionText"].ToString();
-                }
+                } // end if
             }
         } //end pageload
 
         protected void lbChangeUsername_Click(object sender, EventArgs e)
-        { // when this link button is clicked, the div that allows the user to change their username will be made visibile
+        { 
+            // when this link button is clicked, the div that allows the user to change their username will be made visibile
+
             divOPTOut.Attributes.Add("style", "display:none");
             divBlockedUsers.Attributes.Add("style", "display:none");
             divChangePassword.Attributes.Add("style", "display:none");
             divAddress.Attributes.Add("style", "display:none");
             Session["changeType"] = "username";
+
+            // only show the username div if user has entered the correct answer within 3 attempts
             if (Session["secTrigger"] == null )
             {
                 divSecurityQuestions.Attributes.Add("style", "display:block");
@@ -97,6 +103,7 @@ namespace TermProject
             divAddress.Attributes.Add("style", "display:none");
             Session["changeType"] = "password";
 
+            // only show the password div if user has entered the correct answer within 3 attempts
             if (Session["secTrigger"]==null)
             {
                 divSecurityQuestions.Attributes.Add("style", "display:block");
@@ -172,8 +179,10 @@ namespace TermProject
         protected void btnUpdatePassword_Click(object sender, EventArgs e)
         { // validate user input for password
             Session["remain"] = 1;
+
             Regex regexPassword = new Regex(@"^(?=.*\d).{7,20}$");
 
+            // make sure entered password matches criteria
             if (txtNewPassword.Text == "" || !regexPassword.IsMatch(txtNewPassword.Text))
             {
                 lblPasswordError.Text = "Please enter your new password."; txtNewPassword.Text = "";
@@ -186,6 +195,7 @@ namespace TermProject
             }
             else
             {
+                // has password
                 byte[] saltArray = CryptoUtilities.GenerateSalt();
                 byte[] hashPassword = CryptoUtilities.CalculateMD5Hash(saltArray, txtNewPassword.Text);
 
@@ -237,12 +247,15 @@ namespace TermProject
         protected void btnSave_Click(object sender, EventArgs e)
         { // this will update the information after validation
             Regex regexZip = new Regex(@"(^\d{5}$)|(^\d{5}-\d{4}$)");
+
+            // remove any validation from the controls
             txtStAddresses.CssClass = txtStAddresses.CssClass.Replace("is-invalid", "").Trim();
             txtZip.CssClass = txtZip.CssClass.Replace("is-invalid", "").Trim();
             txtCity.CssClass = txtCity.CssClass.Replace("is-invalid", "").Trim();
             ddlState.CssClass = ddlState.CssClass.Replace("is-invalid", "").Trim();
 
             Boolean trigger = false;
+            // validate input
             if (txtStAddresses.Text.Length<=0)
             {
                 trigger = true;
@@ -267,7 +280,9 @@ namespace TermProject
             {
             }
             else
-            {
+            { // everything was entered correctly..
+
+                // create dictionary with input values
                 IDictionary<string, string> a = new Dictionary<string, string>
                 {
                     ["id"] = userID.ToString(),
@@ -277,9 +292,11 @@ namespace TermProject
                     ["zipCode"] = txtZip.Text
                 };
 
+                // serialize dictionary
                 JavaScriptSerializer js = new JavaScriptSerializer();
                 string jsonA = js.Serialize(a);
 
+                // call web api method to update address
                 WebRequest request = WebRequest.Create(profileWebAPI + "/updateAddress");
                 request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
@@ -311,7 +328,8 @@ namespace TermProject
         } // end save eventhandler
 
         protected void btnSecurity_Click(object sender, EventArgs e)
-        { // validates security question answer
+        { 
+            // validates security question answer
             int remain = Convert.ToInt16(Session["remain"].ToString());
             if (txtSecurityQuestion.Text.Trim().ToLower() != Session["secAns"].ToString().Trim()) {}
             else
@@ -362,13 +380,15 @@ namespace TermProject
             obj.DoUpdateUsingCmdObj(objUpdateVisiblity, out string error);
             if (String.IsNullOrEmpty(error))
             {
-                lblSearchUpdate.Text = "Profile preferences have been updated. You can change these settings at any time.";
+                showSuccessToast();
+               // lblSearchUpdate.Text = "Profile preferences have been updated. You can change these settings at any time.";
             }
         }
         
 
         protected void Unnamed_Command(object sender, CommandEventArgs e)
-        { // will remove user from the blocked list
+        {
+            // will remove user from the blocked list
             int unblockUserID = Convert.ToInt32(e.CommandName);
             memberBlocks.Remove(unblockUserID); // remove the user's id from the blocked list
             Session["memberBlocks"] = memberBlocks;
@@ -394,6 +414,7 @@ namespace TermProject
 
         protected void bindDL()
         {
+            // binds the blocked users data list to the list 
             List<User> blckUsersBinding = new List<User>();
 
             DataTable dtBlocks = new DataTable();
@@ -449,11 +470,23 @@ namespace TermProject
                 u.occuption = dt.Rows[row]["occupation"].ToString();
                 blckUsersBinding.Add(u);
             }
-
+            // set datasource, databind, and show 3 records per row
             dlBlockedUsers.DataSource = blckUsersBinding;
             dlBlockedUsers.DataBind();
             dlBlockedUsers.RepeatColumns = 3; dlBlockedUsers.RepeatDirection = RepeatDirection.Horizontal;
         }
-        
+
+
+        protected void showSuccessToast()
+        { // show success message
+            ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+        }
+
+        protected void showFailureToast()
+        { // show failure message
+            ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showFailed();", true);
+
+        }
+
     } // end class
 } // end namesapce
