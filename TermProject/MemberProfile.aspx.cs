@@ -38,7 +38,7 @@ namespace TermProject
                 divPrivateBasic2.Attributes.Add("style", "display:block");
                 divPrivateBasic.Attributes.Add("style", "display:flex"); // show private info in the basic info category
                 divFavThings.Attributes.Add("style", "display:block"); // show fav things
-                btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btnDateReq.Enabled = true;
+                btnBlock.Enabled = true; btnLike.Enabled = true; btnPass.Enabled = true; btndatereqOpenModal.Enabled = true;
                 userID = Convert.ToInt32(Session["userID"].ToString()); // get userID from session
 
                 List<int> temp = (List<int>)Session["acceptedDates"];
@@ -51,23 +51,35 @@ namespace TermProject
             } // end if 
             else
             {
-                btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btnDateReq.Enabled = false;
+                btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btndatereqOpenModal.Enabled = false;
                 grabPublicProfile();
             }
         } // end page load
 
         protected void btnLike_Click(object sender, EventArgs e)
         {
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
             List<int> memberLikes = (List<int>)Session["memberLikes"];
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
 
-            if (!(memberLikes.Contains(memberUserID)))
+            // check to see if member hasn't passed/blocked this user
+            if (memberBlocks.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+            if (memberDislikes.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+
+            else if (!(memberLikes.Contains(memberUserID)))
             {
                 memberLikes.Add(memberUserID);
                 Session["memberLikes"] = memberLikes;
                 UpdatePreferences();
             }
             else
-            {
+            { // user already liked them
                 ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showError();", true);
             }
 
@@ -256,26 +268,48 @@ namespace TermProject
 
         protected void btnPass_Click(object sender, EventArgs e)
         {
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+            List<int> memberLikes = (List<int>)Session["memberLikes"];
             List<int> memberDislikes = (List<int>)Session["memberDislikes"];
-            if (!(memberDislikes.Contains(memberUserID)))
+
+            // check to see if user hasn't liked/blocked user
+            if (memberLikes.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+            else if (memberBlocks.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+            else if (!(memberDislikes.Contains(memberUserID)))
             {
                 memberDislikes.Add(memberUserID);
                 Session["memberDislikes"] = memberDislikes;
                 UpdatePreferences();
-            }
+            }           
             else
-            {
+            { // user already passed on them
                 ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
-
-
 
         } // end btn pass event handler
 
         protected void btnBlock_Click(object sender, EventArgs e)
         {
             List<int> memberBlocks = (List<int>)Session["memberBlocks"];
-            if (!(memberBlocks.Contains(memberUserID)))
+            List<int> memberLikes = (List<int>)Session["memberLikes"];
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
+
+            // check to see if user hasn't liked/passed on user
+            if (memberLikes.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+            if (memberDislikes.Contains(memberUserID))
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
+            }
+            else if (!(memberBlocks.Contains(memberUserID)))
             {
                 memberBlocks.Add(memberUserID);
                 Session["memberBlocks"] = memberBlocks;
@@ -320,66 +354,80 @@ namespace TermProject
 
         protected void btnDateRequest_Click(object sender, EventArgs e)
         {
-            string message = txtMessage.Text;
-            IDictionary<string, string> newValues = new Dictionary<string, string>
+            List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+            List<int> memberDislikes = (List<int>)Session["memberDislikes"];
+
+            // check to see if user hasn't blocked/passed on user
+            if (memberBlocks.Contains(memberUserID))
             {
-                ["sendingID"] = userID.ToString(),
-                ["recID"] = memberUserID.ToString(),
-                ["message"] = message
-            };
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            String jsonValues = js.Serialize(newValues);
-
-            try
-            {
-               WebRequest request = WebRequest.Create(interactionsWebAPI + "addDateReq/");
-                request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-
-                request.Method = "POST";
-                request.ContentLength = jsonValues.Length;
-                request.ContentType = "application/json";
-
-                StreamWriter writer = new StreamWriter(request.GetRequestStream());
-                writer.Write(jsonValues);
-                writer.Flush();
-                writer.Close();
-
-                WebResponse response = request.GetResponse();
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
-                
-                //string sendAdd = "querydating@gmail.com";
-                //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-                //string memEmail = ds.Tables[0].Rows[0][0].ToString();
-                //MailMessage msg = new MailMessage();
-                //msg.To.Add(new MailAddress(memEmail));
-                //msg.Subject = "QUERY New Dating Request";
-                //msg.From = new MailAddress(sendAdd);
-                //msg.IsBodyHtml = true;
-                //msg.Body = "<div> You have a new dating request! <BR><br> Log into your account to view the request and accept/deny! <br><BR><div class='text-body text-center'>Happy Dating! </ div > " +"<Br><BR> <div>";
-                //SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                //smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
-                //smtp.EnableSsl = true;
-
-                //smtp.Send(msg);
-
-
-                // redirect to dashboard
-                /*   string success = "Successfully sent a date request to " + Name.InnerText;
-                   string script = "window.onload = function(){ alert('" + success + "'); window.location = '" + url + "'; }";
-                   ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);*/
-                ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
-
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
-            catch
+            else if (memberDislikes.Contains(memberUserID))
             {
-                Response.Write("Could not send date request. Error Occurred.");
+                ClientScript.RegisterStartupScript(this.GetType(), "ErrorToast", "showError();", true);
             }
-            
+            else
+            { // everything is good - send date request
+                string message = txtMessage.Text;
+
+                IDictionary<string, string> newValues = new Dictionary<string, string>
+                {
+                    ["sendingID"] = userID.ToString(),
+                    ["recID"] = memberUserID.ToString(),
+                    ["message"] = message
+                };
+
+                JavaScriptSerializer js = new JavaScriptSerializer();
+                String jsonValues = js.Serialize(newValues);
+
+                try
+                {
+                    WebRequest request = WebRequest.Create(interactionsWebAPI + "addDateReq/");
+                    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
+                    request.Method = "POST";
+                    request.ContentLength = jsonValues.Length;
+                    request.ContentType = "application/json";
+
+                    StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                    writer.Write(jsonValues);
+                    writer.Flush();
+                    writer.Close();
+
+                    WebResponse response = request.GetResponse();
+                    Stream theDataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(theDataStream);
+                    String data = reader.ReadToEnd();
+                    reader.Close();
+                    response.Close();
+
+                    string recEmail = lblEmail.Text; // get the member's email
+
+                    string sendAdd = "querydating@gmail.com";
+                   // DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+                    MailMessage msg = new MailMessage();
+                    msg.To.Add(new MailAddress(recEmail));
+                    msg.Subject = "QUERY New Dating Request";
+                    msg.From = new MailAddress(sendAdd);
+                    msg.IsBodyHtml = true;
+                    msg.Body = "<div> You have a new dating request! <BR><br> Log into your account to view the request and accept/deny! <br><BR><div class='text-body text-center'>Happy Dating! </ div > " + "<Br><BR> <div>";
+                    SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                    smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
+                    smtp.EnableSsl = true;
+
+                    smtp.Send(msg);
+
+
+                    // show success message
+                    ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
+
+                }
+                catch
+                {
+                    Response.Write("Could not send date request. Error Occurred.");
+                }
+            } // end else
+                        
         } // end date request eventhandler
 
         protected void UpdatePreferences()
@@ -426,6 +474,11 @@ namespace TermProject
             // redirect to dashboard
             //  string script = "window.onload = function(){ alert('" + message + "'); window.location = '" + url + "'; }";
             //ClientScript.RegisterStartupScript(this.GetType(), "Redirect", script, true);
+        }
+
+        protected void btndatereqOpenModal_Click(object sender, EventArgs e)
+        { // force modal to open
+            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('#modalSendMessage').modal('show');", true);
         }
     } // end class
 } // end namespace
