@@ -10,6 +10,8 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+using Models;
+
 namespace TermProject
 {
     public partial class LikeandPass : System.Web.UI.Page

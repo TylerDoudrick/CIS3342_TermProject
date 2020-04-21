@@ -10,20 +10,30 @@
         <div class="col-6 h-100">
             <div class="card text-center h-100">
                 <h4 class="display-4">Messages</h4>
-                <div class="card-body">
+                <div class="card-body" >
                     <i class="fas fa-envelope" style="font-size: 13em;"></i>
-                    <h3>3 Unread Messages</h3>
-                    <a href="Messages.aspx" class="btn btn-primary stretched-link my-2">Go to Inbox</a>
+                    <div runat="server" id="divNumMessages">
+                        <h3 runat="server" id="hNumUnreadMessages"></h3>
+                        <a href="Messages.aspx" class="btn btn-primary stretched-link my-2">Go to Inbox</a>
+                    </div>                
+                    <div runat="server" id="divVisitorMess">
+                        <h3> Sign in to start chatting!</h3>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-6 h-100">
             <div class="card text-center h-100">
                 <h3 class="display-4">Dates</h3>
-                <div class="card-body">
+                <div class="card-body" >
                     <i class="fas fa-heart" style="font-size: 13em;"></i>
-                    <h3>3 Planned Dates</h3>
-                    <a href="Dates.aspx" class="btn btn-primary stretched-link my-2">Go to Dates</a>
+                    <div runat="server" id="divNumDates">
+                        <h3 runat="server" id="hNumPlannedDates"></h3>
+                       <a href="Dates.aspx" class="btn btn-primary stretched-link my-2">Go to Dates</a>
+                    </div>
+                    <div runat="server" id="divVisitorDate"> 
+                        <h3 runat="server"> Sign in to schedule dates!</h3>
+                    </div>
                 </div>
             </div>
 

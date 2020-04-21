@@ -271,7 +271,7 @@
             $("#navlinkMessages").addClass("active");
 
             var user = {
-                "id": "<%= Session["UserID"].ToString()%>"
+                "userID": "<%= Session["userID"].ToString()%>"
 
             }
 
