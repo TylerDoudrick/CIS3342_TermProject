@@ -217,7 +217,7 @@ namespace TermProject
 
                 if (data == "true")
                 {
-                    Response.Write(data);
+                 //   Response.Write(data);
 
                     showSuccessToast();
                 }
@@ -229,7 +229,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                Response.Write("Error: " + ex.Message);
+               // Response.Write("Error: " + ex.Message);
             }
 
         }
@@ -287,7 +287,7 @@ namespace TermProject
 
                 catch (Exception ex)
                 {
-                    Response.Write("Error: " + ex.Message);
+                  //  Response.Write("Error: " + ex.Message);
                 }
             }
             else
@@ -360,7 +360,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                Response.Write("Error: " + ex.Message);
+               // Response.Write("Error: " + ex.Message);
             }
             }
             else
@@ -429,7 +429,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                Response.Write("Error: " + ex.Message);
+               // Response.Write("Error: " + ex.Message);
             }
         }
 
@@ -588,7 +588,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                Response.Write("Error: " + ex.Message);
+            //    Response.Write("Error: " + ex.Message);
             }
 
             lblYourDetails.Visible = true;

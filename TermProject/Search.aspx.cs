@@ -176,7 +176,7 @@ namespace TermProject
                 divSearchControls.Visible = true;
             }
             else{
-                Response.Write("none");
+               // Response.Write("none");
             }
 
 

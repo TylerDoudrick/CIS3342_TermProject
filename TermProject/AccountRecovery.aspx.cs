@@ -46,7 +46,7 @@ namespace TermProject
             }
             else
             {
-                Response.Write("Fail");
+                //Response.Write("Fail");
             }
         }
 
@@ -97,7 +97,7 @@ namespace TermProject
                 DBConnect OBJ = new DBConnect();
                 if (OBJ.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
                 {
-                    Response.Write(err);
+                    //Response.Write(err);
                 }
                 else
                 {

@@ -298,17 +298,17 @@ namespace TermProject
 
                 if (dbConnection.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
                 {
-                    Response.Write(exception);
+                  //  Response.Write(exception);
                 }
                 else
                 {
                     if (Int32.Parse(outputUsernameExists.Value.ToString()) == 1)
                     {
-                        Response.Write("Fail, username exists");
+                     //   Response.Write("Fail, username exists");
                     }
                     if (Int32.Parse(outputEmailExists.Value.ToString()) == 1)
                     {
-                        Response.Write("Fail, email exists");
+                      //  Response.Write("Fail, email exists");
                     }
                     if (!(Int32.Parse(outputUsernameExists.Value.ToString()) == 1 && (Int32.Parse(outputEmailExists.Value.ToString()) == 1)))
                     {
@@ -344,7 +344,7 @@ namespace TermProject
                         commandObj.Parameters.AddWithValue("@UserID", outputNewUserID.Value.ToString());
                         if (dbConnection.DoUpdateUsingCmdObj(commandObj, out exception) == -2)
                         {
-                            Response.Write(exception);
+                          //  Response.Write(exception);
                         }
                         else
                         {
@@ -395,16 +395,16 @@ namespace TermProject
                             }
                             else
                             {
-                                Response.Write(err);
-                            }
+                             //   Response.Write(err);
+                            } // end inner else
 
-                        }
+                        } // end outter else
 
-                    }
-                }
-            }
+                    } // end inner if 
+                } // end outter else
+            } // end outermose else
 
-        }
+        } // end button click - create account
 
         protected void insertPreferences(int id)
         { // calls web api to insert empty lists

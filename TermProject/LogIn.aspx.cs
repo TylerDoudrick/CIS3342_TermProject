@@ -78,7 +78,7 @@ namespace TermProject
                 string responseData = reader.ReadToEnd();
                 if(responseData.Length <= 0)
                 {
-                    Response.Write("Account not found");
+                  //  Response.Write("Account not found");
                 }
                 else
                 {
@@ -107,9 +107,9 @@ namespace TermProject
                     Session["lastName"] = foundAccount.lastName;
                     Session["token"] = foundAccount.token;
 
-                    getPrefs(foundAccount.userID);
-                    GetAcceptedDates(foundAccount.userID);
-                    GetUnreadMessages(foundAccount.userID);
+                    getPrefs(Convert.ToInt32(foundAccount.userID));
+                    GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                    GetUnreadMessages((foundAccount.userID));
                     switch (Request.QueryString["target"])
                     {
 
@@ -242,9 +242,9 @@ namespace TermProject
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
 
-                getPrefs(foundAccount.userID);
-                GetAcceptedDates(foundAccount.userID);
-                GetUnreadMessages(foundAccount.userID);
+                getPrefs(Convert.ToInt32(foundAccount.userID));
+                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -302,9 +302,9 @@ namespace TermProject
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
 
-                getPrefs(foundAccount.userID);
-                GetAcceptedDates(foundAccount.userID);
-                GetUnreadMessages(foundAccount.userID);
+                getPrefs(Convert.ToInt32(foundAccount.userID));
+                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -363,10 +363,10 @@ namespace TermProject
                 Session["firstName"] = foundAccount.firstName;
                 Session["lastName"] = foundAccount.lastName;
                 Session["token"] = foundAccount.token;
-                getPrefs(foundAccount.userID);
+                getPrefs(Convert.ToInt32(foundAccount.userID));
 
-                GetAcceptedDates(foundAccount.userID);
-                GetUnreadMessages(foundAccount.userID);
+                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -406,7 +406,7 @@ namespace TermProject
 
             string rngString = Convert.ToBase64String(random);
             string trimmed = rngString.Substring(0,rngString.Length - 2);
-            Response.Write(trimmed);
+           // Response.Write(trimmed);
 
             commandObj.Parameters.Clear();
             commandObj.CommandType = CommandType.StoredProcedure;
@@ -519,7 +519,7 @@ namespace TermProject
             Session["plannedDates"] = two.Rows.Count;// count of planned dates
         } // end get accepted dates
 
-        protected void GetUnreadMessages(int uID)
+        protected void GetUnreadMessages(string uID)
         {
             User u = new User();
             u.userID = uID;

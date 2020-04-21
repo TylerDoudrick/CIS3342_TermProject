@@ -424,7 +424,7 @@ namespace TermProject
                 }
                 catch
                 {
-                    Response.Write("Could not send date request. Error Occurred.");
+                  //  Response.Write("Could not send date request. Error Occurred.");
                 }
             } // end else
                         
