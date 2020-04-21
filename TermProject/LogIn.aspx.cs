@@ -549,7 +549,14 @@ namespace TermProject
             reader.Close(); response.Close();
 
             List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
-            Session["unreadMessages"]= im.Count(); // store the number of unread messages in session
+            if (im == null)
+            {
+                Session["unreadMessages"] = 0;
+            }
+            else
+            {
+                Session["unreadMessages"] = im.Count(); // store the number of unread messages in session
+            }
         } // end get unread messages
-    }
-}
+    } // end class 
+}// end namespace

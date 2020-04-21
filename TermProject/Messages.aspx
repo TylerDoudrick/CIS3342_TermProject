@@ -490,7 +490,7 @@
 
             $("#<%= ddlRecipient.ClientID%>").change(function () {
                 var data = {
-                    "id": $("#<%= ddlRecipient.ClientID%>").selectpicker('val')
+                    "userID": $("#<%= ddlRecipient.ClientID%>").selectpicker('val')
                 }
                 $.ajax({
                     url: "https://localhost:44375/api/datingservice/interactions/ProfileSnippet",

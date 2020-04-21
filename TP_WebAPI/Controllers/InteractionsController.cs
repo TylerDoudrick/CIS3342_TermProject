@@ -105,11 +105,11 @@ namespace TP_WebAPI.Controllers
             objDateReq.Parameters.Add("@SenderName", SqlDbType.VarChar, -1).Direction = ParameterDirection.Output;
             
             int result = objDB.DoUpdateUsingCmdObj(objDateReq, out string err);
-            List<int> memberBlocks = GetBlocks(recID.ToString());
-            if (!(memberBlocks.Contains(recID)))
-            {
+        //    List<int> memberBlocks = GetBlocks(recID.ToString());
+            //if (!(memberBlocks.Contains(recID)))
+            //{
                 notifier.NotifyDate(recID, "New date request from " + objDateReq.Parameters["@SenderName"].Value + "!");
-            }
+            //}
             return result;
         } // end add date req
 
