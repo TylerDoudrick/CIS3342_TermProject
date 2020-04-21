@@ -350,8 +350,15 @@ namespace TermProject
                         {
                             // insert empty list of prefs
                             insertPreferences(Convert.ToInt32(outputNewUserID.Value.ToString()));
-                            Session["UserID"] = outputNewUserID;
+                            Session["RegisteringUserID"] = outputNewUserID;
                             Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
+
+                            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+                            byte[] random = new byte[16];
+                            rng.GetBytes(random);
+
+                            string rngString = Convert.ToBase64String(random);
+                            string trimmed = rngString.Substring(0, rngString.Length - 2);
 
                             // send email
                             string sendAdd = "querydating@gmail.com";
@@ -360,8 +367,9 @@ namespace TermProject
                             msg.Subject = "QUERY Welcome Email";
                             msg.From = new MailAddress(sendAdd);
                             msg.IsBodyHtml = true;
-                            msg.Body = "<div> Thank you for signing up for Query.com! <Br><BR> You have successfully created an account." +
-                                "<Br><BR> <div>";
+                            msg.Body = "<div> Thank you for signing up for Query.com! <Br><BR> You have successfully " +
+                                "created an account. To verify, please enter the verification code: <strong>" + trimmed +
+                                "</strong><Br><BR> <div>";
                             SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
                             smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
                             smtp.EnableSsl = true;
@@ -369,9 +377,27 @@ namespace TermProject
                             smtp.Send(msg);
                             Session["email"] = email;
 
-                            divCreateAccount.Visible = false;
-                            divValidate.Visible = true;
-                            ScriptManager.RegisterStartupScript(this, typeof(Page), "StartCountdown", "redirectCountdown()", true);
+
+
+                            commandObj.Parameters.Clear();
+                            commandObj.CommandType = CommandType.StoredProcedure;
+                            commandObj.CommandText = "TP_InsertVerification";
+
+                            commandObj.Parameters.AddWithValue("@UserID", outputNewUserID.Value.ToString());
+                            commandObj.Parameters.AddWithValue("@code", trimmed);
+
+
+                            DBConnect OBJ = new DBConnect();
+                            if(OBJ.DoUpdateUsingCmdObj(commandObj, out string err) != -2)
+                            {
+                                Response.Redirect("Verification.aspx");
+
+                            }
+                            else
+                            {
+                                Response.Write(err);
+                            }
+
                         }
 
                     }

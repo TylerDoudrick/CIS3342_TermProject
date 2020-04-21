@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Mail;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Security.Cryptography;
 using System.Text;
 using System.Web;
 using System.Web.Script.Serialization;
@@ -77,11 +78,28 @@ namespace TermProject
                 string responseData = reader.ReadToEnd();
                 if(responseData.Length <= 0)
                 {
-
+                    Response.Write("Account not found");
                 }
                 else
                 {
                     User foundAccount = json.Deserialize<User>(responseData);
+
+                    if(foundAccount.isVerified == "0")
+                    {
+                        Session["email"] = foundAccount.emailAddress;
+                        Session["VerifyingUserID"] = foundAccount.userID;
+
+                        Response.Redirect("Verification.aspx");
+                    }else if(foundAccount.finishedRegistration == "0")
+                    {
+                        Session["token"] = foundAccount.token;
+                        Session["RegisteringUserID"] = foundAccount.userID;
+                        Response.Redirect("Registration.aspx");
+                        
+                    }
+                    else
+                    {
+
                     Session["email"] = foundAccount.emailAddress;
                     Session["UserID"] = foundAccount.userID;
                     Session["seeking"] = foundAccount.seekingGender;
@@ -115,6 +133,7 @@ namespace TermProject
                         default:
                             Response.Redirect("Dashboard.aspx");
                             break;
+                    }
                     }
 
                 }
@@ -371,6 +390,39 @@ namespace TermProject
             reader.Close();
             response.Close();
         }
+
+        protected void btnSendRecovery_Click(object sender, EventArgs e)
+        {
+            RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
+            byte[] random = new byte[16];
+            rng.GetBytes(random);
+
+            string rngString = Convert.ToBase64String(random);
+            string trimmed = rngString.Substring(0,rngString.Length - 2);
+            Response.Write(trimmed);
+
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_CheckEmail";
+
+            commandObj.Parameters.AddWithValue("@EmailAddress", txtPasswordRecoveryEmail.Text);
+            commandObj.Parameters.AddWithValue("@Verification", trimmed);
+            commandObj.Parameters.Add("@RowCount", SqlDbType.Int, 2).Direction = ParameterDirection.Output;
+
+
+            DBConnect OBJ = new DBConnect();
+            DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+
+            if(Int32.Parse(commandObj.Parameters["@RowCount"].Value.ToString()) == 1)
+            {
+                Response.Redirect("AccountRecovery.aspx");
+            }
+            else
+            {
+                Response.Redirect("AccountRecovery.aspx");
+            }
+        }
+
         protected void getPrefs(int userID)
         {
             commandObj.Parameters.Clear();
@@ -424,7 +476,10 @@ namespace TermProject
             public string lastName { get; set; }
             public string emailAddress { get; set; }
             public string seekingGender { get; set; }
+            public string finishedRegistration { get; set; }
+            public string isVerified { get; set; }
             public string token { get; set; }
+            
         }
         protected void GetAcceptedDates(int userID)
         { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.

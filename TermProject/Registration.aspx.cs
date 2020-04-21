@@ -19,9 +19,10 @@ namespace TermProject
     {
         string interactionsWebAPI = "https://localhost:44375/api/datingservice/interactions/";
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
-        DBConnect obj = new DBConnect(); string userID;
+        DBConnect obj = new DBConnect();
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["RegisteringUserID"] == null) Response.Redirect("Dashboard.aspx");
             //ddl.ShowInterestLikesDis();
         } // end page load
 
@@ -38,8 +39,36 @@ namespace TermProject
                 Boolean opt = AddRecords();
                 if (opt)
                 {
-                    showSuccessToast();
-                    //Server.Transfer("/Dashboard.aspx");               
+
+                    DBConnect databaseObj = new DBConnect();
+                    SqlCommand commandObj = new SqlCommand();
+                    commandObj.Parameters.Clear();
+                    commandObj.CommandType = CommandType.StoredProcedure;
+                    commandObj.CommandText = "TP_LookupUserRecordByID";
+
+                    SqlParameter inputUsername = new SqlParameter("@UserID", Session["RegisteringUserID"])
+                    {
+                        Direction = ParameterDirection.Input,
+
+                        SqlDbType = SqlDbType.VarChar
+                    };
+
+                    commandObj.Parameters.Add(inputUsername);
+
+
+                    DataSet dsUser = databaseObj.GetDataSetUsingCmdObj(commandObj);
+                    if (dsUser.Tables[0].Rows.Count > 0)
+                    {
+                        DataRow foundAccount = dsUser.Tables[0].Rows[0];
+                        Session["email"] = foundAccount["emailAddress"];
+                        Session["UserID"] = foundAccount["userID"];
+                        if (dsUser.Tables[1].Rows.Count > 0) Session["seeking"] = dsUser.Tables[1].Rows[0]["seekingGender"];
+                        Session["firstName"] = foundAccount["firstName"];
+                        Session["lastName"] = foundAccount["lastName"];
+                        getPrefs(Int32.Parse(foundAccount["userID"].ToString()));
+                        GetAcceptedDates(Int32.Parse(foundAccount["userID"].ToString()));
+                        Response.Redirect("Dashboard.aspx");
+                    }
                 }
             } // end if
             else return;
@@ -180,7 +209,6 @@ namespace TermProject
 
         private Boolean AddRecords()
         {
-       //     userID = (Session["UserID"].ToString());
 
             // search criteria --> all 5 tables
             IDictionary<string, List<string>> newValues = new Dictionary<string, List<string>>
@@ -193,9 +221,8 @@ namespace TermProject
             };
             JavaScriptSerializer js = new JavaScriptSerializer();
             String jsonValues = js.Serialize(newValues);
-            try
-            {
-                WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["UserID"].ToString());
+          
+                WebRequest request = WebRequest.Create(profileWebAPI + "update/details/" + Session["RegisteringUserID"].ToString());
                 request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 request.Method = "POST";
@@ -220,17 +247,14 @@ namespace TermProject
                 {
                     showFailureToast();
                 }
-            }
+            
 
-            catch (Exception ex)
-            {
-                Response.Write("Error: " + ex.Message);
-            }
+            
 
 
             RegistrationObj reg = new RegistrationObj();
             //reg.id = 10031;
-            reg.id = Convert.ToInt32(userID);
+            reg.id = Convert.ToInt32(Session["RegisteringUserID"].ToString());
             // profile photo table - serialized image
             string p = photoUpload.FileName;
         //    string ph = "images/person49.jpg";
@@ -318,10 +342,9 @@ namespace TermProject
 
             string jsonR = js.Serialize(reg);
 
-            try
-            {
+            
                 WebRequest r = WebRequest.Create(profileWebAPI + "insert/registrationInfo");
-                // r.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+                r.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                 r.Method = "POST";
                 r.ContentLength = jsonR.Length;
@@ -344,11 +367,79 @@ namespace TermProject
                     return true;
                 }
                 return false;
-            }
-            catch { return false; }
+            
+            
              
         }
+        protected void getPrefs(int userID)
+        {
+            SqlCommand commandObj = new SqlCommand();
+            commandObj.Parameters.Clear();
+            commandObj.CommandType = CommandType.StoredProcedure;
+            commandObj.CommandText = "TP_GetPreferences";
 
+            SqlParameter uid = new SqlParameter("@userID", userID)
+            {
+                Direction = ParameterDirection.Input,
+                SqlDbType = SqlDbType.VarChar
+            };
+
+            commandObj.Parameters.Add(uid);
+
+            DBConnect OBJ = new DBConnect();
+            DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+            if (ds.Tables[0].Rows.Count > 0)
+            {
+                DataRow test = ds.Tables[0].Rows[0];
+                //Response.Write(test["memberLikes"]);
+                Byte[] testarray = (Byte[])test["memberLikes"];
+                MemoryStream memorystreamd = new MemoryStream(testarray);
+                BinaryFormatter bfd = new BinaryFormatter();
+                List<int> memberLikes = bfd.Deserialize(memorystreamd) as List<int>;
+
+                Byte[] test2 = (Byte[])ds.Tables[0].Rows[0][1];
+                MemoryStream m2 = new MemoryStream(test2);
+                BinaryFormatter bfd2 = new BinaryFormatter();
+                List<int> memberDislikes = bfd2.Deserialize(m2) as List<int>;
+
+                Byte[] test3 = (Byte[])ds.Tables[0].Rows[0][1];
+                MemoryStream m3 = new MemoryStream(test3);
+                BinaryFormatter bfd3 = new BinaryFormatter();
+                List<int> memberBlocks = bfd3.Deserialize(m3) as List<int>;
+                Session["memberLikes"] = memberLikes;
+                Session["memberDislikes"] = memberDislikes;
+                Session["memberBlocks"] = memberBlocks;
+            } // end if
+        } // end method
+
+        protected void GetAcceptedDates(int userID)
+        { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+            DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
+
+            List<int> acceptedDates = new List<int>();
+
+            for (int i = 0; i < one.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(one.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            for (int i = 0; i < two.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(two.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            Session["acceptedDates"] = acceptedDates;
+        } // end get accepted dates
         protected void showSuccessToast()
         {
             ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
