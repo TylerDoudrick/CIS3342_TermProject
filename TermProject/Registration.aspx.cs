@@ -64,6 +64,7 @@ namespace TermProject
             txtNumber2.CssClass = txtNumber2.CssClass.Replace("is-invalid", "").Trim();
             txtNumber3.CssClass = txtNumber3.CssClass.Replace("is-invalid", "").Trim();
             ddlOccupation.CssClass = ddlOccupation.CssClass.Replace("is-invalid", "").Trim();
+            photoUpload.CssClass = photoUpload.CssClass.Replace("is-invalid", "").Trim();
 
             Boolean check = false;
 
@@ -174,6 +175,10 @@ namespace TermProject
             if (ddlOccupation.SelectedValue=="-1")
             {
                 check = true; ddlOccupation.CssClass += " is-invalid";
+            }
+            if (photoUpload.FileName == "")
+            {
+                check = true; photoUpload.CssClass += "is-invalid";
             }
             return check;
         }
