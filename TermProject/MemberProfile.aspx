@@ -74,7 +74,7 @@
             <div class="col-4">
 
                 <div class="row">
-                    <asp:Label runat="server" ID="lblPhoneNumber" for="<%= lblNumber.ClientID %>" CssClass="font-weight-bold"> Phone Number: </asp:Label>
+                    <asp:Label runat="server" for="<%= lblNumber.ClientID %>" CssClass="font-weight-bold"> Phone Number: </asp:Label>
                     &nbsp;&nbsp;&nbsp;
                     <asp:Label runat="server" ID="lblNumber"> </asp:Label>
 
@@ -89,6 +89,7 @@
         </div>
         <hr />
     </div>
+
 
     <div>
 <div class="col text-center">
