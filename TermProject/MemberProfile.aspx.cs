@@ -133,7 +133,7 @@ namespace TermProject
                 lblTagline.Text = profile["tagline"].ToString();
 
 
-                lblPhoneNumber.Text = profile["phoneNumber"].ToString();
+                lblNumber.Text = profile["phoneNumber"].ToString();
                lblEmail.Text = profile["emailAddress"].ToString();
                 lblBio.Text = profile["bio"].ToString();
 
