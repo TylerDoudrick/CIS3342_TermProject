@@ -8,6 +8,9 @@
             <div class="card p-3" id="divVerificationCode" runat="server">
                 <h5 class="card-title text-center">Account Recovery</h5>
                 <div class="card-body">
+                    <div class="form-group alert-danger p-4 rounded" runat="server" id="divInvalidCode" visible="false">
+                        Invalid code. Please try again.                       
+                    </div>
                     <div class="form-group mb-4">
                         <h5>Please enter your email address and your verification code.</h5>
                     </div>
@@ -27,6 +30,9 @@
             <div class="card p-3" id="divSecurityQuestion" runat="server" visible="false">
                 <h5 class="card-title text-center">Account Recovery</h5>
                 <div class="card-body">
+                    <div class="form-group alert-danger p-4 rounded" runat="server" id="divInvalidAnswer" visible="false">
+                        Please try again.
+                    </div>
                     <div class="form-group mb-4">
                         <h5>Please answer the security question below.</h5>
                     </div>
@@ -44,6 +50,9 @@
             <div class="card p-3" id="divChangePassword" visible="false" runat="server">
                 <h5 class="card-title text-center">Change Password</h5>
                 <div class="card-body">
+                    <div class="form-group alert-danger p-4 rounded" runat="server" id="divInvalidPassword" visible="false">
+                        Please enter a valid password and be sure they match.                       
+                    </div>
                     <div class="form-group mb-4">
                         <h5>Please enter a new password</h5>
                     </div>

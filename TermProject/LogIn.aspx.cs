@@ -38,6 +38,7 @@ namespace TermProject
                 string password = txtLogInPassword.Text;
 
                 bool trigger = false;
+                divInvalidInputs.Visible = false;
 
                 txtLogInUsername.CssClass = txtLogInUsername.CssClass.Replace("is-invalid", "").Trim();
                 txtLogInPassword.CssClass = txtLogInPassword.CssClass.Replace("is-invalid", "").Trim();
@@ -54,7 +55,7 @@ namespace TermProject
 
                 if (trigger)
                 {
-                    //Failed, do nothing
+                    divInvalidInputs.Visible = true;
                 }
                 else
                 {
@@ -79,7 +80,7 @@ namespace TermProject
                     string responseData = reader.ReadToEnd();
                     if (responseData.Length <= 0)
                     {
-                        //  Response.Write("Account not found");
+                        divWrongCredentials.Visible = true;
                     }
                     else
                     {

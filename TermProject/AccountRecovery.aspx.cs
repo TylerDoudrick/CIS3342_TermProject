@@ -41,6 +41,7 @@ namespace TermProject
 
                 if (ds.Tables.Count == 1)
                 {
+                    divInvalidCode.Visible = false;
                     Session["VerifyingID"] = commandObj.Parameters["@UserID"].Value.ToString();
                     divSecurityQuestion.Visible = true;
                     divVerificationCode.Visible = false;
@@ -50,7 +51,7 @@ namespace TermProject
                 }
                 else
                 {
-                    //Response.Write("Fail");
+                    divInvalidCode.Visible = true;
                 }
             }
             catch
@@ -65,6 +66,11 @@ namespace TermProject
             {
                 divSecurityQuestion.Visible = false;
                 divChangePassword.Visible = true;
+                divInvalidAnswer.Visible = true;
+            }
+            else
+            {
+                divInvalidAnswer.Visible = true;
             }
         }
         protected void btnChangePass_Click(object sender, EventArgs e)
@@ -121,6 +127,10 @@ namespace TermProject
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
+            }
+            else
+            {
+                divInvalidPassword.Visible = true;
             }
         }
         protected void btnLogin_Click(object sender, EventArgs e)

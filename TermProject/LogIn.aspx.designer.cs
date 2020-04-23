@@ -22,6 +22,24 @@ namespace TermProject {
         protected global::System.Web.UI.WebControls.TextBox txtPasswordRecoveryEmail;
         
         /// <summary>
+        /// divInvalidInputs control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInvalidInputs;
+        
+        /// <summary>
+        /// divWrongCredentials control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divWrongCredentials;
+        
+        /// <summary>
         /// txtLogInUsername control.
         /// </summary>
         /// <remarks>
