@@ -25,25 +25,32 @@ namespace TermProject
 
             if (!IsPostBack)
             {
-                commandObj.CommandType = CommandType.StoredProcedure;
-                commandObj.CommandText = "TP_GetOtherUsers";
-                commandObj.Parameters.AddWithValue("@userID", Session["UserID"].ToString());
-                DataSet recipients = databaseObj.GetDataSetUsingCmdObj(commandObj);
+                try {
+                    commandObj.CommandType = CommandType.StoredProcedure;
+                    commandObj.CommandText = "TP_GetOtherUsers";
+                    commandObj.Parameters.AddWithValue("@userID", Session["UserID"].ToString());
+                    DataSet recipients = databaseObj.GetDataSetUsingCmdObj(commandObj);
 
-                List<int> memberBlocks = (List<int>)Session["memberBlocks"];
-                foreach (DataRow row in recipients.Tables[0].Rows)
-                {
-                    if ((memberBlocks.Contains(Int32.Parse(row["userID"].ToString()))))
+                    List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+                    foreach (DataRow row in recipients.Tables[0].Rows)
                     {
-                        row.Delete();
+                        if ((memberBlocks.Contains(Int32.Parse(row["userID"].ToString()))))
+                        {
+                            row.Delete();
+                        }
                     }
+                    ddlRecipient.DataSource = recipients;
+                    ddlRecipient.DataValueField = "userID";
+                    ddlRecipient.DataTextField = "name";
+                    ddlRecipient.DataBind();
+                    ddlRecipient.Items.Insert(0, new ListItem("Please select a recipient...", String.Empty));
+                    ddlRecipient.SelectedIndex = 0;
                 }
-                ddlRecipient.DataSource = recipients;
-                ddlRecipient.DataValueField = "userID";
-                ddlRecipient.DataTextField = "name";
-                ddlRecipient.DataBind();
-                ddlRecipient.Items.Insert(0, new ListItem("Please select a recipient...", String.Empty));
-                ddlRecipient.SelectedIndex = 0;
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             }
             else
             {

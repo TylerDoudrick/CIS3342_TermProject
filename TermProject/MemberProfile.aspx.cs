@@ -47,13 +47,32 @@ namespace TermProject
                 { // display contact info
                     divContactInfo.Attributes.Remove("class");
                 }
-                grabPersonalProfile();
+                try
+                {
 
+
+                    grabPersonalProfile();
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             } // end if 
             else
             {
                 btnBlock.Enabled = false; btnLike.Enabled = false; btnPass.Enabled = false; btndatereqOpenModal.Enabled = false;
-                grabPublicProfile();
+                try
+                {
+
+
+                    grabPublicProfile();
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             }
         } // end page load
 

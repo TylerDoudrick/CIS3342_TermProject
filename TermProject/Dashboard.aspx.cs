@@ -23,69 +23,76 @@ namespace TermProject
         int userID;
         protected void Page_Load(object sender, EventArgs e)
         {
-            // if (Session["UserID"] == null) Response.Redirect("Default.aspx");
-            
-            commandObj.Parameters.Clear();
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_GetAllUsers";
-            if (Session["UserID"] == null)
-            { // if user is not logged in, show all users
-                divNumDates.Visible = false;
-                divNumMessages.Visible = false;
-                divVisitorDate.Visible = true;
-                divVisitorMess.Visible = true;
-
-                divMemberOnlyFeature.Disabled = true;
-                string seeking = "Both";
-                commandObj.Parameters.AddWithValue("@seekingGen", seeking);
-            }
-            else
+            try
             {
-                divNumDates.Visible = true;
-                divNumMessages.Visible = true;
-                divVisitorDate.Visible = false;
-                divVisitorMess.Visible = false;
+                // if (Session["UserID"] == null) Response.Redirect("Default.aspx");
 
-                userID = Convert.ToInt32(Session["UserID"]);
-                 string seeking = Session["seeking"].ToString();
-                commandObj.Parameters.AddWithValue("@seekingGen", seeking);
-            }
-            DataSet dsUser = obj.GetDataSetUsingCmdObj(commandObj); // get the dataset
-            DataTable dt = dsUser.Tables[0];
-            List<User> people = new List<User>();
-            if (Session["UserID"] == null)
-            {
-                for (int row = 0; row < dt.Rows.Count; row++)
+                commandObj.Parameters.Clear();
+                commandObj.CommandType = CommandType.StoredProcedure;
+                commandObj.CommandText = "TP_GetAllUsers";
+                if (Session["UserID"] == null)
+                { // if user is not logged in, show all users
+                    divNumDates.Visible = false;
+                    divNumMessages.Visible = false;
+                    divVisitorDate.Visible = true;
+                    divVisitorMess.Visible = true;
+
+                    divMemberOnlyFeature.Disabled = true;
+                    string seeking = "Both";
+                    commandObj.Parameters.AddWithValue("@seekingGen", seeking);
+                }
+                else
                 {
-                    DataRow r = dt.Rows[row];
-                    User u = SetValues(r);
-                    people.Add(u);
-                } // end for loop
-            } // end outer if
-            else
-            {
-                int plannedDates = Convert.ToInt32(Session["plannedDates"]);
-                int unreadMessages = Convert.ToInt32(Session["unreadMessages"]);
+                    divNumDates.Visible = true;
+                    divNumMessages.Visible = true;
+                    divVisitorDate.Visible = false;
+                    divVisitorMess.Visible = false;
 
-                hNumPlannedDates.InnerText = plannedDates + " Planned Dates";
-                hNumUnreadMessages.InnerText = unreadMessages + " Unread Messages";
-
-                List<int> memberDislikes = (List<int>)Session["memberDislikes"];
-                List<int> memberBlocks = (List<int>)Session["memberBlocks"];
-                for (int row = 0; row < dt.Rows.Count; row++)
+                    userID = Convert.ToInt32(Session["UserID"]);
+                    string seeking = Session["seeking"].ToString();
+                    commandObj.Parameters.AddWithValue("@seekingGen", seeking);
+                }
+                DataSet dsUser = obj.GetDataSetUsingCmdObj(commandObj); // get the dataset
+                DataTable dt = dsUser.Tables[0];
+                List<User> people = new List<User>();
+                if (Session["UserID"] == null)
                 {
-                    DataRow r = dt.Rows[row];
-                    Boolean blocksContains = memberBlocks.Contains(Convert.ToInt32(r["userID"]));
-                    Boolean passContains = memberDislikes.Contains(Convert.ToInt32(r["userID"]));
-                    if ( !blocksContains && !passContains && !((Convert.ToInt32(r["userID"]) == userID)))
+                    for (int row = 0; row < dt.Rows.Count; row++)
                     {
+                        DataRow r = dt.Rows[row];
                         User u = SetValues(r);
                         people.Add(u);
-                    } // end inner if 
-                } // end for loop
-            } // end else
-            rptPeople.DataSource = people; rptPeople.DataBind();
+                    } // end for loop
+                } // end outer if
+                else
+                {
+                    int plannedDates = Convert.ToInt32(Session["plannedDates"]);
+                    int unreadMessages = Convert.ToInt32(Session["unreadMessages"]);
 
+                    hNumPlannedDates.InnerText = plannedDates + " Planned Dates";
+                    hNumUnreadMessages.InnerText = unreadMessages + " Unread Messages";
+
+                    List<int> memberDislikes = (List<int>)Session["memberDislikes"];
+                    List<int> memberBlocks = (List<int>)Session["memberBlocks"];
+                    for (int row = 0; row < dt.Rows.Count; row++)
+                    {
+                        DataRow r = dt.Rows[row];
+                        Boolean blocksContains = memberBlocks.Contains(Convert.ToInt32(r["userID"]));
+                        Boolean passContains = memberDislikes.Contains(Convert.ToInt32(r["userID"]));
+                        if (!blocksContains && !passContains && !((Convert.ToInt32(r["userID"]) == userID)))
+                        {
+                            User u = SetValues(r);
+                            people.Add(u);
+                        } // end inner if 
+                    } // end for loop
+                } // end else
+                rptPeople.DataSource = people; rptPeople.DataBind();
+            }
+            catch
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+            }
         } // end page load
 
         protected User SetValues(DataRow Row)

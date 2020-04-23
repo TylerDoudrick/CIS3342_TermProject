@@ -27,38 +27,48 @@ namespace TermProject
         int userID = 0;
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack) { 
-            DBConnect databaseObj = new DBConnect();
-            SqlCommand commandObj = new SqlCommand();
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_LookupAllSecurityQuestions";
-            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
-            DataTable firstSet = myDS.Tables[0];
-            DataTable secondSet = myDS.Tables[1];
-            DataTable thirdSet = myDS.Tables[2];
+            if (!IsPostBack) {
+                try
+                {
 
-            ddlSecurityQOne.DataSource = firstSet;
-            ddlSecurityQTwo.DataSource = secondSet;
-            ddlSecurityQThree.DataSource = thirdSet;
 
-            ddlSecurityQOne.DataTextField = "SecurityQuestionText";
-            ddlSecurityQOne.DataValueField = "SecurityQuestionID";
-            ddlSecurityQTwo.DataTextField = "SecurityQuestionText";
-            ddlSecurityQTwo.DataValueField = "SecurityQuestionID";
-            ddlSecurityQThree.DataTextField = "SecurityQuestionText";
-            ddlSecurityQThree.DataValueField = "SecurityQuestionID";
+                    DBConnect databaseObj = new DBConnect();
+                    SqlCommand commandObj = new SqlCommand();
+                    commandObj.CommandType = CommandType.StoredProcedure;
+                    commandObj.CommandText = "TP_LookupAllSecurityQuestions";
+                    DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+                    DataTable firstSet = myDS.Tables[0];
+                    DataTable secondSet = myDS.Tables[1];
+                    DataTable thirdSet = myDS.Tables[2];
 
-            ddlSecurityQOne.DataBind();
-            ddlSecurityQTwo.DataBind();
-            ddlSecurityQThree.DataBind();
+                    ddlSecurityQOne.DataSource = firstSet;
+                    ddlSecurityQTwo.DataSource = secondSet;
+                    ddlSecurityQThree.DataSource = thirdSet;
 
-            ddlSecurityQOne.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
-            ddlSecurityQTwo.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
-            ddlSecurityQThree.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+                    ddlSecurityQOne.DataTextField = "SecurityQuestionText";
+                    ddlSecurityQOne.DataValueField = "SecurityQuestionID";
+                    ddlSecurityQTwo.DataTextField = "SecurityQuestionText";
+                    ddlSecurityQTwo.DataValueField = "SecurityQuestionID";
+                    ddlSecurityQThree.DataTextField = "SecurityQuestionText";
+                    ddlSecurityQThree.DataValueField = "SecurityQuestionID";
 
-            ddlSecurityQOne.SelectedIndex = 0;
-            ddlSecurityQTwo.SelectedIndex = 0;
-            ddlSecurityQThree.SelectedIndex = 0;
+                    ddlSecurityQOne.DataBind();
+                    ddlSecurityQTwo.DataBind();
+                    ddlSecurityQThree.DataBind();
+
+                    ddlSecurityQOne.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+                    ddlSecurityQTwo.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+                    ddlSecurityQThree.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
+
+                    ddlSecurityQOne.SelectedIndex = 0;
+                    ddlSecurityQTwo.SelectedIndex = 0;
+                    ddlSecurityQThree.SelectedIndex = 0;
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             }
         }
 
