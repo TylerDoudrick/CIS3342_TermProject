@@ -45,10 +45,18 @@ namespace TermProject
                 txtFavBooks.Attributes.Add("readonly", "readonly");
 
                 divEditYourDetailsControls.Visible = false;
+                try
+                {
 
-                grabPersonalProfile();
+
+                    grabPersonalProfile();
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             }
-
         } // end pageload
 
         protected void grabPersonalProfile()
@@ -217,7 +225,7 @@ namespace TermProject
 
                 if (data == "true")
                 {
-                 //   Response.Write(data);
+                    //   Response.Write(data);
 
                     showSuccessToast();
                 }
@@ -229,7 +237,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-               // Response.Write("Error: " + ex.Message);
+                // Response.Write("Error: " + ex.Message);
             }
 
         }
@@ -287,7 +295,7 @@ namespace TermProject
 
                 catch (Exception ex)
                 {
-                  //  Response.Write("Error: " + ex.Message);
+                    //  Response.Write("Error: " + ex.Message);
                 }
             }
             else
@@ -303,71 +311,71 @@ namespace TermProject
             string wantChildren = ddlWantChildren.SelectedValue;
             string occupation = ddlOccupation.SelectedItem.Text;
 
-            if(Int32.TryParse(numChildren, out int numChildrenParsed) && (seeking == "Male" || seeking == "Female" || seeking == "Both") &&
-                Int32.TryParse(wantChildren, out int wantChildrenParsed) && (wantChildrenParsed == 0||wantChildrenParsed == 1))
+            if (Int32.TryParse(numChildren, out int numChildrenParsed) && (seeking == "Male" || seeking == "Female" || seeking == "Both") &&
+                Int32.TryParse(wantChildren, out int wantChildrenParsed) && (wantChildrenParsed == 0 || wantChildrenParsed == 1))
             {
 
-            // Create an object of the Customer class which is avaialable through the web service reference and WSDL
+                // Create an object of the Customer class which is avaialable through the web service reference and WSDL
 
-            IDictionary<string, string> newValues = new Dictionary<string, string>
-            {
-                ["bio"] = bio,
-                ["numChildren"] = numChildren,
-                ["seeking"] = seeking,
-                ["wantChildren"] = wantChildren,
-                ["occupation"] = occupation
-            };
-
-
-
-            JavaScriptSerializer js = new JavaScriptSerializer();
-
-            String jsonValues = js.Serialize(newValues);
+                IDictionary<string, string> newValues = new Dictionary<string, string>
+                {
+                    ["bio"] = bio,
+                    ["numChildren"] = numChildren,
+                    ["seeking"] = seeking,
+                    ["wantChildren"] = wantChildren,
+                    ["occupation"] = occupation
+                };
 
 
 
-            try
+                JavaScriptSerializer js = new JavaScriptSerializer();
 
-            {
+                String jsonValues = js.Serialize(newValues);
 
-                WebRequest request = WebRequest.Create(profileWebAPI + "update/basic/" + Session["UserID"].ToString());
+
+
+                try
+
+                {
+
+                    WebRequest request = WebRequest.Create(profileWebAPI + "update/basic/" + Session["UserID"].ToString());
                     request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
                     request.Method = "POST";
-                request.ContentType = "application/json";
+                    request.ContentType = "application/json";
 
-                StreamWriter writer = new StreamWriter(request.GetRequestStream());
-                writer.Write(jsonValues);
-                writer.Flush();
-                writer.Close();
+                    StreamWriter writer = new StreamWriter(request.GetRequestStream());
+                    writer.Write(jsonValues);
+                    writer.Flush();
+                    writer.Close();
 
-                WebResponse response = request.GetResponse();
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                String data = reader.ReadToEnd();
-                reader.Close();
-                response.Close();
+                    WebResponse response = request.GetResponse();
+                    Stream theDataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(theDataStream);
+                    String data = reader.ReadToEnd();
+                    reader.Close();
+                    response.Close();
 
-                if (data == "true")
-                {
-                    showSuccessToast();
+                    if (data == "true")
+                    {
+                        showSuccessToast();
+                    }
+                    else
+                    {
+                        showFailureToast();
+                    }
                 }
-                else
-                {
-                    showFailureToast();
-                }
-            }
 
-            catch (Exception ex)
-            {
-               // Response.Write("Error: " + ex.Message);
-            }
+                catch (Exception ex)
+                {
+                    // Response.Write("Error: " + ex.Message);
+                }
             }
             else
             {
                 showFailureToast();
             }
-            
+
 
         }
         protected void btnEditAboutYouSubmit_Click(object sender, EventArgs e)
@@ -429,7 +437,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-               // Response.Write("Error: " + ex.Message);
+                // Response.Write("Error: " + ex.Message);
             }
         }
 
@@ -588,7 +596,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-            //    Response.Write("Error: " + ex.Message);
+                //    Response.Write("Error: " + ex.Message);
             }
 
             lblYourDetails.Visible = true;

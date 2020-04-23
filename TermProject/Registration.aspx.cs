@@ -39,35 +39,42 @@ namespace TermProject
                 Boolean opt = AddRecords();
                 if (opt)
                 {
-
-                    DBConnect databaseObj = new DBConnect();
-                    SqlCommand commandObj = new SqlCommand();
-                    commandObj.Parameters.Clear();
-                    commandObj.CommandType = CommandType.StoredProcedure;
-                    commandObj.CommandText = "TP_LookupUserRecordByID";
-
-                    SqlParameter inputUsername = new SqlParameter("@UserID", Session["RegisteringUserID"])
+                    try
                     {
-                        Direction = ParameterDirection.Input,
+                        DBConnect databaseObj = new DBConnect();
+                        SqlCommand commandObj = new SqlCommand();
+                        commandObj.Parameters.Clear();
+                        commandObj.CommandType = CommandType.StoredProcedure;
+                        commandObj.CommandText = "TP_LookupUserRecordByID";
 
-                        SqlDbType = SqlDbType.VarChar
-                    };
+                        SqlParameter inputUsername = new SqlParameter("@UserID", Session["RegisteringUserID"])
+                        {
+                            Direction = ParameterDirection.Input,
 
-                    commandObj.Parameters.Add(inputUsername);
+                            SqlDbType = SqlDbType.VarChar
+                        };
+
+                        commandObj.Parameters.Add(inputUsername);
 
 
-                    DataSet dsUser = databaseObj.GetDataSetUsingCmdObj(commandObj);
-                    if (dsUser.Tables[0].Rows.Count > 0)
+                        DataSet dsUser = databaseObj.GetDataSetUsingCmdObj(commandObj);
+                        if (dsUser.Tables[0].Rows.Count > 0)
+                        {
+                            DataRow foundAccount = dsUser.Tables[0].Rows[0];
+                            Session["email"] = foundAccount["emailAddress"];
+                            Session["UserID"] = foundAccount["userID"];
+                            if (dsUser.Tables[1].Rows.Count > 0) Session["seeking"] = dsUser.Tables[1].Rows[0]["seekingGender"];
+                            Session["firstName"] = foundAccount["firstName"];
+                            Session["lastName"] = foundAccount["lastName"];
+                            getPrefs(Int32.Parse(foundAccount["userID"].ToString()));
+                            GetAcceptedDates(Int32.Parse(foundAccount["userID"].ToString()));
+                            Response.Redirect("Dashboard.aspx");
+                        }
+                    }
+                    catch
                     {
-                        DataRow foundAccount = dsUser.Tables[0].Rows[0];
-                        Session["email"] = foundAccount["emailAddress"];
-                        Session["UserID"] = foundAccount["userID"];
-                        if (dsUser.Tables[1].Rows.Count > 0) Session["seeking"] = dsUser.Tables[1].Rows[0]["seekingGender"];
-                        Session["firstName"] = foundAccount["firstName"];
-                        Session["lastName"] = foundAccount["lastName"];
-                        getPrefs(Int32.Parse(foundAccount["userID"].ToString()));
-                        GetAcceptedDates(Int32.Parse(foundAccount["userID"].ToString()));
-                        Response.Redirect("Dashboard.aspx");
+                        ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
                     }
                 }
             } // end if

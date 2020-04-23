@@ -37,9 +37,18 @@ namespace TermProject
 
                 if (!IsPostBack)
                 {
-                    Boolean mCheck = true; Boolean dCheck = true;
-                    bind(mCheck, dCheck);
-                }               
+                    try
+                    {
+
+
+                        Boolean mCheck = true; Boolean dCheck = true;
+                        bind(mCheck, dCheck);
+                    }
+                    catch
+                    {
+                        ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+                    }
+                }
             } // end else
         } // end page load
 

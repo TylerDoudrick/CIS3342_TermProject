@@ -23,30 +23,39 @@ namespace TermProject
         {
             string code = txtVerificationCode.Text;
             string email = txtEmailAddress.Text;
-            SqlCommand commandObj = new SqlCommand();
-            commandObj.Parameters.Clear();
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_CheckVerification";
-
-            commandObj.Parameters.AddWithValue("@EmailAddress", email);
-            commandObj.Parameters.AddWithValue("@Verification", code);
-            commandObj.Parameters.Add("@UserID", SqlDbType.Int, 50).Direction = ParameterDirection.Output;
-
-            DBConnect OBJ = new DBConnect();
-            DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
-
-            if (ds.Tables.Count == 1)
+            try
             {
-                Session["VerifyingID"] = commandObj.Parameters["@UserID"].Value.ToString();
-                divSecurityQuestion.Visible = true;
-                divVerificationCode.Visible = false;
 
-                lblSecurityQuestion.Text = ds.Tables[0].Rows[0]["SecurityQuestionText"].ToString();
-                Session["SQAnswer"] = ds.Tables[0].Rows[0]["questionAnswer"].ToString();
+
+                SqlCommand commandObj = new SqlCommand();
+                commandObj.Parameters.Clear();
+                commandObj.CommandType = CommandType.StoredProcedure;
+                commandObj.CommandText = "TP_CheckVerification";
+
+                commandObj.Parameters.AddWithValue("@EmailAddress", email);
+                commandObj.Parameters.AddWithValue("@Verification", code);
+                commandObj.Parameters.Add("@UserID", SqlDbType.Int, 50).Direction = ParameterDirection.Output;
+
+                DBConnect OBJ = new DBConnect();
+                DataSet ds = OBJ.GetDataSetUsingCmdObj(commandObj);
+
+                if (ds.Tables.Count == 1)
+                {
+                    Session["VerifyingID"] = commandObj.Parameters["@UserID"].Value.ToString();
+                    divSecurityQuestion.Visible = true;
+                    divVerificationCode.Visible = false;
+
+                    lblSecurityQuestion.Text = ds.Tables[0].Rows[0]["SecurityQuestionText"].ToString();
+                    Session["SQAnswer"] = ds.Tables[0].Rows[0]["questionAnswer"].ToString();
+                }
+                else
+                {
+                    //Response.Write("Fail");
+                }
             }
-            else
+            catch
             {
-                //Response.Write("Fail");
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
         }
 
@@ -84,27 +93,34 @@ namespace TermProject
                 //Password Salting & Hashing
                 byte[] saltArray = CryptoUtilities.GenerateSalt();
                 byte[] hashPassword = CryptoUtilities.CalculateMD5Hash(saltArray, password);
-
-                SqlCommand commandObj = new SqlCommand();
-                commandObj.Parameters.Clear();
-                commandObj.CommandType = CommandType.StoredProcedure;
-                commandObj.CommandText = "TP_UpdatePassword";
-
-                commandObj.Parameters.AddWithValue("@userID", Session["VerifyingID"].ToString());
-                commandObj.Parameters.AddWithValue("@pass", hashPassword);
-                commandObj.Parameters.AddWithValue("@salt", saltArray);
-
-                DBConnect OBJ = new DBConnect();
-                if (OBJ.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
+                try
                 {
-                    //Response.Write(err);
-                }
-                else
-                {
-                    divSuccess.Visible = true;
-                    divChangePassword.Visible = false;
-                }
 
+
+                    SqlCommand commandObj = new SqlCommand();
+                    commandObj.Parameters.Clear();
+                    commandObj.CommandType = CommandType.StoredProcedure;
+                    commandObj.CommandText = "TP_UpdatePassword";
+
+                    commandObj.Parameters.AddWithValue("@userID", Session["VerifyingID"].ToString());
+                    commandObj.Parameters.AddWithValue("@pass", hashPassword);
+                    commandObj.Parameters.AddWithValue("@salt", saltArray);
+
+                    DBConnect OBJ = new DBConnect();
+                    if (OBJ.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
+                    {
+                        //Response.Write(err);
+                    }
+                    else
+                    {
+                        divSuccess.Visible = true;
+                        divChangePassword.Visible = false;
+                    }
+                }
+                catch
+                {
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+                }
             }
         }
         protected void btnLogin_Click(object sender, EventArgs e)

@@ -34,36 +34,44 @@ namespace TermProject.UserControls
                 //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
 
                 // get the values from validation table for the list boxes
-                DBConnect obj = new DBConnect();
-                SqlCommand objSearchCriteria = new SqlCommand();
-                objSearchCriteria.CommandType = CommandType.StoredProcedure;
-                objSearchCriteria.CommandText = "TP_GetSearchCriteria";
-                DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
 
-                lbReligion.DataSource = ds.Tables[0];
-                lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
-                lbReligion.SelectionMode = ListSelectionMode.Multiple;
-                lbReligion.DataBind();
+                try {
+                    DBConnect obj = new DBConnect();
+                    SqlCommand objSearchCriteria = new SqlCommand();
+                    objSearchCriteria.CommandType = CommandType.StoredProcedure;
+                    objSearchCriteria.CommandText = "TP_GetSearchCriteria";
+                    DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
 
-                lbCommittment.DataSource = ds.Tables[1];
-                lbCommittment.DataTextField = "CommitmentType"; lbCommittment.DataValueField = "CommitmentID";
-                lbCommittment.SelectionMode = ListSelectionMode.Multiple;
-                lbCommittment.DataBind();
+                    lbReligion.DataSource = ds.Tables[0];
+                    lbReligion.DataTextField = "ReligionType"; lbReligion.DataValueField = "ReligionID";
+                    lbReligion.SelectionMode = ListSelectionMode.Multiple;
+                    lbReligion.DataBind();
 
-                lbInterests.DataSource = ds.Tables[2];
-                lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
-                lbInterests.SelectionMode = ListSelectionMode.Multiple;
-                lbInterests.DataBind();
+                    lbCommittment.DataSource = ds.Tables[1];
+                    lbCommittment.DataTextField = "CommitmentType"; lbCommittment.DataValueField = "CommitmentID";
+                    lbCommittment.SelectionMode = ListSelectionMode.Multiple;
+                    lbCommittment.DataBind();
 
-                lbLikes.DataSource = ds.Tables[3];
-                lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
-                lbLikes.SelectionMode = ListSelectionMode.Multiple;
-                lbLikes.DataBind();
+                    lbInterests.DataSource = ds.Tables[2];
+                    lbInterests.DataTextField = "InterestType"; lbInterests.DataValueField = "InterestID";
+                    lbInterests.SelectionMode = ListSelectionMode.Multiple;
+                    lbInterests.DataBind();
 
-                lbDislikes.DataSource = ds.Tables[4];
-                lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
-                lbDislikes.SelectionMode = ListSelectionMode.Multiple;
-                lbDislikes.DataBind();
+                    lbLikes.DataSource = ds.Tables[3];
+                    lbLikes.DataTextField = "LikeType"; lbLikes.DataValueField = "LikeID";
+                    lbLikes.SelectionMode = ListSelectionMode.Multiple;
+                    lbLikes.DataBind();
+
+                    lbDislikes.DataSource = ds.Tables[4];
+                    lbDislikes.DataTextField = "DislikeType"; lbDislikes.DataValueField = "DislikeID";
+                    lbDislikes.SelectionMode = ListSelectionMode.Multiple;
+                    lbDislikes.DataBind();
+                }
+                catch
+                {
+                    Page.ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
+
+                }
             }
         }
 

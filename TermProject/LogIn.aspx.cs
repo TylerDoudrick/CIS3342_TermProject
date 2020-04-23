@@ -32,186 +32,122 @@ namespace TermProject
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
         {
-            string username = txtLogInUsername.Text;
-            string password = txtLogInPassword.Text;
-
-            bool trigger = false;
-
-            txtLogInUsername.CssClass = txtLogInUsername.CssClass.Replace("is-invalid", "").Trim();
-            txtLogInPassword.CssClass = txtLogInPassword.CssClass.Replace("is-invalid", "").Trim();
-            if (username.Length <= 0)
+            try
             {
-                txtLogInUsername.CssClass += " is-invalid";
-                trigger = true;
-            }
-            if (password.Length <= 0)
-            {
-                txtLogInPassword.CssClass += " is-invalid";
-                trigger = true;
-            }
+                string username = txtLogInUsername.Text;
+                string password = txtLogInPassword.Text;
 
-            if (trigger)
-            {
-                //Failed, do nothing
-            }
-            else
-            {
+                bool trigger = false;
 
-                LoginCredentials cred = new LoginCredentials();
-                cred.username = username;
-                cred.password = password;
-                WebRequest request = WebRequest.Create(authWebAPI);
-                request.Method = "POST";
-                JavaScriptSerializer json = new JavaScriptSerializer();
-                string jsonCred = json.Serialize(cred);
-                byte[] postData = Encoding.ASCII.GetBytes(jsonCred);
-                request.ContentType = "application/json";
-                request.ContentLength = postData.Length;
-
-                Stream requestStream = request.GetRequestStream();
-                requestStream.Write(postData, 0, postData.Length);
-
-                WebResponse response = request.GetResponse();
-                Stream theDataStream = response.GetResponseStream();
-                StreamReader reader = new StreamReader(theDataStream);
-                string responseData = reader.ReadToEnd();
-                if(responseData.Length <= 0)
+                txtLogInUsername.CssClass = txtLogInUsername.CssClass.Replace("is-invalid", "").Trim();
+                txtLogInPassword.CssClass = txtLogInPassword.CssClass.Replace("is-invalid", "").Trim();
+                if (username.Length <= 0)
                 {
-                  //  Response.Write("Account not found");
+                    txtLogInUsername.CssClass += " is-invalid";
+                    trigger = true;
+                }
+                if (password.Length <= 0)
+                {
+                    txtLogInPassword.CssClass += " is-invalid";
+                    trigger = true;
+                }
+
+                if (trigger)
+                {
+                    //Failed, do nothing
                 }
                 else
                 {
-                    User foundAccount = json.Deserialize<User>(responseData);
 
-                    if(foundAccount.isVerified == "0")
-                    {
-                        Session["email"] = foundAccount.emailAddress;
-                        Session["VerifyingUserID"] = foundAccount.userID;
+                    LoginCredentials cred = new LoginCredentials();
+                    cred.username = username;
+                    cred.password = password;
+                    WebRequest request = WebRequest.Create(authWebAPI);
+                    request.Method = "POST";
+                    JavaScriptSerializer json = new JavaScriptSerializer();
+                    string jsonCred = json.Serialize(cred);
+                    byte[] postData = Encoding.ASCII.GetBytes(jsonCred);
+                    request.ContentType = "application/json";
+                    request.ContentLength = postData.Length;
 
-                        Response.Redirect("Verification.aspx");
-                    }else if(foundAccount.finishedRegistration == "0")
+                    Stream requestStream = request.GetRequestStream();
+                    requestStream.Write(postData, 0, postData.Length);
+
+                    WebResponse response = request.GetResponse();
+                    Stream theDataStream = response.GetResponseStream();
+                    StreamReader reader = new StreamReader(theDataStream);
+                    string responseData = reader.ReadToEnd();
+                    if (responseData.Length <= 0)
                     {
-                        Session["token"] = foundAccount.token;
-                        Session["RegisteringUserID"] = foundAccount.userID;
-                        Response.Redirect("Registration.aspx");
-                        
+                        //  Response.Write("Account not found");
                     }
                     else
                     {
+                        User foundAccount = json.Deserialize<User>(responseData);
 
-                    Session["email"] = foundAccount.emailAddress;
-                    Session["UserID"] = foundAccount.userID;
-                    Session["seeking"] = foundAccount.seekingGender;
-                    Session["firstName"] = foundAccount.firstName;
-                    Session["lastName"] = foundAccount.lastName;
-                    Session["token"] = foundAccount.token;
+                        if (foundAccount.isVerified == "0")
+                        {
+                            Session["email"] = foundAccount.emailAddress;
+                            Session["VerifyingUserID"] = foundAccount.userID;
 
-                    getPrefs(Convert.ToInt32(foundAccount.userID));
-                    GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                    GetUnreadMessages((foundAccount.userID));
-                    switch (Request.QueryString["target"])
-                    {
+                            Response.Redirect("Verification.aspx");
+                        }
+                        else if (foundAccount.finishedRegistration == "0")
+                        {
+                            Session["token"] = foundAccount.token;
+                            Session["RegisteringUserID"] = foundAccount.userID;
+                            Response.Redirect("Registration.aspx");
 
-                        case "Dates":
-                            Response.Redirect("Dates.aspx");
-                            break;
-                        case "LikeandPass":
-                            Response.Redirect("LikeandPass.aspx");
-                            break;
-                        case "Messages":
-                            Response.Redirect("Messages.aspx");
-                            break;
-                        case "Profile":
-                            Response.Redirect("Profile.aspx");
-                            break;
-                        case "Settings":
-                            Response.Redirect("Settings.aspx");
-                            break;
-                        case "MemberProfile":
-                            Response.Redirect("MemberProfile.aspx?"+ Request.QueryString.ToString());
-                            break;
-                        default:
-                            Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
-                            break;
+                        }
+                        else
+                        {
+
+                            Session["email"] = foundAccount.emailAddress;
+                            Session["UserID"] = foundAccount.userID;
+                            Session["seeking"] = foundAccount.seekingGender;
+                            Session["firstName"] = foundAccount.firstName;
+                            Session["lastName"] = foundAccount.lastName;
+                            Session["token"] = foundAccount.token;
+
+                            getPrefs(Convert.ToInt32(foundAccount.userID));
+                            GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                            GetUnreadMessages((foundAccount.userID));
+                            switch (Request.QueryString["target"])
+                            {
+
+                                case "Dates":
+                                    Response.Redirect("Dates.aspx");
+                                    break;
+                                case "LikeandPass":
+                                    Response.Redirect("LikeandPass.aspx");
+                                    break;
+                                case "Messages":
+                                    Response.Redirect("Messages.aspx");
+                                    break;
+                                case "Profile":
+                                    Response.Redirect("Profile.aspx");
+                                    break;
+                                case "Settings":
+                                    Response.Redirect("Settings.aspx");
+                                    break;
+                                case "MemberProfile":
+                                    Response.Redirect("MemberProfile.aspx?" + Request.QueryString.ToString());
+                                    break;
+                                default:
+                                    Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
+                                    break;
+                            }
+                        }
+
                     }
-                    }
+                    reader.Close();
+                    response.Close();
 
                 }
-                reader.Close();
-                response.Close();
-
-                ////Do something
-
-                //commandObj.Parameters.Clear();
-                //commandObj.CommandType = CommandType.StoredProcedure;
-                //commandObj.CommandText = "TP_LookupUserRecord";
-
-                //SqlParameter inputUsername = new SqlParameter("@username", username)
-                //{
-                //    Direction = ParameterDirection.Input,
-
-                //    SqlDbType = SqlDbType.VarChar
-                //};
-
-                //commandObj.Parameters.Add(inputUsername);
-
-
-                //DataSet dsUser = dbConnection.GetDataSetUsingCmdObj(commandObj);
-                //if (dsUser.Tables[0].Rows.Count > 0)
-                //{
-                //    DataRow drUserRecord = dsUser.Tables[0].Rows[0];
-
-                //    string email = drUserRecord["emailAddress"].ToString();
-                //    Session["email"] = email;
-
-                //    byte[] salt = (byte[])drUserRecord["salt"];
-                //    byte[] hashedPassword = (byte[])drUserRecord["password"];
-
-
-                //    if (CryptoUtilities.comparePassword(hashedPassword, salt, password))
-                //    {
-                //        Session["UserID"] = drUserRecord["userID"].ToString();
-                //        getPrefs(Convert.ToInt32(drUserRecord["userID"].ToString())); // get list of prefs to store in session
-
-                //        // store the seeking gender in session
-                //        string seeking = dsUser.Tables[1].Rows[0][0].ToString();
-                //        Session["seeking"] = seeking;
-
-                //        switch (Request.QueryString["target"])
-                //        {
-
-                //            case "Dates":
-                //                Response.Redirect("Dates.aspx");
-                //                break;
-                //            case "LikeandPass":
-                //                Response.Redirect("LikeandPass.aspx");
-                //                break;
-                //            case "Messages":
-                //                Response.Redirect("Messages.aspx");
-                //                break;
-                //            case "Profile":
-                //                Response.Redirect("Profile.aspx");
-                //                break;
-                //            case "Settings":
-                //                Response.Redirect("Settings.aspx");
-                //                break;
-
-                //            default:
-                //                Response.Redirect("Dashboard.aspx");
-                //                break;
-                //        }
-                //    }
-                //    else
-                //    {
-                //        Response.Write("Failed password check");
-                //        //Invalid password :(
-                //    }
-                //}
-                //else
-                //{
-                //    Response.Write("Failed username check");
-                //    //Profile not found
-                //}
+            }
+            catch
+            {
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
 
             }
 
