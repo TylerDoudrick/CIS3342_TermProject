@@ -208,7 +208,8 @@ namespace TermProject
             }
             if (photoUpload.FileName == "")
             {
-                check = true; photoUpload.CssClass += "is-invalid";
+                check = true; //photoUpload.CssClass += "is-invalid";
+                lblPhotos.CssClass += "is-invalid";
             }
             return check;
         }
