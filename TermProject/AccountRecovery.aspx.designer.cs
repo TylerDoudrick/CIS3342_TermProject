@@ -22,6 +22,15 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divVerificationCode;
         
         /// <summary>
+        /// divInvalidCode control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInvalidCode;
+        
+        /// <summary>
         /// txtEmailAddress control.
         /// </summary>
         /// <remarks>
@@ -49,6 +58,15 @@ namespace TermProject {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divSecurityQuestion;
         
         /// <summary>
+        /// divInvalidAnswer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInvalidAnswer;
+        
+        /// <summary>
         /// lblSecurityQuestion control.
         /// </summary>
         /// <remarks>
@@ -74,6 +92,15 @@ namespace TermProject {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl divChangePassword;
+        
+        /// <summary>
+        /// divInvalidPassword control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl divInvalidPassword;
         
         /// <summary>
         /// txtNewPass control.
