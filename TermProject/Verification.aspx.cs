@@ -102,7 +102,7 @@ namespace TermProject
             string responseData = reader.ReadToEnd();
             if (responseData.Length <= 0)
             {
-              //  Response.Write("Failed");
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
             else
             {

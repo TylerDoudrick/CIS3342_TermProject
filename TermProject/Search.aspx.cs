@@ -172,13 +172,14 @@ namespace TermProject
                     //gvTemp.DataBind();
                     rpCarousel.DataSource = foundProfiles;
                     rpCarousel.DataBind();
+                    divNoneFound.Visible = false;
                     searchResults.Visible = true;
                     divSearchOptions.Visible = false;
                     divSearchControls.Visible = true;
                 }
                 else
                 {
-                    // Response.Write("none");
+                    divNoneFound.Visible = true;
                 }
             }
             catch

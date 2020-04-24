@@ -401,7 +401,6 @@ namespace TermProject
             if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow test = ds.Tables[0].Rows[0];
-                //Response.Write(test["memberLikes"]);
                 Byte[] testarray = (Byte[])test["memberLikes"];
                 MemoryStream memorystreamd = new MemoryStream(testarray);
                 BinaryFormatter bfd = new BinaryFormatter();

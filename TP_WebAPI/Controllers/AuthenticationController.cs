@@ -53,7 +53,7 @@ namespace TP_WebAPI.Controllers
                     foundUser.firstName = drUserRecord["firstName"].ToString();
                     foundUser.lastName = drUserRecord["lastName"].ToString();
                     foundUser.emailAddress = drUserRecord["emailAddress"].ToString();
-                    if((dsUser.Tables[1].Rows.Count > 0)) foundUser.seekingGender = dsUser.Tables[2].Rows[0]["seekingGender"].ToString();
+                    if((dsUser.Tables[1].Rows.Count > 0)) foundUser.seekingGender = dsUser.Tables[1].Rows[0]["seekingGender"].ToString();
                     foundUser.isVerified = drUserRecord["isVerified"].ToString();
                     foundUser.finishedRegistration = drUserRecord["finishedRegistration"].ToString();
                     foundUser.token = GenerateJSONWebToken();

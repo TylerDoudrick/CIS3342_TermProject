@@ -115,7 +115,7 @@ namespace TermProject
                     DBConnect OBJ = new DBConnect();
                     if (OBJ.DoUpdateUsingCmdObj(commandObj, out string err) == -2)
                     {
-                        //Response.Write(err);
+                        ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                     }
                     else
                     {

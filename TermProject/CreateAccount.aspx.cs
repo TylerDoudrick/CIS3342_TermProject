@@ -75,6 +75,8 @@ namespace TermProject
 
         protected void btnCreateAccount_Click(object sender, EventArgs e)
         {
+            divUsernameExists.Visible = false;
+            divEmailExists.Visible = false;
 
             string username = txtUsername.Text;
             string email = txtEmail.Text.Trim();
@@ -308,17 +310,17 @@ namespace TermProject
 
                 if (dbConnection.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
                 {
-                  //  Response.Write(exception);
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
                 else
                 {
                     if (Int32.Parse(outputUsernameExists.Value.ToString()) == 1)
                     {
-                     //   Response.Write("Fail, username exists");
+                        divUsernameExists.Visible = true;
                     }
                     if (Int32.Parse(outputEmailExists.Value.ToString()) == 1)
                     {
-                      //  Response.Write("Fail, email exists");
+                        divEmailExists.Visible = true;
                     }
                     if (!(Int32.Parse(outputUsernameExists.Value.ToString()) == 1 && (Int32.Parse(outputEmailExists.Value.ToString()) == 1)))
                     {
@@ -354,7 +356,7 @@ namespace TermProject
                         commandObj.Parameters.AddWithValue("@UserID", outputNewUserID.Value.ToString());
                         if (dbConnection.DoUpdateUsingCmdObj(commandObj, out exception) == -2)
                         {
-                          //  Response.Write(exception);
+                            ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                         }
                         else
                         {
@@ -405,7 +407,7 @@ namespace TermProject
                             }
                             else
                             {
-                             //   Response.Write(err);
+                                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                             } // end inner else
 
                         } // end outter else

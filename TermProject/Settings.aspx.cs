@@ -138,6 +138,7 @@ namespace TermProject
 
         protected void btnUpdateUsername_Click(object sender, EventArgs e)
         { // validate user input for username
+            lblUsernameError.Visible = false;
             Session["remain"] = 1;
             if (txtNewUsername.Text=="")
             {
@@ -158,17 +159,16 @@ namespace TermProject
                 objUpdateUserName.Parameters.Add(outputUsernameExists);
                 if (obj.DoUpdateUsingCmdObj(objUpdateUserName, out string exception) == -2)
                 {
-                   // Response.Write(exception);
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
                 if (Int32.Parse(outputUsernameExists.Value.ToString()) == 1)
                 {
-                    //Response.Write("Fail, username exists");
+                    lblUsernameError.Visible = true;
                 }
                 else
                 {
                     ClientScript.RegisterStartupScript(this.GetType(), "SuccessToast", "showSuccess();", true);
 
-                    //   ScriptManager.RegisterClientScriptBlock(this, GetType(),"alertMessage", @"alert('Successfully updated username ')", true);
                     txtCurrentUsername.Text = txtNewUsername.Text;
                     txtNewUsername.CssClass = txtNewUsername.CssClass.Replace("is-invalid", "").Trim();
                 }

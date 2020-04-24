@@ -77,7 +77,7 @@ namespace TermProject
             {
                 if (result.Tables[0].Rows.Count != 1)
                 {
-                    //WTF?
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
                 else
                 {
@@ -174,7 +174,7 @@ namespace TermProject
             }
             else
             {
-                //Response.Write(data);
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
         }
 
@@ -225,8 +225,6 @@ namespace TermProject
 
                 if (data == "true")
                 {
-                    //   Response.Write(data);
-
                     showSuccessToast();
                 }
                 else
@@ -237,7 +235,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                // Response.Write("Error: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
 
         }
@@ -295,7 +293,7 @@ namespace TermProject
 
                 catch (Exception ex)
                 {
-                    //  Response.Write("Error: " + ex.Message);
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
             }
             else
@@ -368,7 +366,7 @@ namespace TermProject
 
                 catch (Exception ex)
                 {
-                    // Response.Write("Error: " + ex.Message);
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
             }
             else
@@ -437,7 +435,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                // Response.Write("Error: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
         }
 
@@ -460,7 +458,6 @@ namespace TermProject
             response.Close();
 
             DataSet result = JsonConvert.DeserializeObject<DataSet>(data);
-            // Response.Write(data);
 
             if (result.Tables.Count > 0)
             {
@@ -596,7 +593,7 @@ namespace TermProject
 
             catch (Exception ex)
             {
-                //    Response.Write("Error: " + ex.Message);
+                ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
             }
 
             lblYourDetails.Visible = true;

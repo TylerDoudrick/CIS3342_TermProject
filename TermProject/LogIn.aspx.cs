@@ -27,7 +27,13 @@ namespace TermProject
         SqlCommand commandObj = new SqlCommand();
         protected void Page_Load(object sender, EventArgs e)
         {
+            HttpCookie cookie = Request.Cookies.Get("Username");
 
+            // Check if cookie exists in the current request.
+            if (cookie != null)
+            {
+                txtLogInUsername.Text = cookie.Value;
+            }
         }
 
         protected void btnLoginSubmit_Click(object sender, EventArgs e)
@@ -113,6 +119,17 @@ namespace TermProject
                             getPrefs(Convert.ToInt32(foundAccount.userID));
                             GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
                             GetUnreadMessages((foundAccount.userID));
+
+                            if (chkLogInRemember.Checked)
+                            {
+                                HttpCookie cookie = new HttpCookie("Username");
+                                // Set value of cookie to current date time.
+                                cookie.Value = username;
+                                // Set cookie to expire in 10 minutes.
+                                cookie.Expires = DateTime.Now.AddDays(7);
+                                // Insert the cookie in the current HttpResponse.
+                                Response.Cookies.Add(cookie);
+                            }
                             switch (Request.QueryString["target"])
                             {
 
@@ -342,7 +359,6 @@ namespace TermProject
 
             string rngString = Convert.ToBase64String(random);
             string trimmed = rngString.Substring(0,rngString.Length - 2);
-           // Response.Write(trimmed);
 
             commandObj.Parameters.Clear();
             commandObj.CommandType = CommandType.StoredProcedure;
@@ -381,7 +397,6 @@ namespace TermProject
             if (ds.Tables[0].Rows.Count > 0)
             {
                 DataRow test = ds.Tables[0].Rows[0];
-                //Response.Write(test["memberLikes"]);
                 Byte[] testarray = (Byte[])test["memberLikes"];
                 MemoryStream memorystreamd = new MemoryStream(testarray);
                 BinaryFormatter bfd = new BinaryFormatter();

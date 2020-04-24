@@ -447,7 +447,7 @@ namespace TermProject
                 }
                 catch
                 {
-                  //  Response.Write("Could not send date request. Error Occurred.");
+                    ClientScript.RegisterStartupScript(this.GetType(), "FailureToast", "showDBError();", true);
                 }
             } // end else
                         
