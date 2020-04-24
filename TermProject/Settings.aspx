@@ -48,7 +48,7 @@
                     <br />
 
                     <div class="row">
-                        <asp:Label runat="server" ID="lblUsernameError" CssClass="text-danger font-weight-bold"></asp:Label>
+                        <asp:Label runat="server" ID="lblUsernameError" CssClass="text-danger font-weight-bold" Visible="false">Username already exists! Please try again.</asp:Label>
                         <br />
                     </div>
 

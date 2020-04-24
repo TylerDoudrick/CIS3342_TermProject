@@ -23,6 +23,12 @@
             <div class="card p-3">
                 <h5 class="card-title text-center">Create Account</h5>
                 <div class="card-body">
+                                        <div class="form-group alert-danger p-4 rounded" runat="server" id="divUsernameExists" visible="false">
+                            Username already exists, please try again.
+                        </div>
+                                        <div class="form-group alert-danger p-4 rounded" runat="server" id="divEmailExists" visible="false">
+                            Email already exists, please try again.
+                        </div>
                     <div class="form-group row">
                         <label for="<%= txtUsername.ClientID %>" class="col-sm-4 col-form-label">Username</label>
                         <div class="col-sm-8">
