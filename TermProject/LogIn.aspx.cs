@@ -117,8 +117,8 @@ namespace TermProject
                             Session["token"] = foundAccount.token;
 
                             getPrefs(Convert.ToInt32(foundAccount.userID));
-                            GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                            GetUnreadMessages((foundAccount.userID));
+                            //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                            //GetUnreadMessages((foundAccount.userID));
 
                             if (chkLogInRemember.Checked)
                             {
@@ -196,8 +196,8 @@ namespace TermProject
                 Session["token"] = foundAccount.token;
 
                 getPrefs(Convert.ToInt32(foundAccount.userID));
-                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                GetUnreadMessages((foundAccount.userID));
+                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                //GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -256,8 +256,8 @@ namespace TermProject
                 Session["token"] = foundAccount.token;
 
                 getPrefs(Convert.ToInt32(foundAccount.userID));
-                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                GetUnreadMessages((foundAccount.userID));
+                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                //GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -318,8 +318,8 @@ namespace TermProject
                 Session["token"] = foundAccount.token;
                 getPrefs(Convert.ToInt32(foundAccount.userID));
 
-                GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                GetUnreadMessages((foundAccount.userID));
+                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
+                //GetUnreadMessages((foundAccount.userID));
 
                 switch (Request.QueryString["target"])
                 {
@@ -437,77 +437,77 @@ namespace TermProject
             
         }
 
-        protected void GetAcceptedDates(int userID)
-        { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
-            WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
-            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            String data = reader.ReadToEnd();
-            reader.Close(); response.Close();
+        //protected void GetAcceptedDates(int userID)
+        //{ // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
+        //    WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+        //    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+        //    WebResponse response = request.GetResponse();
+        //    Stream theDataStream = response.GetResponseStream();
+        //    StreamReader reader = new StreamReader(theDataStream);
+        //    String data = reader.ReadToEnd();
+        //    reader.Close(); response.Close();
 
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+        //    JavaScriptSerializer js = new JavaScriptSerializer();
+        //    DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
 
-            // datatable one is date requests, datatable two is planned dates
-            DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
+        //    // datatable one is date requests, datatable two is planned dates
+        //    DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
 
-            List<int> acceptedDates = new List<int>();
+        //    List<int> acceptedDates = new List<int>();
 
-            for (int i=0;i<one.Rows.Count; i++)
-            {
-                int id = Convert.ToInt32(one.Rows[i]["userID"]);
-                acceptedDates.Add(id);
-            }
-            for ( int i =0; i < two.Rows.Count; i++)
-            {
-                int id = Convert.ToInt32(two.Rows[i]["userID"]);
-                acceptedDates.Add(id);
-            }
-            Session["acceptedDates"] = acceptedDates;
+        //    for (int i=0;i<one.Rows.Count; i++)
+        //    {
+        //        int id = Convert.ToInt32(one.Rows[i]["userID"]);
+        //        acceptedDates.Add(id);
+        //    }
+        //    for ( int i =0; i < two.Rows.Count; i++)
+        //    {
+        //        int id = Convert.ToInt32(two.Rows[i]["userID"]);
+        //        acceptedDates.Add(id);
+        //    }
+        //    Session["acceptedDates"] = acceptedDates;
 
-            Session["plannedDates"] = two.Rows.Count;// count of planned dates
-        } // end get accepted dates
+        //    Session["plannedDates"] = two.Rows.Count;// count of planned dates
+        //} // end get accepted dates
 
-        protected void GetUnreadMessages(string uID)
-        {
-            User u = new User();
-            u.userID = uID;
+        //protected void GetUnreadMessages(string uID)
+        //{
+        //    User u = new User();
+        //    u.userID = uID;
 
-            // serialize the object
-            JavaScriptSerializer js = new JavaScriptSerializer();
-            String jsonValues = js.Serialize(u);
+        //    // serialize the object
+        //    JavaScriptSerializer js = new JavaScriptSerializer();
+        //    String jsonValues = js.Serialize(u);
 
-            // create the reqest
-            WebRequest request = WebRequest.Create(interactionsWebAPI + "GetUserInbox");
-            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+        //    // create the reqest
+        //    WebRequest request = WebRequest.Create(interactionsWebAPI + "GetUserInbox");
+        //    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
 
-            request.Method = "POST";
-            request.ContentType = "application/json";
+        //    request.Method = "POST";
+        //    request.ContentType = "application/json";
 
-            // write data to body
-            StreamWriter writer = new StreamWriter(request.GetRequestStream());
-            writer.Write(jsonValues);
-            writer.Flush();
-            writer.Close();
+        //    // write data to body
+        //    StreamWriter writer = new StreamWriter(request.GetRequestStream());
+        //    writer.Write(jsonValues);
+        //    writer.Flush();
+        //    writer.Close();
 
-            // get response and read it
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            String data = reader.ReadToEnd();
-            reader.Close(); response.Close();
+        //    // get response and read it
+        //    WebResponse response = request.GetResponse();
+        //    Stream theDataStream = response.GetResponseStream();
+        //    StreamReader reader = new StreamReader(theDataStream);
+        //    String data = reader.ReadToEnd();
+        //    reader.Close(); response.Close();
 
-            List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
-            if (im == null)
-            {
-                Session["unreadMessages"] = 0;
-            }
-            else
-            {
-                Session["unreadMessages"] = im.Count(); // store the number of unread messages in session
-            }
-        } // end get unread messages
+        //    List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
+        //    if (im == null)
+        //    {
+        //        Session["unreadMessages"] = 0;
+        //    }
+        //    else
+        //    {
+        //        Session["unreadMessages"] = im.Count(); // store the number of unread messages in session
+        //    }
+        //} // end get unread messages
     } // end class 
 }// end namespace
