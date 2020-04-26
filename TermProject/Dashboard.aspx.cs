@@ -10,6 +10,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using Models;
+using Newtonsoft.Json;
+using System.Net;
+using System.Web.Script.Serialization;
 
 namespace TermProject
 {
@@ -66,11 +69,13 @@ namespace TermProject
                 } // end outer if
                 else
                 {
-                    int plannedDates = Convert.ToInt32(Session["plannedDates"]);
-                    int unreadMessages = Convert.ToInt32(Session["unreadMessages"]);
+                    GetAcceptedDates();
+                    GetUnreadMessages();
+                    //int plannedDates = Convert.ToInt32(Session["plannedDates"]);
+                    //int unreadMessages = Convert.ToInt32(Session["unreadMessages"]);
 
-                    hNumPlannedDates.InnerText = plannedDates + " Planned Dates";
-                    hNumUnreadMessages.InnerText = unreadMessages + " Unread Messages";
+                    //hNumPlannedDates.InnerText = plannedDates + " Planned Dates";
+                    //hNumUnreadMessages.InnerText = unreadMessages + " Unread Messages";
 
                     List<int> memberDislikes = (List<int>)Session["memberDislikes"];
                     List<int> memberBlocks = (List<int>)Session["memberBlocks"];
@@ -151,5 +156,80 @@ namespace TermProject
             int memID = Convert.ToInt32(e.CommandName);
             Response.Redirect("MemberProfile.aspx?memberID=" + memID);
         } // end go to profile
+
+        protected void GetAcceptedDates()
+        { // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
+
+            // datatable one is date requests, datatable two is planned dates
+            DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
+
+            List<int> acceptedDates = new List<int>();
+
+            for (int i = 0; i < one.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(one.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            for (int i = 0; i < two.Rows.Count; i++)
+            {
+                int id = Convert.ToInt32(two.Rows[i]["userID"]);
+                acceptedDates.Add(id);
+            }
+            Session["acceptedDates"] = acceptedDates;
+            Session["plannedDates"] = two.Rows.Count;// count of planned dates
+
+            hNumPlannedDates.InnerText = two.Rows.Count + " Planned Dates";
+        } // end get accepted dates
+
+        protected void GetUnreadMessages()
+        {
+            User u = new User();
+            u.userID = userID;
+
+            // serialize the object
+            JavaScriptSerializer js = new JavaScriptSerializer();
+            String jsonValues = js.Serialize(u);
+
+            // create the reqest
+            WebRequest request = WebRequest.Create(interactionsWebAPI + "GetUserInbox");
+            request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
+
+            request.Method = "POST";
+            request.ContentType = "application/json";
+
+            // write data to body
+            StreamWriter writer = new StreamWriter(request.GetRequestStream());
+            writer.Write(jsonValues);
+            writer.Flush();
+            writer.Close();
+
+            // get response and read it
+            WebResponse response = request.GetResponse();
+            Stream theDataStream = response.GetResponseStream();
+            StreamReader reader = new StreamReader(theDataStream);
+            String data = reader.ReadToEnd();
+            reader.Close(); response.Close();
+
+            List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
+            if (im == null)
+            {
+                hNumUnreadMessages.InnerText =  "0 Unread Messages";
+            }
+            else
+            {
+                Session["unreadMessages"] = im.Count(); // store the number of unread messages in session
+                hNumUnreadMessages.InnerText = im.Count() + " Unread Messages";
+            }
+        } // end get unread messages
     }
 }
