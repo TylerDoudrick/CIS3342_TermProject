@@ -27,9 +27,11 @@ namespace TermProject
         SqlCommand commandObj = new SqlCommand();
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             HttpCookie cookie = Request.Cookies.Get("Username");
 
-            // Check if cookie exists in the current request.
+            // Check if cookie exists
+            //      If it does, set the username input text
             if (cookie != null)
             {
                 txtLogInUsername.Text = cookie.Value;
@@ -65,7 +67,7 @@ namespace TermProject
                 }
                 else
                 {
-
+                    //If we passed validation, send the login credentials over to the API
                     LoginCredentials cred = new LoginCredentials();
                     cred.username = username;
                     cred.password = password;
@@ -90,8 +92,10 @@ namespace TermProject
                     }
                     else
                     {
+                        //If the API sent something back, then it must be an account
                         User foundAccount = json.Deserialize<User>(responseData);
 
+                        //If the user isn't verified or isn't finished registering, send them where they need to be.
                         if (foundAccount.isVerified == "0")
                         {
                             Session["email"] = foundAccount.emailAddress;
@@ -117,17 +121,12 @@ namespace TermProject
                             Session["token"] = foundAccount.token;
 
                             getPrefs(Convert.ToInt32(foundAccount.userID));
-                            //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                            //GetUnreadMessages((foundAccount.userID));
 
                             if (chkLogInRemember.Checked)
                             {
                                 HttpCookie cookie = new HttpCookie("Username");
-                                // Set value of cookie to current date time.
                                 cookie.Value = username;
-                                // Set cookie to expire in 10 minutes.
                                 cookie.Expires = DateTime.Now.AddDays(7);
-                                // Insert the cookie in the current HttpResponse.
                                 Response.Cookies.Add(cookie);
                             }
                             switch (Request.QueryString["target"])
@@ -170,189 +169,11 @@ namespace TermProject
             }
 
         }
-        protected void btnDebug1_Click(object sender, EventArgs e)
-        {
-            JavaScriptSerializer json = new JavaScriptSerializer();
-
-            WebRequest request = WebRequest.Create(authWebAPI + "debug/samantha202");
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            string responseData = reader.ReadToEnd();
-
-
-            if (responseData.Length <= 0)
-            {
-
-            }
-            else
-            {
-                User foundAccount = json.Deserialize<User>(responseData);
-                Session["email"] = foundAccount.emailAddress;
-                Session["UserID"] = foundAccount.userID;
-                Session["seeking"] = foundAccount.seekingGender;
-                Session["firstName"] = foundAccount.firstName;
-                Session["lastName"] = foundAccount.lastName;
-                Session["token"] = foundAccount.token;
-
-                getPrefs(Convert.ToInt32(foundAccount.userID));
-                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                //GetUnreadMessages((foundAccount.userID));
-
-                switch (Request.QueryString["target"])
-                {
-
-                    case "Dates":
-                        Response.Redirect("Dates.aspx");
-                        break;
-                    case "LikeandPass":
-                        Response.Redirect("LikeandPass.aspx");
-                        break;
-                    case "Messages":
-                        Response.Redirect("Messages.aspx");
-                        break;
-                    case "Profile":
-                        Response.Redirect("Profile.aspx");
-                        break;
-                    case "Settings":
-                        Response.Redirect("Settings.aspx");
-                        break;
-                    case "MemberProfile":
-                        Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
-                        break;
-                    default:
-                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
-                        break;
-                }
-
-            }
-
-            reader.Close();
-            response.Close();
-        }
-        protected void btnDebug2_Click(object sender, EventArgs e)
-        {
-            JavaScriptSerializer json = new JavaScriptSerializer();
-
-            WebRequest request = WebRequest.Create(authWebAPI + "debug/thomasUpdate");
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            string responseData = reader.ReadToEnd();
-
-
-            if (responseData.Length <= 0)
-            {
-
-            }
-            else
-            {
-                User foundAccount = json.Deserialize<User>(responseData);
-                Session["email"] = foundAccount.emailAddress;
-                Session["UserID"] = foundAccount.userID;
-                Session["seeking"] = foundAccount.seekingGender;
-                Session["firstName"] = foundAccount.firstName;
-                Session["lastName"] = foundAccount.lastName;
-                Session["token"] = foundAccount.token;
-
-                getPrefs(Convert.ToInt32(foundAccount.userID));
-                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                //GetUnreadMessages((foundAccount.userID));
-
-                switch (Request.QueryString["target"])
-                {
-
-                    case "Dates":
-                        Response.Redirect("Dates.aspx");
-                        break;
-                    case "LikeandPass":
-                        Response.Redirect("LikeandPass.aspx");
-                        break;
-                    case "Messages":
-                        Response.Redirect("Messages.aspx");
-                        break;
-                    case "Profile":
-                        Response.Redirect("Profile.aspx");
-                        break;
-                    case "Settings":
-                        Response.Redirect("Settings.aspx");
-                        break;
-                    case "MemberProfile":
-                        Response.Redirect("MemberProfile.aspx?memberID=" + Request.QueryString["memberID"].ToString());
-                        break;
-                    default:
-                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
-                        break;
-                }
-
-            }
-
-            reader.Close();
-            response.Close();
-        }
-        protected void btnDebug3_Click(object sender, EventArgs e)
-        {
-            string username = txtLogInUsername.Text;
-
-            JavaScriptSerializer json = new JavaScriptSerializer();
-
-            WebRequest request = WebRequest.Create(authWebAPI + "debug/"+username);
-            WebResponse response = request.GetResponse();
-            Stream theDataStream = response.GetResponseStream();
-            StreamReader reader = new StreamReader(theDataStream);
-            string responseData = reader.ReadToEnd();
-
-
-            if (responseData.Length <= 0)
-            {
-
-            }
-            else
-            {
-                User foundAccount = json.Deserialize<User>(responseData);
-                Session["email"] = foundAccount.emailAddress;
-                Session["UserID"] = foundAccount.userID;
-                Session["seeking"] = foundAccount.seekingGender;
-                Session["firstName"] = foundAccount.firstName;
-                Session["lastName"] = foundAccount.lastName;
-                Session["token"] = foundAccount.token;
-                getPrefs(Convert.ToInt32(foundAccount.userID));
-
-                //GetAcceptedDates(Convert.ToInt32(foundAccount.userID));
-                //GetUnreadMessages((foundAccount.userID));
-
-                switch (Request.QueryString["target"])
-                {
-
-                    case "Dates":
-                        Response.Redirect("Dates.aspx");
-                        break;
-                    case "LikeandPass":
-                        Response.Redirect("LikeandPass.aspx");
-                        break;
-                    case "Messages":
-                        Response.Redirect("Messages.aspx");
-                        break;
-                    case "Profile":
-                        Response.Redirect("Profile.aspx");
-                        break;
-                    case "Settings":
-                        Response.Redirect("Settings.aspx");
-                        break;
-
-                    default:
-                        Response.Redirect("Dashboard.aspx"); // send total number of accpeted date reqs in url
-                        break;
-                }
-
-            }
-
-            reader.Close();
-            response.Close();
-        }
-
+       
         protected void btnSendRecovery_Click(object sender, EventArgs e)
         {
+            //Create a new verification code and add it to the db if the email exists
+
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] random = new byte[16];
             rng.GetBytes(random);
@@ -437,77 +258,5 @@ namespace TermProject
             
         }
 
-        //protected void GetAcceptedDates(int userID)
-        //{ // if there's a successeful login, this will get all accepted dates so personal information can be made avaiable for those users.
-        //    WebRequest request = WebRequest.Create(interactionsWebAPI + "getAcceptedDates/" + userID);
-        //    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-        //    WebResponse response = request.GetResponse();
-        //    Stream theDataStream = response.GetResponseStream();
-        //    StreamReader reader = new StreamReader(theDataStream);
-        //    String data = reader.ReadToEnd();
-        //    reader.Close(); response.Close();
-
-        //    JavaScriptSerializer js = new JavaScriptSerializer();
-        //    DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-
-        //    // datatable one is date requests, datatable two is planned dates
-        //    DataTable one = ds.Tables[0]; DataTable two = ds.Tables[1];
-
-        //    List<int> acceptedDates = new List<int>();
-
-        //    for (int i=0;i<one.Rows.Count; i++)
-        //    {
-        //        int id = Convert.ToInt32(one.Rows[i]["userID"]);
-        //        acceptedDates.Add(id);
-        //    }
-        //    for ( int i =0; i < two.Rows.Count; i++)
-        //    {
-        //        int id = Convert.ToInt32(two.Rows[i]["userID"]);
-        //        acceptedDates.Add(id);
-        //    }
-        //    Session["acceptedDates"] = acceptedDates;
-
-        //    Session["plannedDates"] = two.Rows.Count;// count of planned dates
-        //} // end get accepted dates
-
-        //protected void GetUnreadMessages(string uID)
-        //{
-        //    User u = new User();
-        //    u.userID = uID;
-
-        //    // serialize the object
-        //    JavaScriptSerializer js = new JavaScriptSerializer();
-        //    String jsonValues = js.Serialize(u);
-
-        //    // create the reqest
-        //    WebRequest request = WebRequest.Create(interactionsWebAPI + "GetUserInbox");
-        //    request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-
-        //    request.Method = "POST";
-        //    request.ContentType = "application/json";
-
-        //    // write data to body
-        //    StreamWriter writer = new StreamWriter(request.GetRequestStream());
-        //    writer.Write(jsonValues);
-        //    writer.Flush();
-        //    writer.Close();
-
-        //    // get response and read it
-        //    WebResponse response = request.GetResponse();
-        //    Stream theDataStream = response.GetResponseStream();
-        //    StreamReader reader = new StreamReader(theDataStream);
-        //    String data = reader.ReadToEnd();
-        //    reader.Close(); response.Close();
-
-        //    List<IncomingMessage> im = JsonConvert.DeserializeObject<List<IncomingMessage>>(data);
-        //    if (im == null)
-        //    {
-        //        Session["unreadMessages"] = 0;
-        //    }
-        //    else
-        //    {
-        //        Session["unreadMessages"] = im.Count(); // store the number of unread messages in session
-        //    }
-        //} // end get unread messages
     } // end class 
 }// end namespace

@@ -30,7 +30,7 @@ namespace TermProject
             if (!IsPostBack) {
                 try
                 {
-
+                    //Load the security question options into the dropdown lists.
 
                     DBConnect databaseObj = new DBConnect();
                     SqlCommand commandObj = new SqlCommand();
@@ -56,6 +56,8 @@ namespace TermProject
                     ddlSecurityQTwo.DataBind();
                     ddlSecurityQThree.DataBind();
 
+                    //Insert the generic listitems with empty values and select them
+
                     ddlSecurityQOne.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
                     ddlSecurityQTwo.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
                     ddlSecurityQThree.Items.Insert(0, new ListItem("Please Select a Question...", String.Empty));
@@ -75,6 +77,9 @@ namespace TermProject
 
         protected void btnCreateAccount_Click(object sender, EventArgs e)
         {
+            //Basic validation
+
+
             divUsernameExists.Visible = false;
             divEmailExists.Visible = false;
 
@@ -93,6 +98,7 @@ namespace TermProject
             string SQOne = txtSecurityQOne.Text;
             string SQTwo = txtSecurityQTwo.Text;
             string SQThree = txtSecurityQThree.Text;
+
             //
             //Regular Expressions sourced from http://regexlib.com
             //
@@ -314,6 +320,7 @@ namespace TermProject
                 }
                 else
                 {
+                    //Two output parameters tell us if the username or email exists
                     if (Int32.Parse(outputUsernameExists.Value.ToString()) == 1)
                     {
                         divUsernameExists.Visible = true;
@@ -324,7 +331,7 @@ namespace TermProject
                     }
                     if (!(Int32.Parse(outputUsernameExists.Value.ToString()) == 1 && (Int32.Parse(outputEmailExists.Value.ToString()) == 1)))
                     {
-
+                        //If we pass the checks, then also update the security questions
 
                         commandObj.Parameters.Clear();
                         commandObj.CommandType = CommandType.StoredProcedure;
@@ -363,8 +370,9 @@ namespace TermProject
                             // insert empty list of prefs
                             insertPreferences(Convert.ToInt32(outputNewUserID.Value.ToString()));
                             Session["RegisteringUserID"] = outputNewUserID;
-                            Session["token"] = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODcyNzY2Nzd9.nUnarRJiy26XQjw9AFE986rYRTvykpLJs8483vX91wE";
 
+
+                            //Generate a random verification code using the crypto provider
                             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
                             byte[] random = new byte[16];
                             rng.GetBytes(random);

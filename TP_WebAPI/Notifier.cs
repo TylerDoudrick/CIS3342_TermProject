@@ -20,6 +20,7 @@ namespace TP_WebAPI
 
         public void NotifyMessage(int userID, string message)
         {
+            //Message notification is type 2 
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
 
@@ -57,6 +58,7 @@ namespace TP_WebAPI
 
         public void NotifyDate(int userID, string message)
         {
+            //Date notification is type 1
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
 

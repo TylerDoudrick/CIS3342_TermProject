@@ -1,14 +1,22 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Notifier.ascx.cs" Inherits="TermProject.UserControls.Notifier" %>
 <script>
+    //
+    //Usercontrol to hander notifications
+    //
+    //
     var w;
 
     function startWorker() {
+        //Check if browser supports workers
         if (typeof (Worker) !== "undefined") {
+            //Start the worker if it hasn't been started
             if (typeof (w) == "undefined") {
                 w = new Worker("UserControls/js/notifierWorker.js?userID=<%= this.UserID %>&token=<%= this.token %>");
             }
             w.onmessage = function (event) {
 
+
+                //When the worker tells us about a message, shoat a toast using the toastr plugin
                 if (event.data.length !== 0) {
                     event.data.forEach(function (obj) {
                         var notificationID = obj.notificationID;
@@ -29,6 +37,11 @@
                             "showMethod": "fadeIn",
                             "hideMethod": "fadeOut",
                             "onclick": function () {
+
+                                //
+                                //When a notification is clicked, contact the API to dismiss that notification
+                                //
+
                                 var notification = {
                                     "userID": "<%= Session["UserID"].ToString()%>",
                                     "notificationID": notificationID
@@ -53,6 +66,7 @@
 
                             }
                         }
+                        //Show different toast title depending on notification type
                         if (obj.notificationType == 1) {
 
                             toastr["info"](obj.notificationMessage, "Date Information!")

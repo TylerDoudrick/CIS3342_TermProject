@@ -21,19 +21,6 @@ namespace TermProject.UserControls
         {
             if (!IsPostBack)
             {
-                //WebRequest request = WebRequest.Create(profileWebAPI + "searchCriteria");
-                //request.Headers.Add("Authorization", "Bearer " + Session["token"].ToString());
-                //WebResponse response = request.GetResponse();
-                //// Read the data from the Web Response, which requires working with streams.
-                //Stream theDataStream = response.GetResponseStream();
-                //StreamReader reader = new StreamReader(theDataStream);
-                //String data = reader.ReadToEnd();
-                //reader.Close();
-                //response.Close();
-                ////JavaScriptSerializer js = new JavaScriptSerializer();
-                //DataSet ds = JsonConvert.DeserializeObject<DataSet>(data);
-
-                // get the values from validation table for the list boxes
 
                 try {
                     DBConnect obj = new DBConnect();

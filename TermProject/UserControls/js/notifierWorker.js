@@ -1,4 +1,10 @@
-﻿
+﻿//
+//js Worker for checking notifications
+//
+//Gets the userid and the token from the usercontrol
+//
+//Checks for notifications every 10 seconds
+//
 function checkNotifications() {
     var split = location.search.split('&');
     var userid = split[0].split('=')[1];

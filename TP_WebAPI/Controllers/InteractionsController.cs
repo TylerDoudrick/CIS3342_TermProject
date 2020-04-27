@@ -22,9 +22,7 @@ namespace TP_WebAPI.Controllers
     [ApiController]
     public class InteractionsController : ControllerBase
     {
-        //
-        //"for any and all interactions so updating the liked lists, pass list, blocked lists, dates, and messages"
-        //
+
         DBConnect objDB = new DBConnect();
         Notifier notifier = new Notifier();
 
@@ -32,6 +30,7 @@ namespace TP_WebAPI.Controllers
         [HttpPost("insertPreferences/")]
         public int insertPreferences([FromBody] Preferences p)
         { // inserts empty serialized lists to the db
+            try { 
             SqlCommand objInsertPref = new SqlCommand();
             objInsertPref.CommandText = "TP_InsertPreferences";
             objInsertPref.CommandType = CommandType.StoredProcedure;
@@ -42,22 +41,34 @@ namespace TP_WebAPI.Controllers
             int result = objDB.DoUpdateUsingCmdObj(objInsertPref, out string error);
 
             return result;
+            }
+            catch
+            {
+                return -2;
+            }
         }
 
         [HttpGet("getPreferences/{userID}")]
         public DataSet GetPreferences(int userID)
         { // gets user preferences upon login
+            try { 
             SqlCommand objGetPref = new SqlCommand();
             objGetPref.CommandType = CommandType.StoredProcedure;
             objGetPref.CommandText = "TP_GetPreferences";
             objGetPref.Parameters.AddWithValue("@userID", userID);
             DataSet result = objDB.GetDataSetUsingCmdObj(objGetPref);
             return result;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpPut("blockUser")]
         public int BlockUser([FromBody] IDictionary<string, string> newValues)
         { // removes all interactions between 2 users when blocked
+            try { 
             int userID = Convert.ToInt16(newValues["userID"]);
             int memID = Convert.ToInt16(newValues["memID"]);
 
@@ -68,11 +79,17 @@ namespace TP_WebAPI.Controllers
             objBlock.Parameters.AddWithValue("@memID", memID);
             int result = objDB.DoUpdateUsingCmdObj(objBlock, out string error);
             return result;
+            }
+            catch
+            {
+                return -2;
+            }
         }
 
         [HttpPut("updatePreferences")]
         public int UpdatePreferences([FromBody] Preferences p)
         { // updates preferences for user
+            try { 
             SqlCommand objUpdatePref = new SqlCommand();
             objUpdatePref.CommandType = CommandType.StoredProcedure;
             objUpdatePref.CommandText = "TP_UpdatePreferences";
@@ -83,12 +100,18 @@ namespace TP_WebAPI.Controllers
             int result = objDB.DoUpdateUsingCmdObj(objUpdatePref, out string error);
 
             return result;
+            }
+            catch
+            {
+                return -2;
+            }
         }
 
 
         [HttpPost("addDateReq")]
         public int AddDateReq([FromBody] IDictionary<string, string> vals)
         { // adds a date request to the db
+            try { 
             int sendingID = Convert.ToInt16(vals["sendingID"]);
 
             int recID = Convert.ToInt16(vals["recID"]);
@@ -111,22 +134,34 @@ namespace TP_WebAPI.Controllers
                 notifier.NotifyDate(recID, "New date request from " + objDateReq.Parameters["@SenderName"].Value + "!");
             //}
             return result;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end add date req
 
         [HttpGet("getAllDates/{userID}")]
         public DataSet GetAllDates(int userID)
         { // gets all dating reqs
+            try { 
             SqlCommand objGetDates = new SqlCommand();
             objGetDates.CommandType = CommandType.StoredProcedure;
             objGetDates.CommandText = "TP_GetAllDates";
             objGetDates.Parameters.AddWithValue("@userID", userID);
             DataSet result = objDB.GetDataSetUsingCmdObj(objGetDates);
             return result;
+            }
+            catch
+            {
+                return null;
+            }
         } // end get all dates
 
         [HttpPut("deleteDateReq")]
         public int DeleteDateRequest([FromBody] IDictionary<string, string> vals)
         { // deletes a dating request
+            try { 
             int sendingID = Convert.ToInt16(vals["sendingID"]);
             int recievingID = Convert.ToInt16(vals["recID"]);
 
@@ -137,11 +172,17 @@ namespace TP_WebAPI.Controllers
             objDelReq.Parameters.AddWithValue("@recID", recievingID);
             int res = objDB.DoUpdateUsingCmdObj(objDelReq, out string err);
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end delete date req
 
         [HttpPut("acceptReq")]
         public int AccceptReq([FromBody] IDictionary<string, string> vals)
         {
+            try { 
             int sendingID = Convert.ToInt16(vals["sendingID"]);
             int recievingID = Convert.ToInt16(vals["recID"]);
 
@@ -159,11 +200,17 @@ namespace TP_WebAPI.Controllers
                 notifier.NotifyDate(recievingID, objAcceptReq.Parameters["@SenderName"].Value + " accepted your date!");
             }
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end accept req
 
         [HttpPut("denyReq")]
         public int DenyReq([FromBody] IDictionary<string, string> vals)
         {
+            try { 
             int sendingID = Convert.ToInt16(vals["sendingID"]);
             int recievingID = Convert.ToInt16(vals["recID"]);
 
@@ -180,11 +227,17 @@ namespace TP_WebAPI.Controllers
             notifier.NotifyDate(recievingID, objDenyReq.Parameters["@SenderName"].Value + " denied your date!");
 
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         }
 
         [HttpGet("getAcceptedDates/{userID}")]
         public DataSet GetAcceptedReqs(int userID)
         {
+            try { 
             SqlCommand objAccepted = new SqlCommand();
 
             objAccepted.CommandType = CommandType.StoredProcedure;
@@ -193,6 +246,11 @@ namespace TP_WebAPI.Controllers
 
             DataSet res = objDB.GetDataSetUsingCmdObj(objAccepted);
             return res;
+            }
+            catch
+            {
+                return null;
+            }
         } // end getacceptedreqs
 
         [HttpPost("insertDate")]
@@ -204,6 +262,7 @@ namespace TP_WebAPI.Controllers
             string location = vals["location"];
             string desc = vals["desc"];
 
+            try { 
             SqlCommand objInsertDt = new SqlCommand();
             objInsertDt.CommandType = CommandType.StoredProcedure;
             objInsertDt.CommandText = "TP_InsertDateDetails";
@@ -226,12 +285,19 @@ namespace TP_WebAPI.Controllers
 
 
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end insert date
 
         [HttpPut("updateDate/")]
         public int UpdateDate([FromBody] IDictionary<string, string> vals)
         { // updates date details when the user edits it
-            int sendingID = Convert.ToInt16(vals["sendingID"]);
+            try
+            {
+                            int sendingID = Convert.ToInt16(vals["sendingID"]);
             int recID = Convert.ToInt16(vals["recID"]);
             DateTime dt = Convert.ToDateTime(vals["dt"]);
             string location = vals["location"];
@@ -248,11 +314,17 @@ namespace TP_WebAPI.Controllers
 
             int res = objDB.DoUpdateUsingCmdObj(objUpdateDate, out string err);
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end update date
 
         [HttpPut("ignoreReq")]
         public int IgnoreRequest([FromBody] IDictionary<string, string> vals)
         { // this ignores a request
+            try { 
             int sendingID = Convert.ToInt16(vals["sendingID"]);
             int recID = Convert.ToInt16(vals["recID"]);
 
@@ -264,12 +336,19 @@ namespace TP_WebAPI.Controllers
 
             int res = objDB.DoUpdateUsingCmdObj(objIgnoreReq, out string err);
             return res;
+            }
+            catch
+            {
+                return -2;
+            }
         } // end ignore request
 
 
         [HttpPost("GetUserInbox")]
         public List<IncomingMessage> GetUserInbox([FromBody] User user)
         {
+            try { 
+            //Returns a list of all message in the given user's inbox
             string id = user.userID.ToString();
             List<int> memberBlocks = GetBlocks(id);
             List<IncomingMessage> messages = new List<IncomingMessage>();
@@ -313,12 +392,19 @@ namespace TP_WebAPI.Controllers
             }
 
             return messages;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         [HttpPost("GetUserOutbox")]
         public List<OutgoingMessage> GetUserOutbox([FromBody] User user)
         {
+            try { 
+            //Returns a list of messages in the given user's outbox
             List<OutgoingMessage> messages = new List<OutgoingMessage>();
             SqlCommand commandObj = new SqlCommand();
 
@@ -352,6 +438,11 @@ namespace TP_WebAPI.Controllers
             }
 
             return messages;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
@@ -359,6 +450,8 @@ namespace TP_WebAPI.Controllers
         [HttpPost("ProfileSnippet")]
         public Recipient ProfileSnippet([FromBody] User user)
         {
+            try { 
+            //Grabs profile snippets for the compose message modal
             Recipient found = new Recipient();
             SqlCommand commandObj = new SqlCommand();
 
@@ -387,12 +480,19 @@ namespace TP_WebAPI.Controllers
 
 
             return found;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         [HttpPut("SendMessage")]
         public Response SendMessage([FromBody] SendingMessage message)
         {
+            //Sends a message
+            try { 
             Response response = new Response();
             SqlCommand commandObj = new SqlCommand();
 
@@ -410,24 +510,15 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-
-                string email = commandObj.Parameters["@SenderEmail"].Value.ToString();
-                string sendAdd = "querydating@gmail.com";
-                MailMessage msg = new MailMessage();
-                msg.To.Add(new MailAddress(@email));
-                msg.Subject = "QUERY Verification Email";
-                msg.From = new MailAddress(sendAdd);
-                msg.IsBodyHtml = true;
-                msg.Body = "<div> You got a new message! <br><BR> Sign into your account to view the message of your admirer!" +
-                    "<Br><BR> <div>";
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
-                smtp.Credentials = new System.Net.NetworkCredential(sendAdd, "CIS3342TermProject");
-                smtp.EnableSsl = true;
-
-                smtp.Send(msg);
                 List<int> memberBlocks = GetBlocks(message.recipientid.ToString());
                 if (!(memberBlocks.Contains(Int32.Parse(message.recipientid))))
                 {
+                    //Check if the user is blocked
+
+
+                 
+
+                    //Creates a notification in the database for the notifier to use when that user is logged in
                     notifier.NotifyMessage(Int32.Parse(message.recipientid), "You have a new message from " + commandObj.Parameters["@SenderName"].Value + "!");
                 }
                 response.result = "success";
@@ -435,10 +526,19 @@ namespace TP_WebAPI.Controllers
             }
 
             return response;
+            }
+            catch
+            {
+                return null;
+            }
         }
         [HttpPut("UpdateReadReceipt")]
         public Response UpdateReadReceipt([FromBody] MessageInfo message)
         {
+            //
+            //If the message was read, update it in the db
+            //
+            try { 
             Response response = new Response();
             SqlCommand commandObj = new SqlCommand();
 
@@ -453,16 +553,21 @@ namespace TP_WebAPI.Controllers
             }
             else
             {
-                //  notifier.NotifyMessage();
                 response.result = "success";
                 response.message = "Successfully updated readreceipt";
             }
 
             return response;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         private List<int> GetBlocks(string userID)
         {
+            try { 
             List<int> memberBlocks = new List<int>();
             SqlCommand commandObj = new SqlCommand();
             commandObj.Parameters.Clear();
@@ -481,6 +586,11 @@ namespace TP_WebAPI.Controllers
                 memberBlocks = bfd3.Deserialize(m3) as List<int>;
             }
             return memberBlocks;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public class User

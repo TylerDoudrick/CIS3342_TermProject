@@ -21,6 +21,9 @@ namespace TermProject
 
         protected void btnSubmitVerification_Click(object sender, EventArgs e)
         {
+            //
+            //If the verification code is a match, grab the security question from the result and display it
+            //
             string code = txtVerificationCode.Text;
             string email = txtEmailAddress.Text;
             try
@@ -47,6 +50,8 @@ namespace TermProject
                     divVerificationCode.Visible = false;
 
                     lblSecurityQuestion.Text = ds.Tables[0].Rows[0]["SecurityQuestionText"].ToString();
+
+                    //Security question answer is stored in session so we don't have to keep grabbing it
                     Session["SQAnswer"] = ds.Tables[0].Rows[0]["questionAnswer"].ToString();
                 }
                 else
@@ -64,6 +69,7 @@ namespace TermProject
         {
             if (txtAnswer.Text.Length > 0 && txtAnswer.Text == Session["SQAnswer"].ToString())
             {
+                //If the question matches, move on to changing the password
                 divSecurityQuestion.Visible = false;
                 divChangePassword.Visible = true;
                 divInvalidAnswer.Visible = true;
@@ -81,6 +87,7 @@ namespace TermProject
             Regex regexPassword = new Regex(@"^(?=.*\d).{7,20}$");
 
             bool trigger = false;
+            //Validate password; Make sure it passes regex and matches the confirm password input
 
             if (password.Length <= 0 || !regexPassword.IsMatch(password))
             {
@@ -96,6 +103,9 @@ namespace TermProject
             }
             if (!trigger)
             {
+
+                //Salt the password and update it in the db
+
                 //Password Salting & Hashing
                 byte[] saltArray = CryptoUtilities.GenerateSalt();
                 byte[] hashPassword = CryptoUtilities.CalculateMD5Hash(saltArray, password);

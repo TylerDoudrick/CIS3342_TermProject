@@ -25,12 +25,15 @@ namespace TermProject
 
             if (!IsPostBack)
             {
+
+                //Grab the users from the db for the send message modal
                 try {
                     commandObj.CommandType = CommandType.StoredProcedure;
                     commandObj.CommandText = "TP_GetOtherUsers";
                     commandObj.Parameters.AddWithValue("@userID", Session["UserID"].ToString());
                     DataSet recipients = databaseObj.GetDataSetUsingCmdObj(commandObj);
 
+                    //Remove any users from the list who are blocked.
                     List<int> memberBlocks = (List<int>)Session["memberBlocks"];
                     foreach (DataRow row in recipients.Tables[0].Rows)
                     {
@@ -61,46 +64,6 @@ namespace TermProject
 
 
 
-        //protected void ddlRecipient_Change(object sender, EventArgs e)
-        //{
-        //    if (ddlRecipient.SelectedIndex != 0)
-        //    {
-        //        int selectedID = Int32.Parse(ddlRecipient.SelectedValue);
-
-        //        bool found = false;
-
-        //        commandObj.CommandType = CommandType.StoredProcedure;
-        //        commandObj.CommandText = "TP_GetOtherUsers";
-        //        commandObj.Parameters.AddWithValue("@userID", Session["UserID"].ToString());
-        //        DataSet recipients = databaseObj.GetDataSetUsingCmdObj(commandObj);
-
-        //        foreach (DataRow row in recipients.Tables[0].Rows)
-        //        {
-        //            if (Int32.Parse(row["userID"].ToString()) == selectedID)
-        //            {
-        //                found = true;
-        //                Byte[] imgArray = (Byte[])row["image"];
-        //                MemoryStream memorystreamd = new MemoryStream(imgArray);
-        //                BinaryFormatter bfd = new BinaryFormatter();
-        //                imgRecipient.ImageUrl = (bfd.Deserialize(memorystreamd)).ToString();
-        //                lblRecipientName.Text = row["name"].ToString();
-        //                lblRecipientLocation.Text = row["location"].ToString();
-        //            }
-        //        }
-        //        if (found)
-        //        {
-        //            divProfile.Visible = true;
-        //            ClientScript.RegisterStartupScript(this.GetType(), "Popup", "$('#modalSendMessage').removeClass('fade');$('#modalSendMessage').modal('show');", true);
-        //        }
-        //        else
-        //        {
-        //            divProfile.Visible = false;
-        //        }
-        //    }
-        //    else
-        //    {
-        //        divProfile.Visible = false;
-        //    }
-        //}
+      
     }
 }

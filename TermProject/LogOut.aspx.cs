@@ -11,6 +11,7 @@ namespace TermProject
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Trash the session when the log out button is clicked.
             Session.Abandon();
             Response.Redirect("Dashboard.aspx");
         }

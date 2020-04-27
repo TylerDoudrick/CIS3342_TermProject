@@ -22,6 +22,7 @@ namespace TermProject
         {
             if (Session["UserID"] == null)
             {
+                //If the user is not logged in, they have limited options for searching
                 ddl.HideInterestLikesDis();
                 divHaveKids.Visible = false;
                 divWantKids.Visible = false;
@@ -32,8 +33,9 @@ namespace TermProject
        
         protected void btnSearch_Click(object sender, EventArgs e)
         {
-            //gvTemp.DataSource = null;
-            //gvTemp.DataBind();
+
+            //When the search button is clicked, send the data into the stored procedure
+
             rpCarousel.DataSource = null;
             rpCarousel.DataBind();
             int wantChildren = Int32.Parse(ddlWantKids.SelectedValue);
@@ -128,18 +130,22 @@ namespace TermProject
                 {
                     foreach (DataRow profileRows in profilesTable.Rows)
                     {
+                        //Check if the person is supposed to be blocked
                         if (!(memberBlocks.Contains(Int32.Parse(profileRows["userID"].ToString()))) && !(memberDislikes.Contains(Int32.Parse(profileRows["userID"].ToString()))))
                         {
                             if ((Int32.Parse(profileRows["numChildren"].ToString()) > 0 && hasKids == 0) || (Int32.Parse(profileRows["numChildren"].ToString()) == 0 && hasKids == 1))
                             {
+                                //If the number of children doesn't match, delete the row
                                 profileRows.Delete();
                             }
                             else if ((Int32.Parse(profileRows["wantChildren"].ToString()) == 1 && wantChildren == 0) || (Int32.Parse(profileRows["wantChildren"].ToString()) == 0 && wantChildren == 1))
                             {
+                                //If the want children doesn't match, delete the row
                                 profileRows.Delete();
                             }
                             else
                             {
+                                //If the age isn't within the proper range, delete the row.
                                 DateTime now = DateTime.Now;
                                 DateTime birthday = Convert.ToDateTime(profileRows["birthday"].ToString());
                                 TimeSpan timelived = now.Subtract(birthday);
@@ -166,10 +172,7 @@ namespace TermProject
                             profileRows.Delete();
                         }
                     }
-                    //foundProfiles.AcceptChanges();
-                    //divResults.Attributes.Add("style", "display:flex");
-                    //gvTemp.DataSource = foundProfiles;
-                    //gvTemp.DataBind();
+                    //Set the repeated to show the profiles in a pretty carousel
                     rpCarousel.DataSource = foundProfiles;
                     rpCarousel.DataBind();
                     divNoneFound.Visible = false;
@@ -179,6 +182,8 @@ namespace TermProject
                 }
                 else
                 {
+                    //If nothing was found, tell the user
+
                     divNoneFound.Visible = true;
                 }
             }
