@@ -30,12 +30,19 @@ namespace TP_WebAPI
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            //
+            //CORS allows any origin for the AJAX requests in the clientside for API stuff.
+            //
+            
             services.AddCors(options =>
             {
                 options.AddPolicy("AllowOrigin",
                     builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
             });
 
+            //
+            //Enabled the [Authorize] to be used that requires bearer tokens to be send in all API stuff.
+            //
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters

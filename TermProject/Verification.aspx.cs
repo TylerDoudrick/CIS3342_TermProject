@@ -22,12 +22,15 @@ namespace TermProject
         string profileWebAPI = "https://localhost:44375/api/datingservice/profile/";
         protected void Page_Load(object sender, EventArgs e)
         {
+            //This page checks if email is set because that's what this page requires
             if (Session["email"] == null) Response.Redirect("Default.aspx");
             lblEmail.Text = Session["email"].ToString();
         }
 
         protected void lbSendAgain_Click(object sender, EventArgs e)
         {
+            //If send again is clicked, generate a new verification code, dump it into the database, and 
+            //  send the email containing the new code
             RNGCryptoServiceProvider rng = new RNGCryptoServiceProvider();
             byte[] random = new byte[16];
             rng.GetBytes(random);
@@ -79,6 +82,9 @@ namespace TermProject
 
         protected void btnSubmitVerification_Click(object sender, EventArgs e)
         {
+            //
+            //When verification is submitted, send it over to the api
+            //
             string code = txtVerificationCode.Text;
             string email = lblEmail.Text;
 
@@ -106,6 +112,9 @@ namespace TermProject
             }
             else
             {
+                //
+                //If the code was correct, the API sends back their account
+                //
                 User foundAccount = json.Deserialize<User>(responseData);
 
                 Session["RegisteringUserID"] = foundAccount.userID;

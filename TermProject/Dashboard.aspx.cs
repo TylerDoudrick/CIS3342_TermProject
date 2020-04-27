@@ -28,8 +28,6 @@ namespace TermProject
         {
             try
             {
-                // if (Session["UserID"] == null) Response.Redirect("Default.aspx");
-
                 commandObj.Parameters.Clear();
                 commandObj.CommandType = CommandType.StoredProcedure;
                 commandObj.CommandText = "TP_GetAllUsers";

@@ -23,46 +23,65 @@ namespace TP_WebAPI.Controllers
         [HttpGet("searchCriteria")]
         public DataSet GetSearchCriteria()
         { // returns tables associated with the search criteria
-            DBConnect obj = new DBConnect();
-            SqlCommand objSearchCriteria = new SqlCommand();
-            objSearchCriteria.CommandType = CommandType.StoredProcedure;
-            objSearchCriteria.CommandText = "TP_GetSearchCriteria";
-            DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
-            return ds;
+            try
+            {
+                DBConnect obj = new DBConnect();
+                SqlCommand objSearchCriteria = new SqlCommand();
+                objSearchCriteria.CommandType = CommandType.StoredProcedure;
+                objSearchCriteria.CommandText = "TP_GetSearchCriteria";
+                DataSet ds = obj.GetDataSetUsingCmdObj(objSearchCriteria);
+                return ds;
+            }
+            catch { return null; }
         }
 
         [HttpGet("checkLogin/{username}/{trueword}")]
         public DataSet checkLogin(string username, string trueword)
         {
-            DBConnect obj = new DBConnect();
-            SqlCommand objLogin = new SqlCommand();
-            objLogin.CommandType = CommandType.StoredProcedure;
-            objLogin.CommandText = "TP_CheckLogin";
-            objLogin.Parameters.AddWithValue("@username", username);
-            objLogin.Parameters.AddWithValue("@trueword", trueword);
-            SqlParameter returnP = new SqlParameter("@count", DbType.Int32);
-            returnP.Direction = ParameterDirection.ReturnValue;
-            objLogin.Parameters.Add(returnP);
-            DataSet myDS = obj.GetDataSetUsingCmdObj(objLogin);
-            return myDS;
+            try
+            {
+                DBConnect obj = new DBConnect();
+                SqlCommand objLogin = new SqlCommand();
+                objLogin.CommandType = CommandType.StoredProcedure;
+                objLogin.CommandText = "TP_CheckLogin";
+                objLogin.Parameters.AddWithValue("@username", username);
+                objLogin.Parameters.AddWithValue("@trueword", trueword);
+                SqlParameter returnP = new SqlParameter("@count", DbType.Int32);
+                returnP.Direction = ParameterDirection.ReturnValue;
+                objLogin.Parameters.Add(returnP);
+                DataSet myDS = obj.GetDataSetUsingCmdObj(objLogin);
+                return myDS;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpGet("{id}")]
         public DataSet grabMemberProfile(string id)
         {
-            DBConnect databaseObj = new DBConnect();
-            SqlCommand commandObj = new SqlCommand();
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_LookupPersonalProfile";
-            commandObj.Parameters.AddWithValue("@UserId", id);
-            DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
-            return myDS;
+            try
+            {
+                DBConnect databaseObj = new DBConnect();
+                SqlCommand commandObj = new SqlCommand();
+                commandObj.CommandType = CommandType.StoredProcedure;
+                commandObj.CommandText = "TP_LookupPersonalProfile";
+                commandObj.Parameters.AddWithValue("@UserId", id);
+                DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
+                return myDS;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [AllowAnonymous]
         [HttpGet("public/{id}")]
         public DataSet grabPublicProfile(string id)
         {
+            try { 
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
             commandObj.CommandType = CommandType.StoredProcedure;
@@ -70,11 +89,19 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.AddWithValue("@UserId", id);
             DataSet myDS = databaseObj.GetDataSetUsingCmdObj(commandObj);
             return myDS;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpPut("updateAddress")]
         public void UpdateAddress([FromBody] IDictionary<string, string> newValues)
         {
+            try
+            {
+
             int userID = Convert.ToInt16(newValues["id"]);
             int zipCode = Convert.ToInt16(newValues["zipCode"]);
             string billingAddress = (newValues["billingAddress"]);
@@ -91,11 +118,17 @@ namespace TP_WebAPI.Controllers
             objUpdateAdd.Parameters.AddWithValue("@state", state);
             objUpdateAdd.Parameters.AddWithValue("@zip", zipCode);
             obj.DoUpdateUsingCmdObj(objUpdateAdd, out string erro);
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpGet("GetSettings/{userID}")]
         public DataSet GetSettings(int userID)
         {
+            try { 
             DBConnect obj = new DBConnect();
             SqlCommand objGetAddress = new SqlCommand();
             objGetAddress.CommandType = CommandType.StoredProcedure;
@@ -103,11 +136,19 @@ namespace TP_WebAPI.Controllers
             objGetAddress.Parameters.AddWithValue("@userID", userID);
             DataSet dsAddress = obj.GetDataSetUsingCmdObj(objGetAddress);
             return dsAddress;
+            }
+            catch
+            {
+                return null;
+            }
         }
-
+        //
+        //BEGIN simple update post methods
+        //
         [HttpPost("update/tagline/{id}")]
         public string UpdateTagLine(string id, [FromBody] IDictionary<string, string> newValues)
         {
+            try { 
             string tagLine = newValues["tagLine"];
 
 
@@ -127,13 +168,18 @@ namespace TP_WebAPI.Controllers
             {
                 return "true";
             }
+            }
+            catch
+            {
+                return null;
+            }
         }
         [HttpPost("update/contact/{id}")]
         public string UpdateContactInformation(string id, [FromBody] IDictionary<string, string> newValues)
         {
             string phone = newValues["phone"];
             string email = newValues["email"];
-
+            try { 
 
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
@@ -152,6 +198,11 @@ namespace TP_WebAPI.Controllers
             {
                 return "true";
             }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpPost("update/basic/{id}")]
@@ -163,7 +214,7 @@ namespace TP_WebAPI.Controllers
             string wantChildren = newValues["wantChildren"];
             string occupation = newValues["occupation"];
 
-
+            try { 
             DBConnect databaseObj = new DBConnect();
             SqlCommand commandObj = new SqlCommand();
             commandObj.CommandType = CommandType.StoredProcedure;
@@ -175,7 +226,6 @@ namespace TP_WebAPI.Controllers
             commandObj.Parameters.AddWithValue("@occupation", occupation);
             commandObj.Parameters.AddWithValue("@seeking", seeking);
 
-            //return myDS;
             if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
             {
                 return exception;
@@ -183,6 +233,11 @@ namespace TP_WebAPI.Controllers
             else
             {
                 return "true";
+            }
+            }
+            catch
+            {
+                return null;
             }
         }
 
@@ -195,32 +250,39 @@ namespace TP_WebAPI.Controllers
             string movies = newValues["movies"];
             string books = newValues["books"];
 
-
-            DBConnect databaseObj = new DBConnect();
-            SqlCommand commandObj = new SqlCommand();
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_UpdateAboutYouInfo";
-            commandObj.Parameters.AddWithValue("@UserId", id);
-            commandObj.Parameters.AddWithValue("@favMovies", movies);
-            commandObj.Parameters.AddWithValue("@favSayings", sayings);
-            commandObj.Parameters.AddWithValue("@favRestuarants", restuarants);
-            commandObj.Parameters.AddWithValue("@favBooks", books);
-            commandObj.Parameters.AddWithValue("@favSongs", songs);
-
-            //return myDS;
-            if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+            try
             {
-                return exception;
+                DBConnect databaseObj = new DBConnect();
+                SqlCommand commandObj = new SqlCommand();
+                commandObj.CommandType = CommandType.StoredProcedure;
+                commandObj.CommandText = "TP_UpdateAboutYouInfo";
+                commandObj.Parameters.AddWithValue("@UserId", id);
+                commandObj.Parameters.AddWithValue("@favMovies", movies);
+                commandObj.Parameters.AddWithValue("@favSayings", sayings);
+                commandObj.Parameters.AddWithValue("@favRestuarants", restuarants);
+                commandObj.Parameters.AddWithValue("@favBooks", books);
+                commandObj.Parameters.AddWithValue("@favSongs", songs);
+
+                //return myDS;
+                if (databaseObj.DoUpdateUsingCmdObj(commandObj, out string exception) == -2)
+                {
+                    return exception;
+                }
+                else
+                {
+                    return "true";
+                }
             }
-            else
+            catch
             {
-                return "true";
+                return null;
             }
         }
 
         [HttpPost("insert/registrationInfo")]
         public string InsertRegistrationInfo([FromBody] RegistrationObj r)
         { // inserts registration info
+            try { 
             DBConnect obj = new DBConnect();
             SqlCommand objReg = new SqlCommand();
             objReg.CommandType = CommandType.StoredProcedure;
@@ -261,12 +323,18 @@ namespace TP_WebAPI.Controllers
             {
                 return "pass";
             }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
         [HttpPost("update/details/{id}")]
         public string UpdateDetails(string id, [FromBody] IDictionary<string, List<string>> newValues)
         {
+            try { 
             List<string> religions = newValues["religions"];
             List<string> commitments = newValues["commitments"];
             List<string> interests = newValues["interests"];
@@ -349,9 +417,17 @@ namespace TP_WebAPI.Controllers
             {
                 return "true";
             }
+            }
+            catch
+            {
+                return null;
+            }
         }
 
 
+        //
+        //END simple update post methods
+        //
     }
 
 }

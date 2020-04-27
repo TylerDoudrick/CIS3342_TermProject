@@ -21,46 +21,47 @@ namespace TP_WebAPI.Controllers
         [HttpGet("{userID}")]
         public List<Notification> getNotifications(int userID)
         {
-            //Methodology:
-            /*
-            Reach out to the database, grab rows from the notification table for this user
-            
-            Exclude notifications that have already been served (or dismissed? ajax could do that)
-
-            Serve the notifications back tothe AJAX with JSON
-            */
+            //Return the list of notifications
             List<Notification> notifications = new List<Notification>();
+            try
+            {
+                DBConnect databaseObj = new DBConnect();
+                SqlCommand commandObj = new SqlCommand();
 
-            DBConnect databaseObj = new DBConnect();
-            SqlCommand commandObj = new SqlCommand();
+                commandObj.CommandType = CommandType.StoredProcedure;
+                commandObj.CommandText = "TP_GetUserNotifications";
+                commandObj.Parameters.AddWithValue("@UserID", userID);
 
-            commandObj.CommandType = CommandType.StoredProcedure;
-            commandObj.CommandText = "TP_GetUserNotifications";
-            commandObj.Parameters.AddWithValue("@UserID", userID);
+                DataSet res = databaseObj.GetDataSetUsingCmdObj(commandObj);
 
-            DataSet res = databaseObj.GetDataSetUsingCmdObj(commandObj);
-
-            if (res.Tables[0].Rows.Count == 0)
+                if (res.Tables[0].Rows.Count == 0)
+                {
+                    return null;
+                }
+                else
+                {
+                    foreach (DataRow row in res.Tables[0].Rows)
+                    {
+                        Notification temp = new Notification();
+                        temp.notificationMessage = row["notificationMessage"].ToString();
+                        temp.notificationType = row["notificationType"].ToString();
+                        temp.notificationID = row["notificationID"].ToString();
+                        notifications.Add(temp);
+                    }
+                    return notifications;
+                }
+            }
+            catch
             {
                 return null;
-            }
-            else
-            {
-                foreach(DataRow row in res.Tables[0].Rows)
-                {
-                    Notification temp = new Notification();
-                    temp.notificationMessage = row["notificationMessage"].ToString();
-                    temp.notificationType = row["notificationType"].ToString();
-                    temp.notificationID = row["notificationID"].ToString();
-                    notifications.Add(temp);
-                }
-                return notifications;
             }
         }
 
         [HttpDelete("dismiss")]
         public Response dismissNotification([FromBody] Notification notification)
         {
+            try { 
+            //Dismiss the notification given the userid and the notificationid
             Response response = new Response();
 
             DBConnect databaseObj = new DBConnect();
@@ -81,11 +82,18 @@ namespace TP_WebAPI.Controllers
             }
 
             return response;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpDelete("dismiss/messages/{userID}")]
         public Response dismissAllMessages(string userID)
         {
+            try { 
+            //Blanket dismiss all message notifications when the user visits the message page
             Response response = new Response();
 
             DBConnect databaseObj = new DBConnect();
@@ -106,11 +114,19 @@ namespace TP_WebAPI.Controllers
             }
 
             return response;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         [HttpDelete("dismiss/dates/{userID}")]
         public Response dismissAllDates(string userID)
         {
+            try { 
+            //Blanket dismiss all date notifications when the user visits the dates page
+
             Response response = new Response();
 
             DBConnect databaseObj = new DBConnect();
@@ -131,6 +147,11 @@ namespace TP_WebAPI.Controllers
             }
 
             return response;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public class Notification{
